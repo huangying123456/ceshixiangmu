@@ -1,4 +1,4 @@
-package com.youhujia.solar.domain.department.query;
+package com.youhujia.solar.domain.organization.create;
 
 import org.springframework.stereotype.Component;
 
@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
  * Created by huangYing on 2017/4/17.
  */
 @Component
-public class QueryContextFactory {
+public class OrgCreateContextFactory {
 }

@@ -9,14 +9,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = {"com.youhujia.halo","com.youhujia.solar"})
-@SpringBootApplication(scanBasePackages = {"com.youhujia.halo","com.youhujia.solar"})
+@SpringBootApplication(scanBasePackages = {
+        "com.youhujia.solar.domain",
+        "com.youhujia.halo"})
+@EnableFeignClients(basePackages = {
+        "com.youhujia.halo"})
+
 public class SolarApplication {
 
-    @Bean
-    public AlwaysSampler defaultSampler() {
-        return new AlwaysSampler();
-    }
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SolarApplication.class).web(true).run(args);
