@@ -9,12 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = {
-        "com.youhujia.solar",
-        "com.youhujia.halo.owl"})
-@EnableFeignClients(basePackages = {
-        "com.youhujia.solar",
-        "com.youhujia.halo.owl"})
+@EnableFeignClients(basePackages = {"com.youhujia.halo","com.youhujia.solar"})
+@SpringBootApplication(scanBasePackages = {"com.youhujia.halo","com.youhujia.solar"})
 public class SolarApplication {
 
     @Bean
