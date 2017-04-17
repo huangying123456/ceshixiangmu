@@ -97,73 +97,73 @@ if (project.hasProperty("buildPro") && buildPro=='release') {
 else {
     println("develop version")
     dependencies {
-        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v1.5.6"
+        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v1.5.14"
 
 //        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v1.5.8-SNAPSHOT", changing: true
     }
 }
 
-//def execute = { cmdString ->
-//    def stdout = new ByteArrayOutputStream()
-//    exec {
-//        commandLine cmdString
-//        standardOutput = stdout
-//    }
-//    return stdout.toString().trim()
-//}
-//def getGitHash = { ->
-//    return execute(["git", "rev-parse", "--short", "HEAD"])
-//}
-//def getNowTime = { ->
-//    return execute(["date", "+%s"])
-//}
-//def gitHash = "${getGitHash}"
-//def buildJar = "build/libs/${jar.baseName}-${version}.jar"
-//def buildTag = "${project.version}-${gitHash}"
-//def buildImage = "${project.group}/${jar.baseName}"
-//def buildVersion = "${project.version}-${gitHash}"
-//def nowTime = "${getNowTime()}"
-//def TZ = "Asia/Shanghai"
-//
-//task buildDocker(type: Docker, dependsOn: build) {
-//    push = false
-//    applicationName = jar.baseName
-//    tagVersion = buildTag
-//
-//    docker {
-//        baseImage "java:8-jre"
-//        maintainer "Youhujia, Inc. Backend Awesome Team"
-//        setEnvironment "CONFIG_URL", "$System.env.CONFIG_URL"
-//        setEnvironment "ENV", "$System.env.ENV"
-//        addFile "${buildJar}", "/"
-//        addFile "entrypoint.sh", "/"
-//        volume "/tmp"
-//        runCommand "ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone"
-//        runCommand "mkdir /logs"
-//        runCommand "mkdir /logs/applogs"
-//        runCommand "mkdir /logs/accesslogs"
-//        entryPoint(["/entrypoint.sh"])
-//        exposePort System.env.PORT as Integer
-//        exposePort System.env.MPORT as Integer
-//    }
-//}
-//
-//task runDocker() {
-//    doLast {
-//        execute(["docker", "run",
-//                 "-p", "$System.env.PORT:$System.env.PORT",
-//                 "-p", "$System.env.MPORT:$System.env.MPORT",
-//                 "-e", "IP=$System.env.IP",
-//                 "-e", "PORT=$System.env.PORT",
-//                 "-e", "MPORT=$System.env.MPORT",
-//                 "-v", "/data/sls/applogs:/logs/applogs",
-//                 "-v", "/data/sls/accesslogs:/logs/accesslogs",
-//                 "--net=host",
-//                 "-it", "-d", "--name", "${nowTime}",
-//                 "${buildImage}:${buildVersion}", "java"])
-//    }
-//}
-//
-//task go(dependsOn: [buildDocker, runDocker]) {
-//    println "\nBig brother is watching you!\n"
-//}
+def execute = { cmdString ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine cmdString
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+def getGitHash = { ->
+    return execute(["git", "rev-parse", "--short", "HEAD"])
+}
+def getNowTime = { ->
+    return execute(["date", "+%s"])
+}
+def gitHash = "${getGitHash}"
+def buildJar = "build/libs/${jar.baseName}-${version}.jar"
+def buildTag = "${project.version}-${gitHash}"
+def buildImage = "${project.group}/${jar.baseName}"
+def buildVersion = "${project.version}-${gitHash}"
+def nowTime = "${getNowTime()}"
+def TZ = "Asia/Shanghai"
+
+task buildDocker(type: Docker, dependsOn: build) {
+    push = false
+    applicationName = jar.baseName
+    tagVersion = buildTag
+
+    docker {
+        baseImage "java:8-jre"
+        maintainer "Youhujia, Inc. Backend Awesome Team"
+        setEnvironment "CONFIG_URL", "$System.env.CONFIG_URL"
+        setEnvironment "ENV", "$System.env.ENV"
+        addFile "${buildJar}", "/"
+        addFile "entrypoint.sh", "/"
+        volume "/tmp"
+        runCommand "ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone"
+        runCommand "mkdir /logs"
+        runCommand "mkdir /logs/applogs"
+        runCommand "mkdir /logs/accesslogs"
+        entryPoint(["/entrypoint.sh"])
+        exposePort System.env.PORT as Integer
+        exposePort System.env.MPORT as Integer
+    }
+}
+
+task runDocker() {
+    doLast {
+        execute(["docker", "run",
+                 "-p", "$System.env.PORT:$System.env.PORT",
+                 "-p", "$System.env.MPORT:$System.env.MPORT",
+                 "-e", "IP=$System.env.IP",
+                 "-e", "PORT=$System.env.PORT",
+                 "-e", "MPORT=$System.env.MPORT",
+                 "-v", "/data/sls/applogs:/logs/applogs",
+                 "-v", "/data/sls/accesslogs:/logs/accesslogs",
+                 "--net=host",
+                 "-it", "-d", "--name", "${nowTime}",
+                 "${buildImage}:${buildVersion}", "java"])
+    }
+}
+
+task go(dependsOn: [buildDocker, runDocker]) {
+    println "\nBig brother is watching you!\n"
+}
