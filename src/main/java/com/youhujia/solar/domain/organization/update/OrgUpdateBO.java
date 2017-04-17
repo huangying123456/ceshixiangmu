@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
  * Created by huangYing on 2017/4/17.
  */
 @Component
-public class UpdateBO {
+public class OrgUpdateBO {
 
-    public UpdateContext updateOrganization(Solar.OrganizationUpdateOption option) {
+    public OrgUpdateContext updateOrganization(Solar.OrganizationUpdateOption option) {
         // TODO: 2017/4/17
         return null;
     }
