@@ -21,6 +21,7 @@ public class Organization {
     private Timestamp updatedAt;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public long getId() {
         return id;
@@ -111,7 +112,7 @@ public class Organization {
     }
 
     @Basic
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at",  nullable = false, insertable = false, updatable = false)
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
