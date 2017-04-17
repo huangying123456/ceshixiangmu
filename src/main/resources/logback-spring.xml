@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--<include resource="org/springframework/boot/logging/logback/defaults.xml"/>-->
+    <springProperty scope="context" name="appName" source="spring.application.name"/>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <!--<pattern>${FILE_LOG_PATTERN}</pattern>-->
+        </encoder>
+    </appender>
+
+    <appender name="File" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_FILE}</file>
+        <append>true</append>
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+
+            <!--<pattern>${FILE_LOG_PATTERN}</pattern>-->
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss}|%d{yyyy-MM-dd HH:mm:ss.SSS}|%p|${appName}|%X{X-B3-TraceId:-}|%X{X-B3-SpanId:-}|%X{X-Span-Export:-}|${PID:-}|%t|%logger|%m%n</pattern>-->
+            <providers>
+                <timestamp>
+                    <timeZone>GMT+8</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "level": "%level",
+                        "service": "${appName:-}",
+                        "trace": "%X{X-B3-TraceId:-}",
+                        "span": "%X{X-B3-SpanId:-}",
+                        "parent": "%X{X-B3-ParentSpanId:-}",
+                        "exportable": "%X{X-Span-Export:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "message": "%message"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+
+
+    <if condition='property("env").contains("develop")'>
+        <then>
+            <appender name="Sentry" class="com.getsentry.raven.logback.SentryAppender">
+                <dsn>http://36b2f9b44ddf42e8b2016f2182d3c60d:f6035c18a1894dce8b61917be1e98391@sentry.zhushou.dev.youhujia.com/2</dsn>
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>WARN</level>
+                </filter>
+                <environment>develop</environment>
+                <tags>app:${appName}</tags>
+            </appender>
+            <root level="warn">
+                <appender-ref ref="Sentry" />
+            </root>
+        </then>
+    </if>
+
+    <if condition='property("env").contains("staging")'>
+        <then>
+            <appender name="Sentry" class="com.getsentry.raven.logback.SentryAppender">
+                <dsn>http://1524a6bffde8447a9440cea2a308314b:ccd3c8a260b44d3596e55f06cbed0b7e@sentry.zhushou.dev.youhujia.com/3</dsn>
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>WARN</level>
+                </filter>
+                <environment>staging</environment>
+                <tags>app:${appName}</tags>
+            </appender>
+            <root level="warn">
+                <appender-ref ref="Sentry" />
+            </root>
+        </then>
+    </if>
+
+
+
+    <if condition='property("env").contains("production")'>
+        <then>
+            <appender name="Sentry" class="com.getsentry.raven.logback.SentryAppender">
+                <dsn>http://dd2770958cf44696b00481af9ce67cfb:96fc13e35d9d4af19755f7e24ff2b0b7@sentry.zhushou.dev.youhujia.com/4</dsn>
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                    <level>WARN</level>
+                </filter>
+                <environment>production</environment>
+                <tags>app:${appName}</tags>
+            </appender>
+            <root level="warn">
+                <appender-ref ref="Sentry" />
+            </root>
+        </then>
+    </if>
+
+    <root level="INFO">
+        <appender-ref ref="Console" />
+    </root>
+
+
+
+    <root level="INFO">
+        <appender-ref ref="File" />
+    </root>
+</configuration>
