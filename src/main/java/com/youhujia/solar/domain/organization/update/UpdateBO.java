@@ -1,5 +1,6 @@
 package com.youhujia.solar.domain.organization.update;
 
+import com.youhujia.halo.solar.Solar;
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,4 +8,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UpdateBO {
+
+    public UpdateContext updateOrganization(Solar.OrganizationUpdateOption option) {
+        // TODO: 2017/4/17
+        return null;
+    }
 }

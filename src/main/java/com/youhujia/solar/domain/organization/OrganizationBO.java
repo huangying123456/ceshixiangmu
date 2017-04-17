@@ -1,14 +1,12 @@
 package com.youhujia.solar.domain.organization;
 
-import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
-import com.youhujia.halo.yolar.Yolar;
-import com.youhujia.solar.domain.department.create.CreateBO;
-import com.youhujia.solar.domain.department.create.CreateContext;
-import com.youhujia.solar.domain.department.query.QueryBO;
-import com.youhujia.solar.domain.department.query.QueryContext;
-import com.youhujia.solar.domain.department.update.UpdateBO;
-import com.youhujia.solar.domain.department.update.UpdateContext;
+import com.youhujia.solar.domain.organization.create.CreateBO;
+import com.youhujia.solar.domain.organization.create.CreateContext;
+import com.youhujia.solar.domain.organization.query.QueryBO;
+import com.youhujia.solar.domain.organization.query.QueryContext;
+import com.youhujia.solar.domain.organization.update.UpdateBO;
+import com.youhujia.solar.domain.organization.update.UpdateContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class OrganizationBO {
 
     @Autowired
-    private OrganizationContextFactory organizationContextFactory;
+    private OrganizationDTOFactory organizationDTOFactory;
 
     @Autowired
     private CreateBO createBO;
@@ -34,7 +32,7 @@ public class OrganizationBO {
 
         CreateContext createContext = createBO.create(option);
 
-        Solar.OrganizationDTO organizationDTO = organizationContextFactory.buildCreateDTO(createContext);
+        Solar.OrganizationDTO organizationDTO = organizationDTOFactory.buildCreateDTO(createContext);
 
         return organizationDTO;
     }
@@ -43,7 +41,7 @@ public class OrganizationBO {
 
         QueryContext queryContext = queryBO.findAll();
 
-        Solar.OrganizationListDTO organizationListDTO = organizationContextFactory.buildFindAllDTO(queryContext);
+        Solar.OrganizationListDTO organizationListDTO = organizationDTOFactory.buildOrganizationListDTO(queryContext);
 
         return organizationListDTO;
     }
@@ -52,7 +50,7 @@ public class OrganizationBO {
 
         QueryContext queryContext = queryBO.getOrganizationById(organizationId);
 
-        Solar.OrganizationDTO organizationDTO = organizationContextFactory.buildGetrganizationById(queryContext);
+        Solar.OrganizationDTO organizationDTO = organizationDTOFactory.buildOrganizationDTO(queryContext);
 
         return organizationDTO;
     }
@@ -61,7 +59,7 @@ public class OrganizationBO {
 
         QueryContext queryContext = queryBO.getDepartmentsByOrganizationId(organizationId);
 
-        Solar.DepartmentListDTO departmentListDTO= organizationContextFactory.buildGetDepartmentsByOrganizationId(queryContext);
+        Solar.DepartmentListDTO departmentListDTO= organizationDTOFactory.buildDepartmentListDTO(queryContext);
 
         return departmentListDTO;
     }
@@ -70,7 +68,7 @@ public class OrganizationBO {
 
         QueryContext queryContext = queryBO.getAllDepartmentsByOrganizationId(organizationId);
 
-        Solar.DepartmentListDTO departmentListDTO = organizationContextFactory.buildGetAllDepartmentsByOrganizationId(queryContext);
+        Solar.DepartmentListDTO departmentListDTO = organizationDTOFactory.buildDepartmentListDTO(queryContext);
 
         return departmentListDTO;
     }
@@ -79,7 +77,7 @@ public class OrganizationBO {
 
         UpdateContext updateContext = updateBO.updateOrganization(option);
 
-        Solar.OrganizationDTO organizationDTO= organizationContextFactory.buildUpdateOrganization(updateContext);
+        Solar.OrganizationDTO organizationDTO= organizationDTOFactory.buildUpdateOrganizationDTO(updateContext);
 
         return organizationDTO;
     }

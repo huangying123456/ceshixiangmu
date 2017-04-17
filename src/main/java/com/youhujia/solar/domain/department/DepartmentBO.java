@@ -10,62 +10,33 @@ import org.springframework.stereotype.Component;
 public class DepartmentBO {
 
     public Solar.DepartmentDTO createDepartment(Solar.DepartmentDTO department) {
+        // TODO: 2017/4/17
+        return null;
 
     }
 
     public Solar.DepartmentDTO getDepartmentById(Long departmentId) {
+        // TODO: 2017/4/17
+        return null;
 
     }
 
     public Solar.DepartmentDTO getDepartmentByNo(String departmentNo) {
-
+        // TODO: 2017/4/17
+        return null;
     }
 
     public Solar.DepartmentDTO getGuestDepartmentByHostDepartmentId(Long departmentId) {
-
+        // TODO: 2017/4/17
+        return null;
 
     }
 
     public Solar.DepartmentDTO updateDepartment(Solar.DepartmentDTO department) {
-
-
-    }
-
-
-    //---------------- code for improve department zhushou -------------------//
-    public Solar.CreateOrUpdateDepartmentDTO lbsCreateDepartment(Solar.LBSCreateDepartmentOption option) {
-
+        // TODO: 2017/4/17
+        return null;
 
     }
 
-    public Solar.LBSDepartmentDTO getDepartmentListByOrgId(Long orgId) {
 
-
-    }
-
-    //---------------- code for improve department admin -------------------//
-    public Solar.ManagerDepartmentListDTO getAllWithoutDeleteDepartmentByOrgId(Long orgId) {
-
-
-    }
-
-    public Solar.ManagerDepartmentDTO managerCreateDepartment(Solar.CreateOrUpdateDepartmentOption option) {
-
-
-    }
-
-    public Solar.ManagerDepartmentDTO managerUpdateDepartment(Long departmentId, Solar.CreateOrUpdateDepartmentOption option) {
-
-
-    }
-
-    public Solar.ManagerDepartmentDTO markDeleteDepartmentById(Long departmentId) {
-
-
-    }
-
-    public Solar.ManagerDepartmentDTO managerGetDepartmentById(Long departmentId) {
-
-
-    }
 }

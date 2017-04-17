@@ -80,58 +80,5 @@ public class OrganizationController extends BaseController {
 
 
 
-    //----------------- code for improve department admin ------------------//
-    @RequestMapping(value = "/manager-organization", method = RequestMethod.GET)
-    public Yolar.ManagerOrganizationListDTO getAllWithoutDeleteOrganizations(@RequestParam("adId") Long adId,
-                                                                             @RequestParam("draw")Integer draw,
-                                                                             @RequestParam("length")Integer length,
-                                                                             @RequestParam("start")Integer start) {
-
-        try {
-            return organizationService.getAllWithoutDeleteOrgListByAreaId(adId, draw, length, start);
-        } catch (Exception e) {
-            return handleException(a -> Yolar.ManagerOrganizationListDTO.newBuilder().setResult(a).build(), e);
-        }
-    }
-
-    @RequestMapping(value = "/manager-organization", method = RequestMethod.POST)
-    public Yolar.ManagerOrganizationDTO managerCreateOrganization(@RequestBody Yolar.CreateOrUpdateOrganizationOption option) {
-
-        try {
-            return organizationService.managerCreateOrganization(option);
-        } catch (Exception e) {
-            return handleException(a -> Yolar.ManagerOrganizationDTO.newBuilder().setResult(a).build(), e);
-        }
-    }
-
-    @RequestMapping(value = "/manager-organization/{orgId}", method = RequestMethod.PATCH)
-    public Yolar.ManagerOrganizationDTO managerUpdateOrganization(@PathVariable("orgId") Long orgId, @RequestBody Yolar.CreateOrUpdateOrganizationOption option) {
-
-        try {
-            return organizationService.managerUpdateOrganization(orgId, option);
-        } catch (Exception e) {
-            return handleException(a -> Yolar.ManagerOrganizationDTO.newBuilder().setResult(a).build(), e);
-        }
-    }
-
-    @RequestMapping(value = "/manager-organization/{orgId}", method = RequestMethod.DELETE)
-    public Yolar.ManagerOrganizationDTO managerDeleteOrganization(@PathVariable("orgId") Long orgId) {
-
-        try {
-            return organizationService.markDeleteOrganizationById(orgId);
-        } catch (Exception e) {
-            return handleException(a -> Yolar.ManagerOrganizationDTO.newBuilder().setResult(a).build(), e);
-        }
-    }
-
-    @RequestMapping(value = "/manager-organization/{organizationId}", method = RequestMethod.GET)
-    public Yolar.ManagerOrganizationDTO managerGetOrganizationById(@PathVariable("organizationId") Long organizationId) {
-
-        try {
-            return organizationService.managerGetOrganizationById(organizationId);
-        } catch (Exception e) {
-            return handleException(a -> Yolar.ManagerOrganizationDTO.newBuilder().setResult(a).build(), e);
-        }
-    }
 
 }
