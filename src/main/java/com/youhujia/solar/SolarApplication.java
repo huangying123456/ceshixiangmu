@@ -10,17 +10,12 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = {
-        "com.youhujia.solar",
-        "com.youhujia.halo.owl"})
+        "com.youhujia.solar.domain",
+        "com.youhujia.halo"})
 @EnableFeignClients(basePackages = {
-        "com.youhujia.solar",
-        "com.youhujia.halo.owl"})
+        "com.youhujia.halo"})
 public class SolarApplication {
 
-    @Bean
-    public AlwaysSampler defaultSampler() {
-        return new AlwaysSampler();
-    }
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(SolarApplication.class).web(true).run(args);

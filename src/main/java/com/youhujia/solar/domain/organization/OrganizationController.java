@@ -2,7 +2,6 @@ package com.youhujia.solar.domain.organization;
 
 import com.youhujia.halo.common.BaseController;
 import com.youhujia.halo.solar.Solar;
-import com.youhujia.halo.yolar.Yolar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
