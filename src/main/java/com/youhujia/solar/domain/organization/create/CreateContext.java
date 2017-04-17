@@ -1,5 +1,6 @@
 package com.youhujia.solar.domain.organization.create;
 
+import com.youhujia.halo.solar.Solar;
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,4 +8,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CreateContext {
+
+
 }

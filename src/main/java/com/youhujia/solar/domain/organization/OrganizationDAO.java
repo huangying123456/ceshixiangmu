@@ -8,5 +8,5 @@ import javax.transaction.Transactional;
  * Created by huangYing on 2017/4/17.
  */
 @Transactional
-public interface OriganizationDAO extends JpaRepository<Organization, Long> {
+public interface OrganizationDAO extends JpaRepository<Organization, Long> {
 }
