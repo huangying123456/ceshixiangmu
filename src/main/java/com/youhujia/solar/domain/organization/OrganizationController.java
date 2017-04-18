@@ -107,6 +107,4 @@ public class OrganizationController extends BaseController {
             return handleException(a -> Solar.ManagerOrganizationDTO.newBuilder().setResult(a).build(), e);
         }
     }
-
-
 }

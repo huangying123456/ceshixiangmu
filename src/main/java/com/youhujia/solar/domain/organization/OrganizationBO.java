@@ -3,6 +3,8 @@ package com.youhujia.solar.domain.organization;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.organization.create.OrgCreateBO;
 import com.youhujia.solar.domain.organization.create.OrgCreateContext;
+import com.youhujia.solar.domain.organization.delete.OrgDeleteBO;
+import com.youhujia.solar.domain.organization.delete.OrgDeleteContext;
 import com.youhujia.solar.domain.organization.query.OrgQueryBO;
 import com.youhujia.solar.domain.organization.query.OrgQueryContext;
 import com.youhujia.solar.domain.organization.update.OrgUpdateBO;
@@ -29,6 +31,9 @@ public class OrganizationBO {
 
     @Autowired
     private OrgQueryBO queryBO;
+
+    @Autowired
+    private OrgDeleteBO orgDeleteBO;
 
     public Solar.OrganizationDTO create(Solar.OrganizationCreateOption option) {
 
@@ -85,14 +90,23 @@ public class OrganizationBO {
     }
 
     public Solar.LBSOrganizationDTO getOrganizationListByAreaId(Long areaId) {
-        return null;
+
+        OrgQueryContext queryContext = queryBO.getOrganizationListByAreaId(areaId);
+
+        return organizationDTOFactory.buildGetOrganizationListByAreaIdDTO(queryContext);
     }
 
     public Solar.ManagerOrganizationListDTO getAllWithoutDeleteOrgListByAreaId(Long adId, Integer draw, Integer length, Integer start) {
-        return null;
+
+        OrgQueryContext queryContext = queryBO.getAllWithoutDeleteOrgListByAreaId(adId,draw,length,start);
+
+        return organizationDTOFactory.buildGetAllWithoutDeleteOrgListByAreaIdDTO(queryContext);
     }
 
     public Solar.ManagerOrganizationDTO markDeleteOrganizationById(Long orgId){
-        return null;
+
+        OrgDeleteContext context = orgDeleteBO.markDeleteOrganizationById(orgId);
+
+        return organizationDTOFactory.buildMarkDeleteOrganizationByIdDTO(context);
     }
 }

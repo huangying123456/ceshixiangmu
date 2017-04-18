@@ -5,10 +5,12 @@ import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by huangYing on 2017/4/18.
  */
+@Component
 public class DepDeleteBO {
 
     @Autowired

@@ -3,9 +3,8 @@ package com.youhujia.solar.domain.organization.create;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.Solar;
-import com.youhujia.halo.yolar.Yolar;
 import com.youhujia.solar.domain.area.Area;
-import com.youhujia.solar.domain.area.AreaDao;
+import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.organization.Organization;
 import com.youhujia.solar.domain.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class OrgCreateBO {
     private OrganizationDAO organizationDAO;
 
     @Autowired
-    private AreaDao areaDao;
+    private AreaDAO areaDao;
 
     public OrgCreateContext create(Solar.OrganizationCreateOption option) {
 
