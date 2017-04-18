@@ -6,9 +6,10 @@
   <session-factory>
     <property name="connection.url">jdbc:mysql://localhost:3306/yolar</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-    <mapping class="com.youhujia.solar.domain.organization.Organization"/>
+      <mapping class="com.youhujia.solar.domain.organization.Organization"/>
     <mapping class="com.youhujia.solar.domain.department.Department"/>
-    <!-- <property name="connection.username"/> -->
+      <mapping class="com.youhujia.solar.domain.area.Area"/>
+      <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 
     <!-- DB schema will be updated if needed -->
