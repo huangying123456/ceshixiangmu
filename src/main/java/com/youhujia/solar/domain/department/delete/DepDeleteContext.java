@@ -1,13 +1,11 @@
-package com.youhujia.solar.domain.department.create;
+package com.youhujia.solar.domain.department.delete;
 
 import com.youhujia.solar.domain.department.Department;
-import org.springframework.stereotype.Component;
 
 /**
- * Created by huangYing on 2017/4/17.
+ * Created by huangYing on 2017/4/18.
  */
-@Component
-public class DepCreateContext {
+public class DepDeleteContext {
 
     private Department department;
 

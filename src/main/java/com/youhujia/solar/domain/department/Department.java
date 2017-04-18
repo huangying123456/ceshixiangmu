@@ -1,44 +1,76 @@
 package com.youhujia.solar.domain.department;
 
+import com.youhujia.solar.domain.common.Identifiable;
+import com.youhujia.solar.domain.organization.Organization;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * Created by huangYing on 2017/4/17.
  */
 @Entity
-public class Department {
-    private long id;
-    private boolean isGuest;
+public class Department implements Identifiable<Long> {
+    private Long id;
+    private Long organizationId;
+    private Boolean isGuest;
+    private Long hostId;
     private String name;
     private String number;
     private String authCode;
-    private byte status;
+    private Byte status;
     private String mayContact;
     private String imgUrl;
     private String wxSubQrCodeValue;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
+    private Organization organizationByOrganizationId;
+    private Department departmentByHostId;
+    private Collection<Department> departmentsById;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    public long getId() {
+    @GenericGenerator(name = "assigned-identity", strategy = "com.youhujia.yolar.model.generator.AssignedIdentityGenerator")
+    @GeneratedValue(generator = "assigned-identity", strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @Basic
+    @Column(name = "organization_id", nullable = false)
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
+    }
+
+    @Basic
     @Column(name = "is_guest", nullable = false)
-    public boolean isGuest() {
+    public Boolean getGuest() {
         return isGuest;
     }
 
-    public void setGuest(boolean guest) {
+    public void setGuest(Boolean guest) {
         isGuest = guest;
+    }
+
+    @Basic
+    @Column(name = "host_id", nullable = false)
+    public Long getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(Long hostId) {
+        this.hostId = hostId;
     }
 
     @Basic
@@ -72,17 +104,17 @@ public class Department {
     }
 
     @Basic
-    @Column(name = "status", nullable = false)
-    public byte getStatus() {
+    @Column(name = "status", insertable = false, nullable = true)
+    public Byte getStatus() {
         return status;
     }
 
-    public void setStatus(byte status) {
+    public void setStatus(Byte status) {
         this.status = status;
     }
 
     @Basic
-    @Column(name = "may_contact", nullable = true, length = 512)
+    @Column(name = "may_contact", nullable = true)
     public String getMayContact() {
         return mayContact;
     }
@@ -92,7 +124,7 @@ public class Department {
     }
 
     @Basic
-    @Column(name = "img_url", nullable = true, length = 512)
+    @Column(name = "img_url", nullable = true)
     public String getImgUrl() {
         return imgUrl;
     }
@@ -102,17 +134,17 @@ public class Department {
     }
 
     @Basic
-    @Column(name = "wx_sub_qr_code_value", nullable = true, length = 255)
-    public String getWxSubQrCodeValue() {
+    @Column(name = "wx_sub_qr_code_value", nullable = true)
+    public String getWxSubQRCodeValue() {
         return wxSubQrCodeValue;
     }
 
-    public void setWxSubQrCodeValue(String wxSubQrCodeValue) {
+    public void setWxSubQRCodeValue(String wxSubQrCodeValue) {
         this.wxSubQrCodeValue = wxSubQrCodeValue;
     }
 
     @Basic
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", insertable = false, updatable = false)
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -122,7 +154,7 @@ public class Department {
     }
 
     @Basic
-    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
+    @Column(name = "updated_at", insertable = false, updatable = false)
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
@@ -138,9 +170,16 @@ public class Department {
 
         Department that = (Department) o;
 
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (organizationId != null ? !organizationId.equals(that.organizationId) : that.organizationId != null)
+            return false;
+        if (isGuest != null ? !isGuest.equals(that.isGuest) : that.isGuest != null) return false;
+
         if (id != that.id) return false;
+        if (organizationId != that.organizationId) return false;
         if (isGuest != that.isGuest) return false;
         if (status != that.status) return false;
+        if (hostId != null ? !hostId.equals(that.hostId) : that.hostId != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (number != null ? !number.equals(that.number) : that.number != null) return false;
         if (authCode != null ? !authCode.equals(that.authCode) : that.authCode != null) return false;
@@ -157,7 +196,9 @@ public class Department {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (int) (organizationId ^ (organizationId >>> 32));
         result = 31 * result + (isGuest ? 1 : 0);
+        result = 31 * result + (hostId != null ? hostId.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (number != null ? number.hashCode() : 0);
         result = 31 * result + (authCode != null ? authCode.hashCode() : 0);
@@ -169,4 +210,35 @@ public class Department {
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    public Organization getOrganizationByOrganizationId() {
+        return organizationByOrganizationId;
+    }
+
+    public void setOrganizationByOrganizationId(Organization organizationByOrganizationId) {
+        this.organizationByOrganizationId = organizationByOrganizationId;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "host_id", referencedColumnName = "id", insertable = false, updatable = false)
+    public Department getDepartmentByHostId() {
+        return departmentByHostId;
+    }
+
+    public void setDepartmentByHostId(Department departmentByHostId) {
+        this.departmentByHostId = departmentByHostId;
+    }
+
+    @OneToMany(mappedBy = "departmentByHostId", fetch = FetchType.LAZY)
+    public Collection<Department> getDepartmentsById() {
+        return departmentsById;
+    }
+
+    public void setDepartmentsById(Collection<Department> departmentsById) {
+        this.departmentsById = departmentsById;
+    }
+
 }
+

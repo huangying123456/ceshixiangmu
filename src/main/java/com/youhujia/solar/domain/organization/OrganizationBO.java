@@ -7,8 +7,10 @@ import com.youhujia.solar.domain.organization.query.OrgQueryBO;
 import com.youhujia.solar.domain.organization.query.OrgQueryContext;
 import com.youhujia.solar.domain.organization.update.OrgUpdateBO;
 import com.youhujia.solar.domain.organization.update.OrgUpdateContext;
+import jdk.nashorn.internal.ir.ReturnNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -59,7 +61,7 @@ public class OrganizationBO {
 
         OrgQueryContext queryContext = queryBO.getDepartmentsByOrganizationId(organizationId);
 
-        Solar.DepartmentListDTO departmentListDTO= organizationDTOFactory.buildDepartmentListDTO(queryContext);
+        Solar.DepartmentListDTO departmentListDTO = organizationDTOFactory.buildDepartmentListDTO(queryContext);
 
         return departmentListDTO;
     }
@@ -77,13 +79,20 @@ public class OrganizationBO {
 
         OrgUpdateContext updateContext = updateBO.updateOrganization(option);
 
-        Solar.OrganizationDTO organizationDTO= organizationDTOFactory.buildUpdateOrganizationDTO(updateContext);
+        Solar.OrganizationDTO organizationDTO = organizationDTOFactory.buildUpdateOrganizationDTO(updateContext);
 
         return organizationDTO;
     }
 
+    public Solar.LBSOrganizationDTO getOrganizationListByAreaId(Long areaId) {
+        return null;
+    }
 
-    // TODO: 2017/4/17  code for improve department admin
+    public Solar.ManagerOrganizationListDTO getAllWithoutDeleteOrgListByAreaId(Long adId, Integer draw, Integer length, Integer start) {
+        return null;
+    }
 
-
+    public Solar.ManagerOrganizationDTO markDeleteOrganizationById(Long orgId){
+        return null;
+    }
 }

@@ -25,7 +25,7 @@ public class OrganizationController extends BaseController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public Solar.OrganizationListDTO findAll() {
+    public Solar.OrganizationListDTO findAllOrganization() {
         try {
             return organizationBO.findAll();
         } catch (Exception e) {
@@ -72,12 +72,41 @@ public class OrganizationController extends BaseController {
         }
     }
 
+    //----------------- code for improve department zhushou ------------------//
 
+    @RequestMapping(value = "/get-by-area/{administrativeDivisionId}", method = RequestMethod.GET)
+    public Solar.LBSOrganizationDTO getOrganizationsByAreaId(@PathVariable("administrativeDivisionId") Long areaId) {
 
+        try {
+            return organizationBO.getOrganizationListByAreaId(areaId);
+        } catch (Exception e) {
+            return handleException(a -> Solar.LBSOrganizationDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
 
+    //----------------- code for improve department admin ------------------//
+    @RequestMapping(value = "/manager-organization", method = RequestMethod.GET)
+    public Solar.ManagerOrganizationListDTO getAllWithoutDeleteOrganizations(@RequestParam("adId") Long adId,
+                                                                             @RequestParam("draw")Integer draw,
+                                                                             @RequestParam("length")Integer length,
+                                                                             @RequestParam("start")Integer start) {
 
+        try {
+            return organizationBO.getAllWithoutDeleteOrgListByAreaId(adId, draw, length, start);
+        } catch (Exception e) {
+            return handleException(a -> Solar.ManagerOrganizationListDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
 
+    @RequestMapping(value = "/manager-organization/{orgId}", method = RequestMethod.DELETE)
+    public Solar.ManagerOrganizationDTO managerDeleteOrganization(@PathVariable("orgId") Long orgId) {
 
+        try {
+            return organizationBO.markDeleteOrganizationById(orgId);
+        } catch (Exception e) {
+            return handleException(a -> Solar.ManagerOrganizationDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
 
 
 }
