@@ -1,7 +1,5 @@
 package com.youhujia.solar.domain.department;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import javax.transaction.Transactional;
 
 /**

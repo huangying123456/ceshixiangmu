@@ -1,0 +1,32 @@
+package com.youhujia.solar.domain.component.query.serviceItem;
+
+import com.youhujia.halo.hdfragments.HDFragments;
+import com.youhujia.halo.solar.Solar;
+import org.springframework.stereotype.Component;
+
+/**
+ * Created by ljm on 2017/4/18.
+ */
+@Component
+public class ServiceItemComponentQueryContext {
+
+    private HDFragments.TagDTO tagDTO;
+
+    private Solar.ServiceItemComponentDTO serviceItemComponentDTO;
+
+    public HDFragments.TagDTO getTagDTO() {
+        return tagDTO;
+    }
+
+    public void setTagDTO(HDFragments.TagDTO tagDTO) {
+        this.tagDTO = tagDTO;
+    }
+
+    public Solar.ServiceItemComponentDTO getServiceItemComponentDTO() {
+        return serviceItemComponentDTO;
+    }
+
+    public void setServiceItemComponentDTO(Solar.ServiceItemComponentDTO serviceItemComponentDTO) {
+        this.serviceItemComponentDTO = serviceItemComponentDTO;
+    }
+}
