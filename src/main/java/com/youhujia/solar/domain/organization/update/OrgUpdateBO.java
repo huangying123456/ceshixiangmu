@@ -4,10 +4,9 @@ import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.area.Area;
-import com.youhujia.solar.domain.area.AreaDao;
+import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.organization.Organization;
 import com.youhujia.solar.domain.organization.OrganizationDAO;
-import com.youhujia.solar.domain.organization.create.OrgCreateContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,7 @@ import java.math.BigDecimal;
 public class OrgUpdateBO {
 
     @Autowired
-    private AreaDao areaDao;
+    private AreaDAO areaDao;
 
     @Autowired
     private OrganizationDAO organizationDAO;

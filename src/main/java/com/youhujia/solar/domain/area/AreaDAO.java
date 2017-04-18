@@ -9,7 +9,7 @@ import java.util.List;
  * Created by huangYing on 2017/4/17.
  */
 @Transactional
-public interface AreaDao extends JpaRepository<Area, Long> {
+public interface AreaDAO extends JpaRepository<Area, Long> {
     List<Area> findByParentId(Long parentId);
     List<Area> findByName(String name);
 }

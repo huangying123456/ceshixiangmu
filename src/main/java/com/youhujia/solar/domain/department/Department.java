@@ -26,6 +26,7 @@ public class Department implements Identifiable<Long> {
     private String wxSubQrCodeValue;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private String classificationType;
 
     private Organization organizationByOrganizationId;
     private Department departmentByHostId;
@@ -163,6 +164,16 @@ public class Department implements Identifiable<Long> {
         this.updatedAt = updatedAt;
     }
 
+    @Basic
+    @Column(name = "classification_type", nullable = true)
+    public String getClassificationType() {
+        return classificationType;
+    }
+
+    public void setClassificationType(String classificationType) {
+        this.classificationType = classificationType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -189,6 +200,7 @@ public class Department implements Identifiable<Long> {
             return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
+        if (classificationType != null ? !classificationType.equals(that.classificationType) : that.classificationType != null) return false;
 
         return true;
     }
@@ -208,6 +220,8 @@ public class Department implements Identifiable<Long> {
         result = 31 * result + (wxSubQrCodeValue != null ? wxSubQrCodeValue.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + (classificationType != null ? classificationType.hashCode() : 0);
+
         return result;
     }
 
