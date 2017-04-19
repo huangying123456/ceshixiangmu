@@ -1,6 +1,5 @@
 package com.youhujia.solar.domain.component.query.requestManagerRight;
 
-import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.department.Department;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 public class RequestContext {
 
     private Department department;
-
 
     public Department getDepartment() {
         return department;

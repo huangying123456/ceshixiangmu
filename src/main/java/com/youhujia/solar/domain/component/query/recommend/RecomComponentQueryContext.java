@@ -12,7 +12,6 @@ public class RecomComponentQueryContext {
 
     private HDFragments.TagDTO tagDTO;
 
-    private Solar.RecomComponentDTO recomComponentDTO;
 
     public HDFragments.TagDTO getTagDTO() {
         return tagDTO;
@@ -22,11 +21,4 @@ public class RecomComponentQueryContext {
         this.tagDTO = tagDTO;
     }
 
-    public Solar.RecomComponentDTO getRecomComponentDTO() {
-        return recomComponentDTO;
-    }
-
-    public void setRecomComponentDTO(Solar.RecomComponentDTO recomComponentDTO) {
-        this.recomComponentDTO = recomComponentDTO;
-    }
 }

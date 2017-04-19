@@ -3,7 +3,6 @@ package com.youhujia.solar.domain.map;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youhujia.halo.common.COMMON;
-import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.common.HttpConnectionUtils;
@@ -19,7 +18,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -12,21 +12,11 @@ public class ArticleDiseaseComponentQueryContext {
 
     private HDFragments.TagDTO tagDTO;
 
-    private Solar.ArticleDiseaseGroupDTO articleDiseaseGroupDTO;
-
     public HDFragments.TagDTO getTagDTO() {
         return tagDTO;
     }
 
     public void setTagDTO(HDFragments.TagDTO tagDTO) {
         this.tagDTO = tagDTO;
-    }
-
-    public Solar.ArticleDiseaseGroupDTO getArticleDiseaseGroupDTO() {
-        return articleDiseaseGroupDTO;
-    }
-
-    public void setArticleDiseaseGroupDTO(Solar.ArticleDiseaseGroupDTO articleDiseaseGroupDTO) {
-        this.articleDiseaseGroupDTO = articleDiseaseGroupDTO;
     }
 }
