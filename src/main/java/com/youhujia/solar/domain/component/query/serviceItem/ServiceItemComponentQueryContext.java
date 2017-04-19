@@ -12,8 +12,6 @@ public class ServiceItemComponentQueryContext {
 
     private HDFragments.TagDTO tagDTO;
 
-    private Solar.ServiceItemComponentDTO serviceItemComponentDTO;
-
     public HDFragments.TagDTO getTagDTO() {
         return tagDTO;
     }
@@ -22,11 +20,4 @@ public class ServiceItemComponentQueryContext {
         this.tagDTO = tagDTO;
     }
 
-    public Solar.ServiceItemComponentDTO getServiceItemComponentDTO() {
-        return serviceItemComponentDTO;
-    }
-
-    public void setServiceItemComponentDTO(Solar.ServiceItemComponentDTO serviceItemComponentDTO) {
-        this.serviceItemComponentDTO = serviceItemComponentDTO;
-    }
 }
