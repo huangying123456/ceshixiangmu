@@ -108,6 +108,9 @@ public class DepartmentFactory {
             if (d.getMayContact() != null) {
                 builder.setMayContact(d.getMayContact());
             }
+            if (d.getClassificationType() !=null){
+                builder.setClassificationType(d.getClassificationType());
+            }
             dataBuilder.addManagerDepartments(builder);
         }
         return listBuilder.setData(dataBuilder).setResult(resultBuilder.setCode(0).setSuccess(true).setMsg("success")).build();
@@ -172,6 +175,9 @@ public class DepartmentFactory {
         }
         if (department.getMayContact() != null) {
             builder.setMayContact(department.getMayContact());
+        }
+        if (department.getClassificationType() != null) {
+            builder.setClassificationType(department.getClassificationType());
         }
         return builder.build();
     }

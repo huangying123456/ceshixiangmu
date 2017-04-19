@@ -4,6 +4,7 @@ import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
+import com.youhujia.solar.domain.department.create.DepCreateBO;
 import com.youhujia.solar.domain.organization.Organization;
 import com.youhujia.solar.domain.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class DepQueryBO {
     private DepartmentDAO departmentDAO;
     @Autowired
     private OrganizationDAO organizationDAO;
+    @Autowired
+    private DepCreateBO depCreateBO;
 
     public static String IS_CHECKED = "1";
 
@@ -54,7 +57,6 @@ public class DepQueryBO {
             if (dpt.getGuest()) {
                 continue;
             }
-
             rstList.add(dpt);
         }
         if (rstList.size() > 0) {
@@ -70,6 +72,7 @@ public class DepQueryBO {
 
         DepQueryContext context = new DepQueryContext();
 
+        //------------------感觉此处用findOne有点诡异，待确认------
         Department department = departmentDAO.findOne(departmentId);
 
         if (department == null) {
@@ -79,7 +82,7 @@ public class DepQueryBO {
         if (department.getGuest()) {
             context.setDepartment(department);
         } else {
-            context.setDepartment(departmentDAO.save(department));
+            context.setDepartment(departmentDAO.save(depCreateBO.createOrGetGuestDepartment(department)));
         }
         context.setDepartment(department);
 
@@ -113,7 +116,6 @@ public class DepQueryBO {
         if (organization == null) {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "此id对应的医院并不存在啊！！");
         }
-        String organizationName = organization.getName();
         List<Department> departments = departmentDAO.findByOrganizationIdWithStatus(orgId, new Byte(IS_DELETED));
 
         context.setDepartmentList(departments);
