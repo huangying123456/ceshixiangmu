@@ -104,10 +104,9 @@ public class ComponentDTOFactory {
                 if (tagProperty.hasValue()) {
                     JSONObject jsonObject = JSON.parseObject(tagProperty.getValue());
                     serviceItem.setRank(Long.parseLong(jsonObject.get("rank").toString()));
-                    String[] str = jsonObject.get("serviceItemId").toString().split(",");
-                    for (String serviceItemId : str) {
-                        serviceItem.addServiceItemId(Long.parseLong(serviceItemId));
-                    }
+                    jsonObject.getJSONArray("serviceItemId").stream().forEach(serviceItemId -> {
+                        serviceItem.addServiceItemId(Long.parseLong(serviceItemId.toString()));
+                    });
                 }
             });
         }
@@ -138,10 +137,9 @@ public class ComponentDTOFactory {
                 if (tagProperty.hasValue()) {
                     JSONObject jsonObject = JSON.parseObject(tagProperty.getValue());
                     recomBuild.setRank(Long.parseLong(jsonObject.get("rank").toString()));
-                    String[] str = jsonObject.get("articleId").toString().split(",");
-                    for (String articleId : str) {
-                        recomBuild.addArticleId(Long.parseLong(articleId));
-                    }
+                    jsonObject.getJSONArray("articleId").stream().forEach(articleId -> {
+                        recomBuild.addArticleId(Long.parseLong(articleId.toString()));
+                    });
                 }
             });
         }
@@ -172,10 +170,9 @@ public class ComponentDTOFactory {
                 if (tagProperty.hasValue()) {
                     JSONObject jsonObject = JSON.parseObject(tagProperty.getValue());
                     selfEvaluationBuild.setRank(Long.parseLong(jsonObject.get("rank").toString()));
-                    String[] str = jsonObject.get("selfEvaluationId").toString().split(",");
-                    for (String selfEvaluationId : str) {
-                        selfEvaluationBuild.addSelfEvaluationId(Long.parseLong(selfEvaluationId));
-                    }
+                    jsonObject.getJSONArray("selfEvaluationId").stream().forEach(selfEvaluationId -> {
+                        selfEvaluationBuild.addSelfEvaluationId(Long.parseLong(selfEvaluationId.toString()));
+                    });
                 }
             });
         }
@@ -206,7 +203,9 @@ public class ComponentDTOFactory {
                 if (tagProperty.hasValue()) {
                     JSONObject jsonObject = JSON.parseObject(tagProperty.getValue());
                     articleDiseaseGroupBuild.setRank(Long.parseLong(jsonObject.get("rank").toString()));
-                    articleDiseaseGroupBuild.addGroup(SolarHalper.parseToSolarGroup(jsonObject.toString()));
+                    jsonObject.getJSONArray("group").stream().forEach(json -> {
+                        articleDiseaseGroupBuild.addGroup(SolarHalper.parseToSolarGroup(json.toString()));
+                    });
                 }
             });
         }
@@ -233,7 +232,9 @@ public class ComponentDTOFactory {
                 if (tagProperty.hasValue()) {
                     JSONObject jsonObject = JSONObject.parseObject(tagProperty.getValue());
                     directBuild.setRank(Long.parseLong(jsonObject.get("rank").toString()));
-                    directBuild.addUnit(SolarHalper.parseToSolarUnit(jsonObject.toString()));
+                    jsonObject.getJSONArray("unit").stream().forEach(json -> {
+                        directBuild.addUnit(SolarHalper.parseToSolarUnit(json.toString()));
+                    });
                 }
             });
         }

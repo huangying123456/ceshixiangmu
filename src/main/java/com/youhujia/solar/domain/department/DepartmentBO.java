@@ -1,6 +1,5 @@
 package com.youhujia.solar.domain.department;
 
-import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.department.create.DepCreateBO;
 import com.youhujia.solar.domain.department.create.DepCreateContext;
@@ -12,8 +11,6 @@ import com.youhujia.solar.domain.department.update.DepUpdateBO;
 import com.youhujia.solar.domain.department.update.DepUpdateContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -34,7 +31,7 @@ public class DepartmentBO {
     private DepDeleteBO depDeleteBO;
 
     @Autowired
-    private DepartmentFactory departmentFactory;
+    private DepartmentDTOFactory departmentFactory;
 
     public Solar.DepartmentDTO createDepartment(Solar.DepartmentCreateOption option) {
 

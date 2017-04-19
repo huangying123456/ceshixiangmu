@@ -1,7 +1,7 @@
 package com.youhujia.solar.domain.map;
 
+import com.youhujia.halo.common.BaseController;
 import com.youhujia.halo.common.COMMON;
-import com.youhujia.halo.solar.Solar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/solar/v1/map")
-public class MapController {
+public class MapController extends BaseController {
 
     @Autowired
     MapBO mapBO;
@@ -21,11 +21,6 @@ public class MapController {
     @RequestMapping(value = "/all-in", method = RequestMethod.GET)
     public COMMON.Result resetAreaInfo() {
         return mapBO.resetAreaInfo();
-    }
-
-    @RequestMapping(value = "/areas", method = RequestMethod.GET)
-    public Solar.MapDTO getAreas() {
-        return mapBO.getMapSet();
     }
 
     @RequestMapping(value = "/department-bride", method = RequestMethod.GET)

@@ -3,7 +3,6 @@ package com.youhujia.solar.domain.map;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youhujia.halo.common.COMMON;
-import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.common.HttpConnectionUtils;
@@ -15,16 +14,21 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Created by ljm on 2017/4/18.
  */
+@Component
 public class MapBO {
 
     @Value("${map.areaInfoUrl}")
@@ -46,7 +50,7 @@ public class MapBO {
     String amapSearchPOIUrl;
 
     @Autowired
-    AreaDAO areaDao;
+    AreaDAO areaDAO;
 
     @Autowired
     OrganizationDAO organizationDAO;
@@ -55,6 +59,9 @@ public class MapBO {
     DepartmentDAO departmentDAO;
 
     Log log = LogFactory.getLog(Log.class);
+
+
+    //--------------------------------读取存储数据（属于一次性接口）------------------
 
     public COMMON.Result resetAreaInfo() {
 
@@ -75,7 +82,7 @@ public class MapBO {
                 provinceArea.setName(pName);
                 provinceArea.setParentId(-999L);
 
-                provinceArea = areaDao.save(provinceArea);
+                provinceArea = areaDAO.save(provinceArea);
                 Long pId = provinceArea.getId();
 
                 //循环处理每个省下的市的数据
@@ -87,7 +94,7 @@ public class MapBO {
                     Area cityArea = new Area();
                     cityArea.setName(cName);
                     cityArea.setParentId(pId);
-                    cityArea = areaDao.save(cityArea);
+                    cityArea = areaDAO.save(cityArea);
                     Long cId = cityArea.getId();
 
                     //循环处理每个行政区域的信息
@@ -99,7 +106,7 @@ public class MapBO {
                         Area idArea = new Area();
                         idArea.setName(idName);
                         idArea.setParentId(cId);
-                        areaDao.save(idArea);
+                        areaDAO.save(idArea);
                     }
                 }
 
@@ -108,71 +115,6 @@ public class MapBO {
             log.error("json解析失败");
         }
         return COMMON.Result.newBuilder().setDisplaymsg("success").setCode(200).build();
-    }
-
-    public Solar.MapDTO getMapSet() {
-        COMMON.Result.Builder resultBuilder = COMMON.Result.newBuilder();
-        Solar.MapDTO.Builder mapDTOBuilder = Solar.MapDTO.newBuilder();
-        Solar.MapDataDTO.Builder mapDataDTOBuilder = Solar.MapDataDTO.newBuilder();
-        //开始时是所有的地理区域，随着每次的遍历 会删除遍历出来的数据 对此数据结构的遍历的复杂度会逐渐降低（此数据结构size理论值为3625）
-        List<Area> leftAreas = areaDao.findAll();
-        //拿到所有的省的信息
-        List<Area> provinceAreas = new ArrayList<>();
-        Iterator<Area> leftIterator = leftAreas.iterator();
-        while (leftIterator.hasNext()) {
-            Area temp = leftIterator.next();
-            if (temp.getParentId() < 0) {
-                provinceAreas.add(temp);
-                leftIterator.remove();
-            }
-        }
-        //遍历省的信息来寻找其下的城市
-        for (Area provinceArea : provinceAreas) {
-            Solar.ProvinceData.Builder provinceBuilder = Solar.ProvinceData.newBuilder();
-            provinceBuilder.setPId(provinceArea.getId());
-            provinceBuilder.setPName(provinceArea.getName());
-            Long pId = provinceArea.getId();
-            List<Area> cityAreas = new ArrayList<>();
-            leftIterator = leftAreas.iterator();
-            while (leftIterator.hasNext()) {
-                Area temp = leftIterator.next();
-                if (temp.getParentId().equals(pId)) {
-                    cityAreas.add(temp);
-                    leftIterator.remove();
-                }
-            }
-            //遍历所有城市来寻找其下的行政区域划分
-            for (Area cityArea : cityAreas) {
-                Solar.CityData.Builder cityBuilder = Solar.CityData.newBuilder();
-                cityBuilder.setCityId(cityArea.getId());
-                cityBuilder.setCityName(cityArea.getName());
-                Long cId = cityArea.getId();
-                //最后一层遍历 不需要再浪费list来存储信息了
-                leftIterator = leftAreas.iterator();
-                while (leftIterator.hasNext()) {
-                    Area adArea = leftIterator.next();
-                    if (adArea.getParentId().equals(cId)) {
-                        Solar.AdministrativeDivisionData.Builder adBuilder = Solar.AdministrativeDivisionData.newBuilder();
-                        adBuilder.setAdId(adArea.getId());
-                        adBuilder.setAdName(adArea.getName());
-                        //区域存入城市的protobuf里面
-                        cityBuilder.addAdministrativeDivisions(adBuilder);
-                        leftIterator.remove();
-                    }
-                }
-                //某个城市的区域信息已经全部存入，它可以回归省了
-                provinceBuilder.addCities(cityBuilder);
-            }
-            //某个省的区域信息已经全部存入，它可以回归DTO了
-            mapDataDTOBuilder.addProvinces(provinceBuilder);
-        }
-        //整理最后的protobuf
-        mapDTOBuilder.setData(mapDataDTOBuilder);
-        resultBuilder.setCode(0);
-        resultBuilder.setSuccess(true);
-        resultBuilder.setMsg("成功！请缓存到本地");
-        mapDTOBuilder.setResult(resultBuilder);
-        return mapDTOBuilder.build();
     }
 
     public COMMON.Result updateOrganizationDepartmentFromFile() {
@@ -527,8 +469,8 @@ public class MapBO {
     }
 
     private Long getAdIdByPNameCNameAndAdName(String pName, String cName, String adName) {
-        Long pId = areaDao.findByName(pName).get(0).getId();
-        List<Area> cities = areaDao.findByParentId(pId);
+        Long pId = areaDAO.findByName(pName).get(0).getId();
+        List<Area> cities = areaDAO.findByParentId(pId);
         Long cId = -1L;
         for (Area temp : cities) {
             if (temp.getName().equals(cName)) {
@@ -537,7 +479,7 @@ public class MapBO {
             }
         }
         Long adId = 0L;
-        List<Area> ads = areaDao.findByParentId(cId);
+        List<Area> ads = areaDAO.findByParentId(cId);
         for (Area temp : ads) {
             if (temp.getName().equals(adName)) {
                 adId = temp.getId();
@@ -548,7 +490,7 @@ public class MapBO {
     }
 
     public Map<Long, Area> getAreaIdObjMap() {
-        List<Area> list = areaDao.findAll();
+        List<Area> list = areaDAO.findAll();
         Map<Long, Area> map = new HashMap<>();
         for (Area a : list) {
             map.put(a.getId(), a);

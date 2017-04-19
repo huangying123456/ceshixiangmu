@@ -4,10 +4,7 @@ import com.youhujia.halo.common.BaseController;
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by ljm on 2017/4/17.
@@ -21,10 +18,10 @@ public class ComponentController extends BaseController {
     ComponentBO componentBO;
 
     @RequestMapping("/component")
-    public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(@RequestBody Solar.DepartmentIdListOption option) {
+    public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(@RequestParam("ids") String ids) {
 
         try {
-            return componentBO.batchComponentListByDepartmentIds(option);
+            return componentBO.batchComponentListByDepartmentIds(ids);
         } catch (Exception e) {
             return handleException(a -> Solar.ComponentListDataListDTO.newBuilder().setResult(a).build(), e);
         }
@@ -70,7 +67,7 @@ public class ComponentController extends BaseController {
         }
     }
 
-    @RequestMapping("/request-management-right")
+    @RequestMapping("/{departmentId}/request-management-right")
     public COMMON.SimpleResponse requestManagementRight(@PathVariable("departmentId") Long departmentId, @RequestBody Solar.RequestManagementRightOption option) {
 
         try {

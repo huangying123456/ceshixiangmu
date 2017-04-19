@@ -4,6 +4,7 @@ import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.hdfragments.HDFragments;
 import com.youhujia.halo.hdfragments.HDFragmentsServiceWrap;
+import com.youhujia.halo.solar.ComponentTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,9 @@ public class ArticleDiseaseComponentQueryBO {
         HDFragments.TagDTO tagDTO = hdFragmentsServiceWrap.getTagById(componentId);
         if (tagDTO.getData().getTag() == null) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "该组件不存在");
+        }
+        if (!tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName())) {
+            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
         }
         return tagDTO;
     }

@@ -5,7 +5,7 @@ import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.department.Department;
-import com.youhujia.solar.domain.department.DepartmentFactory;
+import com.youhujia.solar.domain.department.DepartmentDTOFactory;
 import com.youhujia.solar.domain.organization.create.OrgCreateContext;
 import com.youhujia.solar.domain.organization.delete.OrgDeleteContext;
 import com.youhujia.solar.domain.organization.query.OrgQueryContext;
@@ -24,7 +24,7 @@ import java.util.List;
 public class OrganizationDTOFactory {
 
     @Autowired
-    private DepartmentFactory departmentFactory;
+    private DepartmentDTOFactory departmentFactory;
 
     @Autowired
     private AreaDAO areaDAO;

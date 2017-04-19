@@ -39,3 +39,8 @@
 
     updateOrganization              ==》updateOrganization
     managerUpdateOrganization       ==》updateOrganization
+
+
+
+map中的getAreas迁移到area包中
+

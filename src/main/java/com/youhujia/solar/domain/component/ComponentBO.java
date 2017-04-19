@@ -37,8 +37,8 @@ public class ComponentBO {
     @Autowired
     ComponentDTOFactory componentDTOFactory;
 
-    public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(Solar.DepartmentIdListOption option) {
-        ComponentListQueryContext context = componentListQueryBO.batchComponentListByDepartmentIds(option);
+    public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(String ids) {
+        ComponentListQueryContext context = componentListQueryBO.batchComponentListByDepartmentIds(ids);
         return componentDTOFactory.buildComponentListDTO(context);
     }
 
