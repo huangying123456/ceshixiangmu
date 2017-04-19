@@ -24,6 +24,7 @@ public class DepCreateBO {
     @Autowired
     private OrganizationDAO organizationDAO;
 
+    public static String IS_CHECKED = "1";
 
     public DepCreateContext createDepartment(Solar.DepartmentCreateOption option) {
 
@@ -86,6 +87,40 @@ public class DepCreateBO {
         if (option.hasMayContact()) {
             department.setMayContact(option.getMayContact());
         }
+        if (option.hasClassificationType()) {
+            department.setClassificationType(option.getClassificationType());
+        }
         return department;
+    }
+
+    /**
+     * Create guest department
+     */
+    public Department createOrGetGuestDepartment(Department department) {
+        // department is a Guest Department
+        if (department.getGuest()) {
+            return department;
+        }
+
+        // department is Host department
+        List<Department> guestDepartmentList = departmentDAO.findByHostIdAndStatus(department.getId(), new Byte(IS_CHECKED));
+
+        if (guestDepartmentList.size() > 0) {
+            return guestDepartmentList.get(0);
+        } else {
+            // Create a guest of host department
+            Department guestDepartment = new Department();
+            guestDepartment.setOrganizationId(department.getOrganizationId());
+            guestDepartment.setGuest(true);
+            guestDepartment.setHostId(department.getId());
+            guestDepartment.setName(department.getName());
+            guestDepartment.setNumber(department.getNumber());
+            guestDepartment.setAuthCode(department.getAuthCode());
+            guestDepartment.setStatus(department.getStatus());
+            guestDepartment.setWxSubQRCodeValue(department.getWxSubQRCodeValue());
+            guestDepartment.setImgUrl(department.getImgUrl());
+            guestDepartment.setMayContact(department.getMayContact());
+            return departmentDAO.save(guestDepartment);
+        }
     }
 }
