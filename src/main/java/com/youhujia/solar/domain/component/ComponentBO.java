@@ -2,13 +2,13 @@ package com.youhujia.solar.domain.component;
 
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
-import com.youhujia.solar.domain.component.query.componentList.ComponentQueryBO;
 import com.youhujia.solar.domain.component.query.articleDisease.ArticleDiseaseComponentQueryBO;
 import com.youhujia.solar.domain.component.query.articleDisease.ArticleDiseaseComponentQueryContext;
+import com.youhujia.solar.domain.component.query.componentList.ComponentListQueryBO;
+import com.youhujia.solar.domain.component.query.componentList.ComponentListQueryContext;
 import com.youhujia.solar.domain.component.query.recommend.RecomComponentQueryBO;
 import com.youhujia.solar.domain.component.query.recommend.RecomComponentQueryContext;
 import com.youhujia.solar.domain.component.query.requestManagerRight.RequestBO;
-import com.youhujia.solar.domain.component.query.requestManagerRight.RequestContext;
 import com.youhujia.solar.domain.component.query.selfEvaluation.SelfEvaluationComponentQueryBO;
 import com.youhujia.solar.domain.component.query.selfEvaluation.SelfEvaluationComponentQueryContext;
 import com.youhujia.solar.domain.component.query.serviceItem.ServiceItemComponentQueryBO;
@@ -23,54 +23,46 @@ import org.springframework.stereotype.Component;
 public class ComponentBO {
 
     @Autowired
-    ComponentFactory componentFactory;
-
-    @Autowired
-    ComponentQueryBO componentQueryBO;
-
+    ComponentListQueryBO componentListQueryBO;
     @Autowired
     ArticleDiseaseComponentQueryBO articleDiseaseComponentQueryBO;
-
     @Autowired
     SelfEvaluationComponentQueryBO selfEvaluationComponentQueryBO;
-
     @Autowired
     ServiceItemComponentQueryBO serviceItemComponentQueryBO;
-
     @Autowired
     RecomComponentQueryBO recomComponentQueryBO;
-
     @Autowired
     RequestBO requestBO;
+    @Autowired
+    ComponentDTOFactory componentDTOFactory;
 
     public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(Solar.DepartmentIdListOption option) {
-        ComponentContext componentContext = componentFactory.buildComponentContext(option);
-        return componentQueryBO.buildComponentListDataListDTO(componentContext.getTagListDTOList());
+        ComponentListQueryContext context = componentListQueryBO.batchComponentListByDepartmentIds(option);
+        return componentDTOFactory.buildComponentListDTO(context);
     }
 
     public Solar.ArticleDiseaseGroupDTO getDiseaseComponentById(Long componentId) {
-        ArticleDiseaseComponentQueryContext context = componentFactory.buildArticleDiseaseComponentQueryContext(componentId);
-        return articleDiseaseComponentQueryBO.buildArticleDiseaseGroupDTO(context.getTagDTO());
+        ArticleDiseaseComponentQueryContext context = articleDiseaseComponentQueryBO.getDiseaseComponentById(componentId);
+        return componentDTOFactory.buildArticleDiseaseGroupDTO(context);
     }
 
     public Solar.SelfEvaluationComponentDTO getSelfEvaluationComponentById(Long componentId) {
-        SelfEvaluationComponentQueryContext context = componentFactory.buildSelfEvaluationComponentQueryContext(componentId);
-        return selfEvaluationComponentQueryBO.buildSelfEvaluationDTO(context.getTagDTO());
+        SelfEvaluationComponentQueryContext context = selfEvaluationComponentQueryBO.getSelfEvaluationComponentById(componentId);
+        return componentDTOFactory.buildSelfEvaluationDTO(context);
     }
 
     public Solar.ServiceItemComponentDTO getServiceItemComponentById(Long componentId) {
-        ServiceItemComponentQueryContext context = componentFactory.buildServiceItemComponentQueryContext(componentId);
-        return serviceItemComponentQueryBO.buildServiceItemComponent(context.getTagDTO());
+        ServiceItemComponentQueryContext context = serviceItemComponentQueryBO.getServiceItemComponentById(componentId);
+        return componentDTOFactory.buildServiceItemDTO(context);
     }
 
     public Solar.RecomComponentDTO getRecomComponentById(Long componentId) {
-        RecomComponentQueryContext context = componentFactory.buildRecomComponentQueryContext(componentId);
-        return recomComponentQueryBO.buildRecomComponent(context.getTagDTO());
+        RecomComponentQueryContext context = recomComponentQueryBO.getRecomComponentById(componentId);
+        return componentDTOFactory.buildRecomComponentDTO(context);
     }
 
     public COMMON.SimpleResponse requestManagementRight(Long departmentId, Solar.RequestManagementRightOption option) {
-        RequestContext context = componentFactory.buildRequestContext(departmentId,option);
-        return requestBO.buildRequsetResult(context.getDepartment());
-
+        return requestBO.requestManagementRight(departmentId, option);
     }
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.area.Area;
-import com.youhujia.solar.domain.area.AreaDao;
+import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.common.HttpConnectionUtils;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
@@ -46,7 +46,7 @@ public class MapBO {
     String amapSearchPOIUrl;
 
     @Autowired
-    AreaDao areaDao;
+    AreaDAO areaDao;
 
     @Autowired
     OrganizationDAO organizationDAO;

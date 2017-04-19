@@ -1,4 +1,4 @@
-package com.youhujia.solar.domain.component.query.componentList;
+package com.youhujia.solar.domain.component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -8,25 +8,29 @@ import com.youhujia.halo.hdfragments.HDFragmentsServiceWrap;
 import com.youhujia.halo.solar.ComponentTypeEnum;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.common.SolarHalper;
+import com.youhujia.solar.domain.component.query.articleDisease.ArticleDiseaseComponentQueryContext;
+import com.youhujia.solar.domain.component.query.componentList.ComponentListQueryContext;
+import com.youhujia.solar.domain.component.query.recommend.RecomComponentQueryContext;
+import com.youhujia.solar.domain.component.query.selfEvaluation.SelfEvaluationComponentQueryContext;
+import com.youhujia.solar.domain.component.query.serviceItem.ServiceItemComponentQueryContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- * Created by ljm on 2017/4/17.
+ * Created by ljm on 2017/4/19.
  */
-@Component
-public class ComponentQueryContextFactory {
 
+@Component
+public class ComponentDTOFactory {
 
     @Autowired
     HDFragmentsServiceWrap hdFragmentsServiceWrap;
 
-    public ComponentQueryContext buildComponentQueryContext(List<HDFragments.TagListDTO> tagListDTOList) {
-
+    public Solar.ComponentListDataListDTO buildComponentListDTO(ComponentListQueryContext context) {
         Solar.ComponentListDataListDTO.Builder componentListDataListDTO = Solar.ComponentListDataListDTO.newBuilder();
-        ComponentQueryContext componentQueryContext = new ComponentQueryContext();
+        List<HDFragments.TagListDTO> tagListDTOList = context.getTagListDTOList();
 
         if (tagListDTOList.size() > 0) {
             tagListDTOList.stream().forEach(tagListDTO -> {
@@ -35,36 +39,35 @@ public class ComponentQueryContextFactory {
                 tagListDTO.getData().getTagsList().stream().forEach(tag -> {
 
                     Solar.Component.Builder componentBuild = Solar.Component.newBuilder();
-                    HDFragments.TagPropertiesDTO tagPropertiesDTO = hdFragmentsServiceWrap.getTagPropertiesByTagId(tag.getId());
 
                     if (tag.getName().equals(ComponentTypeEnum.DIRECT.getName())) {
                         componentBuild.setType(ComponentTypeEnum.DIRECT.getName());
-                        componentBuild.setDirect(transform2DirectComponent(tag, tagPropertiesDTO));
+                        componentBuild.setDirect(transform2DirectComponent(tag, getTagPropertiesByTagId(tag.getId())));
                         componentListData.addComponent(componentBuild);
                     }
 
                     if (tag.getName().equals(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName())) {
                         componentBuild.setType(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName());
-                        componentBuild.setArticleDiseaseGroup(transform2ArticleGroupComponent(tag, tagPropertiesDTO));
+                        componentBuild.setArticleDiseaseGroup(transform2ArticleGroupComponent(tag, getTagPropertiesByTagId(tag.getId())));
                         componentListData.addComponent(componentBuild);
                     }
 
                     if (tag.getName().equals(ComponentTypeEnum.SELF_EVALUATION.getName())) {
                         componentBuild.setType(ComponentTypeEnum.SELF_EVALUATION.getName());
-                        componentBuild.setSelfEvaluation(transform2SelfEvaluationComponent(tag, tagPropertiesDTO));
+                        componentBuild.setSelfEvaluation(transform2SelfEvaluationComponent(tag, getTagPropertiesByTagId(tag.getId())));
                         componentListData.addComponent(componentBuild);
 
                     }
 
                     if (tag.getName().equals(ComponentTypeEnum.Recom.getName())) {
                         componentBuild.setType(ComponentTypeEnum.Recom.getName());
-                        componentBuild.setRecom(transform2RecomComponent(tag, tagPropertiesDTO));
+                        componentBuild.setRecom(transform2RecomComponent(tag, getTagPropertiesByTagId(tag.getId())));
                         componentListData.addComponent(componentBuild);
                     }
 
                     if (tag.getName().equals(ComponentTypeEnum.SERVICE_ITEM.getName())) {
                         componentBuild.setType(ComponentTypeEnum.SERVICE_ITEM.getName());
-                        componentBuild.setServiceItem(transform2ServiceItem(tag, tagPropertiesDTO));
+                        componentBuild.setServiceItem(transform2ServiceItem(tag, getTagPropertiesByTagId(tag.getId())));
                         componentListData.addComponent(componentBuild);
                     }
 
@@ -72,9 +75,8 @@ public class ComponentQueryContextFactory {
                 });
                 componentListDataListDTO.addComponentListData(componentListData.build());
             });
-            componentQueryContext.setComponentListDataListDTO(componentListDataListDTO.build());
         }
-        return componentQueryContext;
+        return componentListDataListDTO.build();
     }
 
 
@@ -238,4 +240,43 @@ public class ComponentQueryContextFactory {
         return directBuild.build();
     }
 
+    public Solar.ArticleDiseaseGroupDTO buildArticleDiseaseGroupDTO(ArticleDiseaseComponentQueryContext context) {
+
+        HDFragments.TagDTO tagDTO = context.getTagDTO();
+        Solar.ArticleDiseaseGroupDTO.Builder articleDiseaseGroupDTOBuild = Solar.ArticleDiseaseGroupDTO.newBuilder();
+        return articleDiseaseGroupDTOBuild
+                .setArticleDiseaseGroup(transform2ArticleGroupComponent(tagDTO.getData().getTag(), getTagPropertiesByTagId(tagDTO.getData().getTag().getId())))
+                .setResult(COMMON.Result.newBuilder().setCode(200).setDisplaymsg("success")).build();
+    }
+
+
+    public Solar.SelfEvaluationComponentDTO buildSelfEvaluationDTO(SelfEvaluationComponentQueryContext context) {
+
+        HDFragments.TagDTO tagDTO = context.getTagDTO();
+        Solar.SelfEvaluationComponentDTO.Builder selfEvaluationComponentBuild = Solar.SelfEvaluationComponentDTO.newBuilder();
+        return selfEvaluationComponentBuild
+                .setSelfEvaluation(transform2SelfEvaluationComponent(tagDTO.getData().getTag(), getTagPropertiesByTagId(tagDTO.getData().getTag().getId())))
+                .setResult(COMMON.Result.newBuilder().setCode(200).setDisplaymsg("success")).build();
+    }
+
+    public Solar.ServiceItemComponentDTO buildServiceItemDTO(ServiceItemComponentQueryContext context) {
+        HDFragments.TagDTO tagDTO = context.getTagDTO();
+        Solar.ServiceItemComponentDTO.Builder serviceItemBuild = Solar.ServiceItemComponentDTO.newBuilder();
+        return serviceItemBuild.
+                setServiceItem(transform2ServiceItem(tagDTO.getData().getTag(), getTagPropertiesByTagId(tagDTO.getData().getTag().getId())))
+                .setResult(COMMON.Result.newBuilder().setCode(200).setDisplaymsg("success")).build();
+
+    }
+
+    public Solar.RecomComponentDTO buildRecomComponentDTO(RecomComponentQueryContext context) {
+        HDFragments.TagDTO tagDTO = context.getTagDTO();
+        Solar.RecomComponentDTO.Builder recomBuild = Solar.RecomComponentDTO.newBuilder();
+        return recomBuild
+                .setRecom(transform2RecomComponent(tagDTO.getData().getTag(), getTagPropertiesByTagId(tagDTO.getData().getTag().getId())))
+                .setResult(COMMON.Result.newBuilder().setDisplaymsg("success").setCode(200)).build();
+    }
+
+    private HDFragments.TagPropertiesDTO getTagPropertiesByTagId(Long tagId) {
+        return hdFragmentsServiceWrap.getTagPropertiesByTagId(tagId);
+    }
 }

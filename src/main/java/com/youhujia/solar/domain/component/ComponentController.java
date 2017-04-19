@@ -74,7 +74,7 @@ public class ComponentController extends BaseController {
     public COMMON.SimpleResponse requestManagementRight(@PathVariable("departmentId") Long departmentId, @RequestBody Solar.RequestManagementRightOption option) {
 
         try {
-            return componentBO.requestManagementRight(departmentId,option);
+            return componentBO.requestManagementRight(departmentId, option);
         } catch (Exception e) {
             return handleException(a -> COMMON.SimpleResponse.newBuilder().setResult(a).build(), e);
         }

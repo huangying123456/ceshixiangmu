@@ -3,7 +3,6 @@ package com.youhujia.solar.domain.map;
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,21 +18,23 @@ public class MapController {
     @Autowired
     MapBO mapBO;
 
-    @RequestMapping(value="/all-in",method = RequestMethod.GET)
-    public COMMON.Result resetAreaInfo(){
+    @RequestMapping(value = "/all-in", method = RequestMethod.GET)
+    public COMMON.Result resetAreaInfo() {
         return mapBO.resetAreaInfo();
     }
-    @RequestMapping(value="/areas",method = RequestMethod.GET)
-    public Solar.MapDTO getAreas(){
+
+    @RequestMapping(value = "/areas", method = RequestMethod.GET)
+    public Solar.MapDTO getAreas() {
         return mapBO.getMapSet();
     }
-    @RequestMapping(value="/department-bride",method = RequestMethod.GET)
-    public COMMON.Result setOrganizationDepartmentFromFile(){
+
+    @RequestMapping(value = "/department-bride", method = RequestMethod.GET)
+    public COMMON.Result setOrganizationDepartmentFromFile() {
         return mapBO.setOrganizationDepartmentFromFile();
     }
 
-    @RequestMapping(value="/department-wife",method = RequestMethod.GET)
-    public COMMON.Result updateOrganizationDepartmentFromFile(){
+    @RequestMapping(value = "/department-wife", method = RequestMethod.GET)
+    public COMMON.Result updateOrganizationDepartmentFromFile() {
         return mapBO.updateOrganizationDepartmentFromFile();
     }
 }
