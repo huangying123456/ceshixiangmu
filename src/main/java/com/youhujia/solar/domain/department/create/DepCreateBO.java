@@ -10,6 +10,8 @@ import com.youhujia.solar.domain.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,7 +48,7 @@ public class DepCreateBO {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "科室id为空");
         } else {
             Organization organization = organizationDAO.findOne(option.getOrganizationId());
-            if (organization != null) {
+            if (organization == null) {
                 throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "错误的医院id，不能找到对应的医院");
             }
         }
@@ -71,6 +73,8 @@ public class DepCreateBO {
         }
         if (option.hasIsGuest()) {
             department.setGuest(option.getIsGuest());
+        } else {
+            department.setGuest(false);
         }
         if (option.hasHostId()) {
             department.setHostId(option.getHostId());
@@ -82,7 +86,9 @@ public class DepCreateBO {
             department.setImgUrl(option.getImgUrl());
         }
         if (option.hasStatus()) {
-            department.setStatus((byte) option.getStatus());
+            department.setStatus(new Long(option.getStatus()).byteValue());
+        } else {
+            department.setStatus((byte) 0);
         }
         if (option.hasMayContact()) {
             department.setMayContact(option.getMayContact());
@@ -90,6 +96,8 @@ public class DepCreateBO {
         if (option.hasClassificationType()) {
             department.setClassificationType(option.getClassificationType());
         }
+        department.setCreatedAt(new Timestamp(new Date().getTime()));
+        department.setUpdatedAt(new Timestamp(new Date().getTime()));
         return department;
     }
 

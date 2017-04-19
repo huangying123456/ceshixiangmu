@@ -42,5 +42,5 @@
 
 
 
-map中的getAreas迁移到area包中
+map中的getAreas接口迁移到area包中
 

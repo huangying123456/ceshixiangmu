@@ -42,6 +42,15 @@ public class DepartmentDTOFactory {
         return departmentDTO;
     }
 
+    public Solar.DepartmentListDTO buildGetDepartmentListByIdsDTO(DepQueryContext context) {
+
+        List<Department> list = context.getDepartmentList();
+
+        Solar.DepartmentListDTO departmentListDTO = toDepartmentListDTO(list);
+
+        return departmentListDTO;
+    }
+
     public Solar.DepartmentDTO buildGetDepartmentByNoDTO(DepQueryContext context) {
 
         Department department = context.getDepartment();
@@ -108,7 +117,7 @@ public class DepartmentDTOFactory {
             if (d.getMayContact() != null) {
                 builder.setMayContact(d.getMayContact());
             }
-            if (d.getClassificationType() !=null){
+            if (d.getClassificationType() != null) {
                 builder.setClassificationType(d.getClassificationType());
             }
             dataBuilder.addManagerDepartments(builder);

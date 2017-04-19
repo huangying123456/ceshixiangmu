@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,6 +47,21 @@ public class DepQueryBO {
 
     }
 
+    public DepQueryContext getDepartmentListByIds(String ids) {
+
+        DepQueryContext context = new DepQueryContext();
+
+        if (ids == null) {
+            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "departmentIds 为空");
+        }
+        List<Department> departmentList = departmentDAO.findAll(getListByString(ids));
+        if (departmentList == null || departmentList.size() <= 0) {
+            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！错误的科室id！");
+        }
+        context.setDepartmentList(departmentList);
+        return context;
+    }
+
     public DepQueryContext getDepartmentByNo(String departmentNo) {
 
         DepQueryContext context = new DepQueryContext();
@@ -72,7 +88,6 @@ public class DepQueryBO {
 
         DepQueryContext context = new DepQueryContext();
 
-        //------------------感觉此处用findOne有点诡异，待确认------
         Department department = departmentDAO.findOne(departmentId);
 
         if (department == null) {
@@ -124,5 +139,14 @@ public class DepQueryBO {
         return context;
     }
 
+    private List<Long> getListByString(String ids) {
+
+        String[] strings = ids.split(",");
+        List<Long> list = new ArrayList<>();
+        for (String strings1 : strings) {
+            list.add(Long.parseLong(strings1));
+        }
+        return list;
+    }
 
 }
