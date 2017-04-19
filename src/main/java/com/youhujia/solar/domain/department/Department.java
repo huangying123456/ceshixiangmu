@@ -1,8 +1,6 @@
 package com.youhujia.solar.domain.department;
 
-import com.youhujia.solar.domain.common.Identifiable;
 import com.youhujia.solar.domain.organization.Organization;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -12,7 +10,7 @@ import java.util.Collection;
  * Created by huangYing on 2017/4/17.
  */
 @Entity
-public class Department implements Identifiable<Long> {
+public class Department {
     private Long id;
     private Long organizationId;
     private Boolean isGuest;
@@ -33,9 +31,8 @@ public class Department implements Identifiable<Long> {
     private Collection<Department> departmentsById;
 
     @Id
-    @GenericGenerator(name = "assigned-identity", strategy = "com.youhujia.yolar.model.generator.AssignedIdentityGenerator")
-    @GeneratedValue(generator = "assigned-identity", strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
