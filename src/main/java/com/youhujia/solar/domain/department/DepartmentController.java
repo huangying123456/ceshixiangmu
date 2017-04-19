@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by huangYing on 2017/4/17.
  */
 @RestController
-@RequestMapping(value = "api/solar/v1/department")
+@RequestMapping(value = "/api/solar/v1/departments")
 public class DepartmentController extends BaseController {
 
     @Autowired
