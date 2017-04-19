@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,6 +45,21 @@ public class DepQueryBO {
         context.setDepartment(department);
         return context;
 
+    }
+
+    public DepQueryContext getDepartmentListByIds(String ids) {
+
+        DepQueryContext context = new DepQueryContext();
+
+        if (ids == null) {
+            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "departmentIds 为空");
+        }
+        List<Department> departmentList = departmentDAO.findAll(getListByString(ids));
+        if (departmentList == null || departmentList.size() <= 0) {
+            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！错误的科室id！");
+        }
+        context.setDepartmentList(departmentList);
+        return context;
     }
 
     public DepQueryContext getDepartmentByNo(String departmentNo) {
@@ -124,5 +140,14 @@ public class DepQueryBO {
         return context;
     }
 
+    private List<Long> getListByString(String ids) {
+
+        String[] strings = ids.split(",");
+        List<Long> list = new ArrayList<>();
+        for (String strings1 : strings) {
+            list.add(Long.parseLong(strings1));
+        }
+        return list;
+    }
 
 }

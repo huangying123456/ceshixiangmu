@@ -35,6 +35,16 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public Solar.DepartmentListDTO getDepartmentListByIds(@RequestParam("departmentIds") String ids) {
+
+        try {
+            return departmentBO.getDepartmentListByIds(ids);
+        } catch (Exception e) {
+            return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
     @RequestMapping(value = "/no/{departmentNo}", method = RequestMethod.GET)
     public Solar.DepartmentDTO getDepartmentByNo(@PathVariable("departmentNo") String departmentNo) {
         try {
