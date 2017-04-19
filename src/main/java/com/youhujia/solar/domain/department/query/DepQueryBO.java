@@ -88,7 +88,6 @@ public class DepQueryBO {
 
         DepQueryContext context = new DepQueryContext();
 
-        //------------------感觉此处用findOne有点诡异，待确认------
         Department department = departmentDAO.findOne(departmentId);
 
         if (department == null) {

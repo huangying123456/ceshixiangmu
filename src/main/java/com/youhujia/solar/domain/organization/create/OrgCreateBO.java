@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -29,6 +31,8 @@ public class OrgCreateBO {
 
     public OrgCreateContext create(Solar.OrganizationCreateOption option) {
 
+        checkCreateOrgOption(option);
+
         Organization organization = toOrganization(option);
 
         OrgCreateContext orgCreateContext = new OrgCreateContext();
@@ -36,6 +40,26 @@ public class OrgCreateBO {
         orgCreateContext.setOrganization(organizationDAO.save(organization));
 
         return orgCreateContext;
+    }
+
+    private void checkCreateOrgOption(Solar.OrganizationCreateOption option) {
+
+        if (!option.hasName()) {
+            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "缺少医院名称，请填写科室名称");
+        }
+
+        if (!option.hasAreaId()) {
+            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "地区id为空");
+        } else {
+            Area area = areaDao.findOne(option.getAreaId());
+            if (area == null) {
+                throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "the area was not found in the database ,areaId:" + option.getAreaId());
+            }
+        }
+        if (!option.hasAddress()) {
+            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "address is not exist");
+
+        }
     }
 
     private Organization toOrganization(Solar.OrganizationCreateOption option) {
@@ -48,19 +72,15 @@ public class OrgCreateBO {
             organization.setAddress(option.getAddress());
         }
         if (option.hasStatus()) {
-            organization.setStatus((byte) option.getStatus());
+            organization.setStatus((new Long(option.getStatus()).byteValue()));
+        } else {
+            organization.setStatus((byte) 0);
         }
         if (option.hasLat()) {
             organization.setLat(new BigDecimal(option.getLat()));
         }
         if (option.hasLon()) {
             organization.setLon(new BigDecimal(option.getLon()));
-        }
-        if (option.hasAreaId()) {
-            Area area = areaDao.findOne(option.getAreaId());
-            if (area != null) {
-                throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "the area was not found in the database ,areaId:" + option.getAreaId());
-            }
         }
         if (option.hasAreaId()) {
             organization.setAreaId(option.getAreaId());
@@ -71,7 +91,8 @@ public class OrgCreateBO {
         if (option.hasImgUrl()) {
             organization.setImgUrl(option.getImgUrl());
         }
-
+        organization.setCreatedAt(new Timestamp(new Date().getTime()));
+        organization.setUpdatedAt(new Timestamp(new Date().getTime()));
         return organization;
     }
 }

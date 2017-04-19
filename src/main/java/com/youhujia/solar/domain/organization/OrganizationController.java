@@ -16,7 +16,7 @@ public class OrganizationController extends BaseController {
     private OrganizationBO organizationBO;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public Solar.OrganizationDTO create(Solar.OrganizationCreateOption option) {
+    public Solar.OrganizationDTO create(@RequestBody Solar.OrganizationCreateOption option) {
         try {
             return organizationBO.create(option);
         } catch (Exception e) {
@@ -87,9 +87,9 @@ public class OrganizationController extends BaseController {
     //----------------- code for improve department admin ------------------//
     @RequestMapping(value = "/manager-organization", method = RequestMethod.GET)
     public Solar.ManagerOrganizationListDTO getAllWithoutDeleteOrganizations(@RequestParam("adId") Long adId,
-                                                                             @RequestParam("draw")Integer draw,
-                                                                             @RequestParam("length")Integer length,
-                                                                             @RequestParam("start")Integer start) {
+                                                                             @RequestParam("draw") Integer draw,
+                                                                             @RequestParam("length") Integer length,
+                                                                             @RequestParam("start") Integer start) {
 
         try {
             return organizationBO.getAllWithoutDeleteOrgListByAreaId(adId, draw, length, start);

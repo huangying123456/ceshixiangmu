@@ -142,7 +142,7 @@ public class Department {
     }
 
     @Basic
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "`created_at`")
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -152,7 +152,7 @@ public class Department {
     }
 
     @Basic
-    @Column(name = "updated_at", insertable = false, updatable = false)
+    @Column(name = "`updated_at`", nullable = false,  updatable = false)
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
