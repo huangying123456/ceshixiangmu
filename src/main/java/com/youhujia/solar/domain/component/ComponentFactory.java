@@ -102,7 +102,7 @@ public class ComponentFactory {
         if (department == null) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "科室不存在");
         }
-        if (department.getStatus() != DepartmentStatusEnum.TEMPLATE.getType()) {
+        if (department.getStatus() != DepartmentStatusEnum.TEMPLATE.getType().byteValue()) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "科室应该处于模板科室模式");
         }
 
