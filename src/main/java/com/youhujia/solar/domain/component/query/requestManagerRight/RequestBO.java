@@ -44,7 +44,7 @@ public class RequestBO {
 
         RequestContext context = new RequestContext();
 
-        if (departmentId != option.getDeparmentId()) {
+        if (departmentId != option.getDepartmentId()) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "参数非法");
         }
         Department department = departmentDAO.findOne(departmentId);
@@ -56,6 +56,7 @@ public class RequestBO {
         }
 
         Yolar.NurseDTO nurseDTO = yolarClientWrap.getNurseById(option.getNurseId());
+
         if (nurseDTO.getNurse() == null) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "护士不存在");
         }
