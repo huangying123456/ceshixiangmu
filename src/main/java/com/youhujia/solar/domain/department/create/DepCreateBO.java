@@ -86,7 +86,7 @@ public class DepCreateBO {
             department.setImgUrl(option.getImgUrl());
         }
         if (option.hasStatus()) {
-            department.setStatus(new Long(option.getStatus()).byteValue());
+            department.setStatus(new Integer(option.getStatus()).byteValue());
         } else {
             department.setStatus((byte) 0);
         }
