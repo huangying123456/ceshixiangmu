@@ -27,7 +27,7 @@ public class ComponentController extends BaseController {
         }
     }
 
-    @RequestMapping("/disease-component/{componentId}")
+    @RequestMapping("/{departmentId}/disease-component/{componentId}")
     public Solar.ArticleDiseaseGroupDTO getDiseaseComponentById(@PathVariable("componentId") Long componentId) {
 
         try {
