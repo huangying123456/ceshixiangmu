@@ -8,7 +8,7 @@ import com.youhujia.halo.solar.Solar;
 /**
  * Created by ljm on 2017/4/17.
  */
-public class SolarHalper {
+public class SolarHelper {
 
 
     public static Solar.Direct.Unit parseToSolarUnit(String json) {

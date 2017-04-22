@@ -4,9 +4,8 @@ import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.hdfragments.HDFragments;
 import com.youhujia.halo.hdfragments.HDFragmentsServiceWrap;
-import com.youhujia.halo.hdfragments.TagQueryEnum;
-import com.youhujia.halo.hdfragments.TagTypeEnum;
-import com.youhujia.halo.solar.Solar;
+import com.youhujia.halo.hdfragments.HDFragmentsTagQueryEnum;
+import com.youhujia.halo.hdfragments.HDFragmentsTagTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,8 +34,8 @@ public class ComponentListQueryBO {
         Map<String, String> queryParam = new HashMap<>();
         List<HDFragments.TagListDTO> tagListDTOList = new ArrayList<>();
         for (String departmentId : str) {
-            queryParam.put(TagQueryEnum.DEPARTMENT_ID.getName(), Long.valueOf(departmentId).toString());
-            queryParam.put(TagQueryEnum.TAG_TYPE.getName(), Long.valueOf(TagTypeEnum.UI_VIEW.getType()).toString());
+            queryParam.put(HDFragmentsTagQueryEnum.DEPARTMENT_ID.getName(), Long.valueOf(departmentId).toString());
+            queryParam.put(HDFragmentsTagQueryEnum.TAG_TYPE.getName(), Long.valueOf(HDFragmentsTagTypeEnum.UI_CONFIG.getType()).toString());
             HDFragments.TagListDTO tagListDTO = hdFragmentsServiceWrap.getTags(queryParam);
             if(tagListDTO.getData().getTagsList().size() == 0){
                 continue;

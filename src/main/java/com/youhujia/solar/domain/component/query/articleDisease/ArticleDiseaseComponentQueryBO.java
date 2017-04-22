@@ -28,9 +28,9 @@ public class ArticleDiseaseComponentQueryBO {
         if (tagDTO.getData().getTag() == null) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "该组件不存在");
         }
-        if (!tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName())) {
-            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
-        }
+//        if (!tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName())) {
+//            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
+//        }
         return tagDTO;
     }
 }

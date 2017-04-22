@@ -18,7 +18,7 @@ public class ComponentController extends BaseController {
     ComponentBO componentBO;
 
     @RequestMapping("/component")
-    public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(@RequestParam("ids") String ids) {
+    public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(@RequestParam("departmentIds") String ids) {
 
         try {
             return componentBO.batchComponentListByDepartmentIds(ids);

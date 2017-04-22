@@ -5,6 +5,7 @@ import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.Solar;
+import com.youhujia.halo.util.ResponseUtil;
 import com.youhujia.halo.yolar.Yolar;
 import com.youhujia.halo.yolar.YolarClientWrap;
 import com.youhujia.solar.domain.department.Department;
@@ -32,7 +33,7 @@ public class RequestBO {
 
         finishRequestRight(context);
         return COMMON.SimpleResponse.newBuilder()
-                .setResult(COMMON.Result.newBuilder().setDisplaymsg("success").setCode(200).build()).build();
+                .setResult(ResponseUtil.resultOK()).build();
     }
 
     @Transactional
