@@ -36,10 +36,14 @@ public class DepartmentDTOFactory {
     public Solar.DepartmentDTO buildGetDepartmentByIdDTO(DepQueryContext context) {
 
         Department department = context.getDepartment();
+        if (department == null) {
+            return Solar.DepartmentDTO.newBuilder().setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build()).build();
+        } else {
 
-        Solar.DepartmentDTO departmentDTO = toDepartmentDTO(department);
+            Solar.DepartmentDTO departmentDTO = toDepartmentDTO(department);
 
-        return departmentDTO;
+            return departmentDTO;
+        }
     }
 
     public Solar.DepartmentListDTO buildGetDepartmentListByIdsDTO(DepQueryContext context) {

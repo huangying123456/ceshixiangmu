@@ -39,9 +39,7 @@ public class DepQueryBO {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！科室id为空或者非法!！");
         }
         Department department = departmentDAO.findOne(departmentId);
-        if (department == null) {
-            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！错误的科室id！");
-        }
+
         context.setDepartment(department);
         return context;
 
