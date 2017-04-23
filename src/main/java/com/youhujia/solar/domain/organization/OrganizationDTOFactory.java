@@ -2,9 +2,11 @@ package com.youhujia.solar.domain.organization;
 
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
+import com.youhujia.halo.util.ResponseUtil;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.department.Department;
+import com.youhujia.solar.domain.department.DepartmentDAO;
 import com.youhujia.solar.domain.department.DepartmentDTOFactory;
 import com.youhujia.solar.domain.organization.create.OrgCreateContext;
 import com.youhujia.solar.domain.organization.delete.OrgDeleteContext;
@@ -28,6 +30,9 @@ public class OrganizationDTOFactory {
 
     @Autowired
     private AreaDAO areaDAO;
+
+    @Autowired
+    private DepartmentDAO departmentDAO;
 
     public Solar.OrganizationDTO buildCreateDTO(OrgCreateContext context) {
 
@@ -213,6 +218,48 @@ public class OrganizationDTOFactory {
         if (organization.getUpdatedAt() != null) {
             builder.setUpdatedAt(organization.getUpdatedAt().getTime());
         }
+        return builder.build();
+    }
+
+    public Solar.OrganizationAndDepartmentListDTO buildOrganizationAndDepartmentListDTO(OrgQueryContext context) {
+
+        Solar.OrganizationAndDepartmentListDTO.Builder builder = Solar.OrganizationAndDepartmentListDTO.newBuilder();
+        if(context.getOrganizationList().size() != 0){
+            context.getOrganizationList().stream().forEach(organization -> {
+                List<Department> departmentList = departmentDAO.findByOrganizationIdAndGuest(organization.getId(),false);
+                Solar.OrganizationOption option = buildSolarOrganizationOption(organization,departmentList);
+                builder.addOrganization(option);
+            });
+        }
+        return builder.setResult(ResponseUtil.resultOK()).build();
+    }
+
+    private Solar.OrganizationOption buildSolarOrganizationOption(Organization organization, List<Department> departmentList) {
+
+        Solar.OrganizationOption.Builder builder = Solar.OrganizationOption.newBuilder();
+        builder.setOrganizationId(organization.getId());
+        builder.setOrganizationName(organization.getName());
+        builder.setUpdatedAt(organization.getUpdatedAt().getTime());
+        builder.setCreatedAt(organization.getCreatedAt().getTime());
+
+        departmentList.stream().forEach(department -> {
+            builder.addDepartment(buildSolarDepartmentOption(organization,department));
+        });
+
+        return builder.build();
+    }
+
+    private Solar.DepartmentOption buildSolarDepartmentOption(Organization organization,Department department) {
+
+        Solar.DepartmentOption.Builder builder = Solar.DepartmentOption.newBuilder();
+        builder.setCreatedAt(department.getCreatedAt().getTime());
+        builder.setUpdatedAt(department.getUpdatedAt().getTime());
+        builder.setOrganizationName(organization.getName());
+        builder.setOrganizationId(organization.getId());
+        builder.setDepartmentId(department.getId());
+        builder.setDepartmentName(department.getName());
+        builder.setDepartmentWxQrCode(department.getWxSubQRCodeValue());
+        builder.setIsGuest(department.getGuest());
         return builder.build();
     }
 }

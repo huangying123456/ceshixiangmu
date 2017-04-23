@@ -1,6 +1,7 @@
 package com.youhujia.solar.domain.department;
 
 import com.youhujia.halo.solar.Solar;
+import com.youhujia.halo.yolar.Yolar;
 import com.youhujia.solar.domain.department.create.DepCreateBO;
 import com.youhujia.solar.domain.department.create.DepCreateContext;
 import com.youhujia.solar.domain.department.delete.DepDeleteBO;
@@ -60,6 +61,12 @@ public class DepartmentBO {
         return departmentDTO;
     }
 
+    public Solar.DepartmentListDTO getDepartmentListByIds(String departmentIds) {
+        DepQueryContext context = depQueryBo.getDepartmentListByIds(departmentIds);
+        Solar.DepartmentListDTO departmentListDTO = departmentFactory.toDepartmentListDTO(context.getDepartmentList());
+        return departmentListDTO;
+    }
+
     public Solar.DepartmentDTO getGuestDepartmentByHostDepartmentId(Long departmentId) {
 
         DepQueryContext context = depQueryBo.getGuestDepartmentByHostDepartmentId(departmentId);
@@ -101,5 +108,10 @@ public class DepartmentBO {
         DepDeleteContext context = depDeleteBO.markDeleteDepartmentById(departmentId);
 
         return departmentFactory.buildMarkDeleteDepartmentById(context);
+    }
+
+    public Solar.DepartmentDTO updateDepartmentWxQrCode(Solar.DepartmentOption option) {
+        DepUpdateContext context = depUpdateBO.updateDepartmentWxQrCode(option);
+        return departmentFactory.buildUpdateDepartmentDTO(context);
     }
 }

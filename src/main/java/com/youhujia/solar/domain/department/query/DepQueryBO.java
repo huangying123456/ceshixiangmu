@@ -5,6 +5,7 @@ import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
 import com.youhujia.solar.domain.department.create.DepCreateBO;
+import com.youhujia.solar.domain.department.delete.DepDeleteContext;
 import com.youhujia.solar.domain.organization.Organization;
 import com.youhujia.solar.domain.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,5 +125,21 @@ public class DepQueryBO {
         return context;
     }
 
+    public DepQueryContext getDepartmentListByIds(String departmentIds) {
+        DepQueryContext context = new DepQueryContext();
+        String[] ids = departmentIds.split(",");
+        if (ids.length == 0) {
+            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "参数为空");
+        }
+        List<Department> departments = new ArrayList<>();
+        for (String departmentId : ids) {
+            Department department = departmentDAO.findOne(Long.parseLong(departmentId));
+            if(department != null){
+                departments.add(department);
+            }
+        }
+        context.setDepartmentList(departments);
 
+        return context;
+    }
 }

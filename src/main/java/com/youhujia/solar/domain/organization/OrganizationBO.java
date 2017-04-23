@@ -109,4 +109,9 @@ public class OrganizationBO {
 
         return organizationDTOFactory.buildMarkDeleteOrganizationByIdDTO(context);
     }
+
+    public Solar.OrganizationAndDepartmentListDTO findAllOrganizationAndDepartment() {
+        OrgQueryContext context = queryBO.findAllOrganizationAndDepartment();
+        return organizationDTOFactory.buildOrganizationAndDepartmentListDTO(context);
+    }
 }

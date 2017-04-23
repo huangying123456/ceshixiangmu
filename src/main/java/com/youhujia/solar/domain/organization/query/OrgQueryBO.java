@@ -118,4 +118,10 @@ public class OrgQueryBO {
         return queryContext;
     }
 
+    public OrgQueryContext findAllOrganizationAndDepartment() {
+        OrgQueryContext context = new OrgQueryContext();
+        List<Organization> organizationList = organizationDAO.findAll();
+        context.setOrganizationList(organizationList);
+        return context;
+    }
 }

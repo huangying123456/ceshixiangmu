@@ -72,6 +72,16 @@ public class OrganizationController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/organizationsAndDepartments", method = RequestMethod.GET)
+    public Solar.OrganizationAndDepartmentListDTO findAllOrganizationAndDepartment() {
+
+        try {
+            return organizationBO.findAllOrganizationAndDepartment();
+        } catch (Exception e) {
+            return handleException(a -> Solar.OrganizationAndDepartmentListDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
     //----------------- code for improve department zhushou ------------------//
 
     @RequestMapping(value = "/get-by-area/{administrativeDivisionId}", method = RequestMethod.GET)
