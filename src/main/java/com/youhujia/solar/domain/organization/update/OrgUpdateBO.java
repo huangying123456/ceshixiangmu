@@ -38,7 +38,9 @@ public class OrgUpdateBO {
     private Organization toOrganization(Solar.OrganizationUpdateOption option) {
 
         Organization organization = organizationDAO.findOne(option.getId());
-
+        if (organization == null) {
+            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "修改的科室不存在，OrganizationUpdateOption：" + option.getAreaId());
+        }
         if (option.hasName()) {
             organization.setName(option.getName());
         }
@@ -46,7 +48,7 @@ public class OrgUpdateBO {
             organization.setAddress(option.getAddress());
         }
         if (option.hasStatus()) {
-            organization.setStatus((byte) option.getStatus());
+            organization.setStatus(new Long(option.getStatus()).byteValue());
         }
         if (option.hasLat()) {
             organization.setLat(new BigDecimal(option.getLat()));
@@ -56,7 +58,7 @@ public class OrgUpdateBO {
         }
         if (option.hasAreaId()) {
             Area area = areaDao.findOne(option.getAreaId());
-            if (area != null) {
+            if (area == null) {
                 throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "the area was not found in the database ,areaId:" + option.getAreaId());
             }
         }

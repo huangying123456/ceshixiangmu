@@ -17,7 +17,7 @@ public class AreaController extends BaseController {
     @Autowired
     private AreaBO areaBO;
 
-    @RequestMapping(value = "/areas", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public Solar.MapDTO getAreas() {
         try {
             return areaBO.getAreas();

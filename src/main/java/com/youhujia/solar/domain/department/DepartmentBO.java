@@ -52,6 +52,15 @@ public class DepartmentBO {
         return departmentDTO;
     }
 
+    public Solar.DepartmentListDTO getDepartmentListByIds(String ids) {
+
+        DepQueryContext context = depQueryBo.getDepartmentListByIds(ids);
+
+        Solar.DepartmentListDTO departmentListDTO = departmentFactory.buildGetDepartmentListByIdsDTO(context);
+
+        return departmentListDTO;
+    }
+
     public Solar.DepartmentDTO getDepartmentByNo(String departmentNo) {
 
         DepQueryContext context = depQueryBo.getDepartmentByNo(departmentNo);
@@ -59,12 +68,6 @@ public class DepartmentBO {
         Solar.DepartmentDTO departmentDTO = departmentFactory.buildGetDepartmentByNoDTO(context);
 
         return departmentDTO;
-    }
-
-    public Solar.DepartmentListDTO getDepartmentListByIds(String departmentIds) {
-        DepQueryContext context = depQueryBo.getDepartmentListByIds(departmentIds);
-        Solar.DepartmentListDTO departmentListDTO = departmentFactory.toDepartmentListDTO(context.getDepartmentList());
-        return departmentListDTO;
     }
 
     public Solar.DepartmentDTO getGuestDepartmentByHostDepartmentId(Long departmentId) {

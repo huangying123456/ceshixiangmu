@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,12 +40,25 @@ public class DepQueryBO {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！科室id为空或者非法!！");
         }
         Department department = departmentDAO.findOne(departmentId);
-        if (department == null) {
-            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！错误的科室id！");
-        }
+
         context.setDepartment(department);
         return context;
 
+    }
+
+    public DepQueryContext getDepartmentListByIds(String ids) {
+
+        DepQueryContext context = new DepQueryContext();
+
+        if (ids == null) {
+            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "departmentIds 为空");
+        }
+        List<Department> departmentList = departmentDAO.findAll(getListByString(ids));
+        if (departmentList == null || departmentList.size() <= 0) {
+            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！错误的科室id！");
+        }
+        context.setDepartmentList(departmentList);
+        return context;
     }
 
     public DepQueryContext getDepartmentByNo(String departmentNo) {
@@ -73,7 +87,6 @@ public class DepQueryBO {
 
         DepQueryContext context = new DepQueryContext();
 
-        //------------------感觉此处用findOne有点诡异，待确认------
         Department department = departmentDAO.findOne(departmentId);
 
         if (department == null) {
@@ -85,7 +98,6 @@ public class DepQueryBO {
         } else {
             context.setDepartment(departmentDAO.save(depCreateBO.createOrGetGuestDepartment(department)));
         }
-        context.setDepartment(department);
 
         return context;
     }
@@ -125,21 +137,16 @@ public class DepQueryBO {
         return context;
     }
 
-    public DepQueryContext getDepartmentListByIds(String departmentIds) {
-        DepQueryContext context = new DepQueryContext();
-        String[] ids = departmentIds.split(",");
-        if (ids.length == 0) {
-            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "参数为空");
-        }
-        List<Department> departments = new ArrayList<>();
-        for (String departmentId : ids) {
-            Department department = departmentDAO.findOne(Long.parseLong(departmentId));
-            if(department != null){
-                departments.add(department);
-            }
-        }
-        context.setDepartmentList(departments);
+    private List<Long> getListByString(String ids) {
 
-        return context;
+        String[] strings = ids.split(",");
+        List<Long> list = new ArrayList<>();
+        for (String strings1 : strings) {
+            list.add(Long.parseLong(strings1));
+        }
+        return list;
     }
+
+
+
 }
