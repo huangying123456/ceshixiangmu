@@ -97,7 +97,6 @@ public class DepQueryBO {
         } else {
             context.setDepartment(departmentDAO.save(depCreateBO.createOrGetGuestDepartment(department)));
         }
-        context.setDepartment(department);
 
         return context;
     }
