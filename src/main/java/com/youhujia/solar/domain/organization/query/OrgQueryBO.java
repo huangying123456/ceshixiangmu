@@ -2,14 +2,21 @@ package com.youhujia.solar.domain.organization.query;
 
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.solar.SolarOrganizationQueryEnum;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
+import com.youhujia.solar.domain.common.SolarExceptionCodeEnum;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
 import com.youhujia.solar.domain.organization.Organization;
 import com.youhujia.solar.domain.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import java.util.Map;
 
 import java.util.List;
 
@@ -118,10 +125,24 @@ public class OrgQueryBO {
         return queryContext;
     }
 
-    public OrgQueryContext findAllOrganizationAndDepartment() {
-        OrgQueryContext context = new OrgQueryContext();
-        List<Organization> organizationList = organizationDAO.findAll();
-        context.setOrganizationList(organizationList);
+    public OrgQueryContext findAllOrganizationAndDepartment(Map<String,String> map) {
+        OrgQueryContext context = queryContextFactory.buildQueryContext(map);
+        checkParams(context);
+        Pageable pageable = new PageRequest(context.getIndex().intValue(),context.getSize().intValue(), Sort.Direction.DESC,"id");
+        Page<Organization> organizationPage = organizationDAO.queryOrganizations(pageable);
+        context.setOrganizationList(organizationPage.getContent());
+
         return context;
+    }
+
+    private void checkParams(OrgQueryContext context) {
+        if (context.getIndex() == null || context.getIndex() < 0) {
+            throw new YHJException(SolarExceptionCodeEnum.PARAM_ERROR, "Index is required and must >= 0");
+        }
+
+        if (context.getSize() == null || context.getSize() <= 0) {
+            throw new YHJException(SolarExceptionCodeEnum.PARAM_ERROR, "Size is required and must > 0");
+        }
+
     }
 }

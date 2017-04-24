@@ -3,6 +3,7 @@ package com.youhujia.solar.domain.department;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -31,5 +32,9 @@ public interface DepartmentDAO extends JpaRepository<Department, Long> {
     @Modifying
     @Query(value = "from Department d where d.organizationId = ?1 and d.status > ?2")
     List<Department> findByOrganizationIdWithStatus(Long orgId, Byte status);
+
+    @Modifying
+    @Query(value = "select d from Department d where d.guest = false and d.organizationId in :ids")
+    List<Department> queryByOrganizationIds(@Param("ids") List<Long> organizationIds);
 
 }
