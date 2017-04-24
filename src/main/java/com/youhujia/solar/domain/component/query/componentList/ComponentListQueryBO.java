@@ -37,7 +37,7 @@ public class ComponentListQueryBO {
             queryParam.put(HDFragmentsTagQueryEnum.DEPARTMENT_ID.getName(), Long.valueOf(departmentId).toString());
             queryParam.put(HDFragmentsTagQueryEnum.TAG_TYPE.getName(), Long.valueOf(HDFragmentsTagTypeEnum.UI_CONFIG.getType()).toString());
             HDFragments.TagListDTO tagListDTO = hdFragmentsServiceWrap.getTags(queryParam);
-            if(tagListDTO.getData().getTagsList().size() == 0){
+            if (tagListDTO.getData().getTagsList().size() == 0) {
                 continue;
             }
             tagListDTOList.add(tagListDTO);

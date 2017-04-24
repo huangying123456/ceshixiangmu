@@ -94,8 +94,7 @@ if (project.hasProperty("buildPro") && buildPro == 'release') {
 } else {
     println("develop version")
     dependencies {
-        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.0"
-//        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v1.5.14"
+        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "pre-v2.0.0-SNAPSHOT", changing: true
     }
 
     def execute = { cmdString ->
