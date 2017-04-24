@@ -9,10 +9,9 @@ import com.youhujia.solar.domain.organization.query.OrgQueryBO;
 import com.youhujia.solar.domain.organization.query.OrgQueryContext;
 import com.youhujia.solar.domain.organization.update.OrgUpdateBO;
 import com.youhujia.solar.domain.organization.update.OrgUpdateContext;
-import jdk.nashorn.internal.ir.ReturnNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Map;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -98,15 +97,20 @@ public class OrganizationBO {
 
     public Solar.ManagerOrganizationListDTO getAllWithoutDeleteOrgListByAreaId(Long adId, Integer draw, Integer length, Integer start) {
 
-        OrgQueryContext queryContext = queryBO.getAllWithoutDeleteOrgListByAreaId(adId,draw,length,start);
+        OrgQueryContext queryContext = queryBO.getAllWithoutDeleteOrgListByAreaId(adId, draw, length, start);
 
         return organizationDTOFactory.buildGetAllWithoutDeleteOrgListByAreaIdDTO(queryContext);
     }
 
-    public Solar.ManagerOrganizationDTO markDeleteOrganizationById(Long orgId){
+    public Solar.ManagerOrganizationDTO markDeleteOrganizationById(Long orgId) {
 
         OrgDeleteContext context = orgDeleteBO.markDeleteOrganizationById(orgId);
 
         return organizationDTOFactory.buildMarkDeleteOrganizationByIdDTO(context);
+    }
+
+    public Solar.OrganizationAndDepartmentListDTO findAllOrganizationAndDepartment(Map<String, String> map) {
+        OrgQueryContext context = queryBO.findAllOrganizationAndDepartment(map);
+        return organizationDTOFactory.buildOrganizationAndDepartmentListDTO(context);
     }
 }

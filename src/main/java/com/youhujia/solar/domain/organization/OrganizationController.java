@@ -4,6 +4,7 @@ import com.youhujia.halo.common.BaseController;
 import com.youhujia.halo.solar.Solar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -69,6 +70,16 @@ public class OrganizationController extends BaseController {
             return organizationBO.updateOrganization(option);
         } catch (Exception e) {
             return handleException(a -> Solar.OrganizationDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
+    @RequestMapping(value = "/organizations-and-departments", method = RequestMethod.GET)
+    public Solar.OrganizationAndDepartmentListDTO findAllOrganizationAndDepartment(@RequestParam Map<String,String> map) {
+
+        try {
+            return organizationBO.findAllOrganizationAndDepartment(map);
+        } catch (Exception e) {
+            return handleException(a -> Solar.OrganizationAndDepartmentListDTO.newBuilder().setResult(a).build(), e);
         }
     }
 

@@ -18,6 +18,9 @@ public class OrgQueryContext {
     private Integer length;
     private Integer start;
 
+    private Long index;
+    private Long size;
+
     public Organization getOrganization() {
         return organization;
     }
@@ -72,5 +75,21 @@ public class OrgQueryContext {
 
     public void setStart(Integer start) {
         this.start = start;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+    public Long getIndex() {
+        return index;
+    }
+
+    public void setIndex(Long index) {
+        this.index = index;
     }
 }

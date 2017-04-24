@@ -1,5 +1,7 @@
 package com.youhujia.solar.domain.organization;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +25,10 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long> {
     @Modifying
     @Query(value = "from Organization o where o.areaId = ?1 and o.status > ?2")
     List<Organization> findbyAreaIdWithStatus(Long areaId, Byte status);
+
+    String select = "select o from Organization o";
+    String count = "select count(o) from Organization o";
+
+    @Query(value = select, countQuery = count)
+    Page<Organization> queryOrganizations(Pageable pageable);
 }

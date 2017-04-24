@@ -2,20 +2,26 @@ package com.youhujia.solar.domain.organization;
 
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
+import com.youhujia.halo.util.ResponseUtil;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.department.Department;
+import com.youhujia.solar.domain.department.DepartmentDAO;
 import com.youhujia.solar.domain.department.DepartmentDTOFactory;
 import com.youhujia.solar.domain.organization.create.OrgCreateContext;
 import com.youhujia.solar.domain.organization.delete.OrgDeleteContext;
 import com.youhujia.solar.domain.organization.query.OrgQueryContext;
 import com.youhujia.solar.domain.organization.update.OrgUpdateContext;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -28,6 +34,12 @@ public class OrganizationDTOFactory {
 
     @Autowired
     private AreaDAO areaDAO;
+
+    @Autowired
+    private DepartmentDAO departmentDAO;
+
+    @Autowired
+    OrganizationDAO organizationDAO;
 
     public Solar.OrganizationDTO buildCreateDTO(OrgCreateContext context) {
 
@@ -169,7 +181,7 @@ public class OrganizationDTOFactory {
         Solar.OrganizationDTO.Builder organizationDTOBuilder = Solar.OrganizationDTO.newBuilder();
 
         organizationDTOBuilder.setOrganization(buildOrganization(organization))
-            .setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
+                .setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
 
         return organizationDTOBuilder.build();
     }
@@ -193,7 +205,7 @@ public class OrganizationDTOFactory {
         Solar.Organization.Builder builder = Solar.Organization.newBuilder();
 
         builder.setId(organization.getId())
-            .setStatus(organization.getStatus());
+                .setStatus(organization.getStatus());
 
         if (organization.getName() != null) {
             builder.setName(organization.getName());
@@ -213,6 +225,83 @@ public class OrganizationDTOFactory {
         if (organization.getUpdatedAt() != null) {
             builder.setUpdatedAt(organization.getUpdatedAt().getTime());
         }
+        return builder.build();
+    }
+
+    public Solar.OrganizationAndDepartmentListDTO buildOrganizationAndDepartmentListDTO(OrgQueryContext context) {
+
+        Solar.OrganizationAndDepartmentListDTO.Builder builder = Solar.OrganizationAndDepartmentListDTO.newBuilder();
+        if (context.getOrganizationList().size() != 0) {
+            List<Long> organizationIds  = new ArrayList<>();
+            context.getOrganizationList().stream().forEach(organization -> {
+                organizationIds.add(organization.getId());
+            });
+
+            List<Department> departments = departmentDAO.queryByOrganizationIds(organizationIds);
+            Solar.OrganizationOption option = buildSolarOrganizationOption2(departments);
+            builder.addOrganization(option);
+        }
+
+
+        return builder.setResult(ResponseUtil.resultOK()).build();
+    }
+
+    private Solar.OrganizationOption buildSolarOrganizationOption2(List<Department> departments) {
+
+        Solar.OrganizationOption.Builder builder = Solar.OrganizationOption.newBuilder();
+        departments.stream().forEach(department -> {
+            builder.addDepartment(buildSolarDepartmentOption2(department));
+        });
+
+        return builder.build();
+
+    }
+
+    private Solar.DepartmentOption buildSolarDepartmentOption2(Department department) {
+        Solar.DepartmentOption.Builder builder = Solar.DepartmentOption.newBuilder();
+        Organization organization = organizationDAO.findOne(department.getOrganizationId());
+
+        builder.setCreatedAt(department.getCreatedAt().getTime());
+        builder.setUpdatedAt(department.getUpdatedAt().getTime());
+        builder.setOrganizationName(organization.getName());
+        builder.setOrganizationId(organization.getId().longValue());
+        builder.setDepartmentId(department.getId().longValue());
+        builder.setDepartmentName(department.getName());
+        if (StringUtils.isNotBlank(department.getWxSubQRCodeValue())) {
+            builder.setDepartmentWxQrCode(department.getWxSubQRCodeValue());
+        }
+        builder.setIsGuest(department.getGuest());
+        return builder.build();
+    }
+
+    private Solar.OrganizationOption buildSolarOrganizationOption(Organization organization, List<Department> departmentList) {
+
+        Solar.OrganizationOption.Builder builder = Solar.OrganizationOption.newBuilder();
+        builder.setOrganizationId(organization.getId().longValue());
+        builder.setOrganizationName(organization.getName());
+        builder.setUpdatedAt(organization.getUpdatedAt().getTime());
+        builder.setCreatedAt(organization.getCreatedAt().getTime());
+
+        departmentList.stream().forEach(department -> {
+            builder.addDepartment(buildSolarDepartmentOption(organization, department));
+        });
+
+        return builder.build();
+    }
+
+    private Solar.DepartmentOption buildSolarDepartmentOption(Organization organization, Department department) {
+
+        Solar.DepartmentOption.Builder builder = Solar.DepartmentOption.newBuilder();
+        builder.setCreatedAt(department.getCreatedAt().getTime());
+        builder.setUpdatedAt(department.getUpdatedAt().getTime());
+        builder.setOrganizationName(organization.getName());
+        builder.setOrganizationId(organization.getId().longValue());
+        builder.setDepartmentId(department.getId().longValue());
+        builder.setDepartmentName(department.getName());
+        if (StringUtils.isNotBlank(department.getWxSubQRCodeValue())) {
+            builder.setDepartmentWxQrCode(department.getWxSubQRCodeValue());
+        }
+        builder.setIsGuest(department.getGuest());
         return builder.build();
     }
 }

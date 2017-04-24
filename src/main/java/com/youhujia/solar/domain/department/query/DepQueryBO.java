@@ -5,6 +5,7 @@ import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
 import com.youhujia.solar.domain.department.create.DepCreateBO;
+import com.youhujia.solar.domain.department.delete.DepDeleteContext;
 import com.youhujia.solar.domain.organization.Organization;
 import com.youhujia.solar.domain.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,5 +146,7 @@ public class DepQueryBO {
         }
         return list;
     }
+
+
 
 }

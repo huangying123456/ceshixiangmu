@@ -74,6 +74,15 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/wxQrCode", method = RequestMethod.PATCH)
+    public Solar.DepartmentDTO updateDepartmentWxQrCode(@RequestBody Solar.DepartmentOption option) {
+
+        try {
+            return departmentBO.updateDepartmentWxQrCode(option);
+        } catch (Exception e) {
+            return handleException(a -> Solar.DepartmentDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
 
     //---------------- code for improve department zhushou -------------------//
     @RequestMapping(value = "/get-by-org-id/{orgId}", method = RequestMethod.GET)

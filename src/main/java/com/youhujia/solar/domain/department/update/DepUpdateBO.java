@@ -93,4 +93,13 @@ public class DepUpdateBO {
     }
 
 
+    public DepUpdateContext updateDepartmentWxQrCode(Solar.DepartmentOption option) {
+
+        DepUpdateContext context = new DepUpdateContext();
+        Department originDepartment = departmentDAO.findOne(option.getDepartmentId());
+        originDepartment.setWxSubQRCodeValue(option.getDepartmentWxQrCode());
+
+        context.setDepartment(departmentDAO.save(originDepartment));
+        return context;
+    }
 }
