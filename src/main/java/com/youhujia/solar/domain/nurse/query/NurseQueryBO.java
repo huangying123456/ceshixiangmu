@@ -1,5 +1,6 @@
 package com.youhujia.solar.domain.nurse.query;
 
+import com.youhujia.halo.util.ResponseUtil;
 import com.youhujia.halo.yolar.Yolar;
 import com.youhujia.halo.yolar.YolarClientWrap;
 import com.youhujia.halo.yolar.YolarNurseQueryEnum;
@@ -58,6 +59,6 @@ public class NurseQueryBO {
                 }
             });
         }
-        return builder.build();
+        return builder.setResult(ResponseUtil.resultOK()).build();
     }
 }
