@@ -2,7 +2,6 @@ package com.youhujia.solar.domain.organization.query;
 
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
-import com.youhujia.halo.solar.SolarOrganizationQueryEnum;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.common.SolarExceptionCodeEnum;
@@ -16,9 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import java.util.Map;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -125,10 +124,10 @@ public class OrgQueryBO {
         return queryContext;
     }
 
-    public OrgQueryContext findAllOrganizationAndDepartment(Map<String,String> map) {
+    public OrgQueryContext findAllOrganizationAndDepartment(Map<String, String> map) {
         OrgQueryContext context = queryContextFactory.buildQueryContext(map);
         checkParams(context);
-        Pageable pageable = new PageRequest(context.getIndex().intValue(),context.getSize().intValue(), Sort.Direction.DESC,"id");
+        Pageable pageable = new PageRequest(context.getIndex().intValue(), context.getSize().intValue(), Sort.Direction.DESC, "id");
         Page<Organization> organizationPage = organizationDAO.queryOrganizations(pageable);
         context.setOrganizationList(organizationPage.getContent());
 
