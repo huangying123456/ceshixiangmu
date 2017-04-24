@@ -8,12 +8,11 @@ repositories {
 }
 
 
-if (project.hasProperty("buildPro") && buildPro=='release') {
+if (project.hasProperty("buildPro") && buildPro == 'release') {
     repositories {
         maven { url "http://maven.zhushou.dev.youhujia.com/nexus/content/repositories/releases/" }
     }
-}
-else {
+} else {
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
         resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
@@ -79,7 +78,7 @@ dependencies {
     testCompile group: "org.springframework.boot", name: "spring-boot-starter-test", version: "$springBootVersion"
 }
 
-if (project.hasProperty("buildPro") && buildPro=='release') {
+if (project.hasProperty("buildPro") && buildPro == 'release') {
     println("release version")
     dependencies {
         compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v1.5.8"
@@ -92,11 +91,12 @@ if (project.hasProperty("buildPro") && buildPro=='release') {
             configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
         }
     }
-}
-else {
+} else {
     println("develop version")
     dependencies {
-        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.1"
+//        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.1"
+        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "pre-v2.0.0-SNAPSHOT", changing: true
+
     }
 }
 
