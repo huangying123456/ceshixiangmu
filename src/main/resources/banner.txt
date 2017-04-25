@@ -1,31 +1,31 @@
-${AnsiColor.GREEN}
-                  _.--._
-        .-"|~~"-.  ../" __.-`\boo..
-       /.  |    /\dHHb-" {*} _\.-'Hboo._
-      |  `.|  ,'  |HHHb*_-""`oHb.?HHHHHHbo.
-      |_.-' ,'.--.|HP_r"  | dP ?I_HHHHHHHHHb.
-       \_.-' f `./^'  |@_/ `=' dR.`^HHHHHHHHHb.
-     ,dHPo.__|.-'    ;-"--`-  d','    `?HHHHHHHb.
-    dHHHHHHP' \\[]==--\`--.'   /.        `?HHHHHHb
-   dHHHHHHP   _`;,    r`;.,-;./`-,__,      ?HHHHHHb
-  |HHHHHH|   |-//|    |_.'`._||      \      |HHHHHH|
- |HHHHHH|    `.;-(,.   ,'  ,' |       |      |HHHHHH|
- |HHHHHH|       `-/  )-/`.,'   |   /|  |     |HHHHHH|
-|HHHHHH|          `./-/  |*}   .\ / /  |      |HHHHHH|
-|HHHHHH|            /*}/ ^ ""{*}|  |  |       |HHHHHH|
-|HHHHHH|          ,' ^|       ^ |   \  \      |HHHHHH|
-|HHHHHH|        ,'*}  | {*}  {*} \  |..|      |HHHHHH|
- |HHHHHH|       `r;  /.  ^   _;---; `.  \    |HHHHHH|
- |HHHHHH|        \ \|{*}_,--'    /    /"'`-._|HHHHHH|
-  |HHHHHH|        \ V\,'        |    ( ,'| |||HHHHH|
-   ?HHHHHHb        | _          /     \\ `|;ddHHHHP
-    ?HHHHHHb.       \  "-r..    |       |  LdHHHHP
-     `?HHHHHHbo.    |   |      /      ,o(  fdHHP'
-       `?HHHHHH|["r_\__.|     |   _.odHH\ jdHP'
-         `?HHHH`||__   ``    ,;oodHHHHHPj \P'
-           `^HHH|LL|HHoo;-r-'HHHHHHHHHHPf /
-              `^|  |HHHH\ |HHHHHHHHHHH^'( (
-                |__|P--"; |HHHHHH^'      \|
-                (    `-'_||""            ||
-                `--..--'`""              `'
-${AnsiColor.GREEN}
+${AnsiColor.YELLOW}
+                        _
+                    ,.-" "-.,
+                   /   ===   \
+                  /  =======  \
+               __|  (o)   (0)  |__
+              / _|    .---.    |_ \
+             | /.----/ O O \----.\ |
+              \/     |     |     \/
+              |                   |
+              |                   |
+              |                   |
+              _\   -.,_____,.-   /_
+          ,.-"  "-.,_________,.-"  "-.,
+         /          |       |          \
+        |           l.     .l           |
+        |            |     |            |
+        l.           |     |           .l
+         |           l.   .l           | \,
+         l.           |   |           .l   \,
+          |           |   |           |      \,
+          l.          |   |          .l        |
+           |          |   |          |         |
+           |          |---|          |         |
+           |          |   |          |         |
+           /"-.,__,.-"\   /"-.,__,.-"\"-.,_,.-"\
+          |            \ /            |         |
+          |             |             |         |
+           \__|__|__|__/ \__|__|__|__/ \_|__|__/ S
+
+${AnsiColor.YELLOW}

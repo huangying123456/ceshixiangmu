@@ -17,6 +17,11 @@ public class AreaController extends BaseController {
     @Autowired
     private AreaBO areaBO;
 
+    /**
+     * 获取地区信息
+     *
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Solar.MapDTO getAreas() {
         try {

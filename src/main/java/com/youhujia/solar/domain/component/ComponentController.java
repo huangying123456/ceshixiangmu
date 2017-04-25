@@ -17,6 +17,12 @@ public class ComponentController extends BaseController {
     @Autowired
     ComponentBO componentBO;
 
+    /**
+     * 根据科室id批量获取科室组件列表
+     *
+     * @param ids(由科室id组成的字符串，如departmentId=1,2,3)
+     * @return
+     */
     @RequestMapping("/component")
     public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(@RequestParam("departmentIds") String ids) {
 
@@ -27,6 +33,12 @@ public class ComponentController extends BaseController {
         }
     }
 
+    /**
+     * 获取疾病组件
+     *
+     * @param componentId
+     * @return
+     */
     @RequestMapping("/{departmentId}/disease-component/{componentId}")
     public Solar.ArticleDiseaseGroupDTO getDiseaseComponentById(@PathVariable("componentId") Long componentId) {
 
@@ -37,6 +49,12 @@ public class ComponentController extends BaseController {
         }
     }
 
+    /**
+     * 获取自测组件
+     *
+     * @param componentId
+     * @return
+     */
     @RequestMapping("/{departmentId}/self-evaluation-component/{componentId}")
     public Solar.SelfEvaluationComponentDTO getSelfEvaluationComponentById(@PathVariable("componentId") Long componentId) {
 
@@ -47,6 +65,12 @@ public class ComponentController extends BaseController {
         }
     }
 
+    /**
+     * 获取服务组件
+     *
+     * @param componentId
+     * @return
+     */
     @RequestMapping("/{departmentId}/serviceItem/{componentId}")
     public Solar.ServiceItemComponentDTO getServiceItemComponentById(@PathVariable("componentId") Long componentId) {
 
@@ -57,6 +81,12 @@ public class ComponentController extends BaseController {
         }
     }
 
+    /**
+     * 获取推荐组件
+     *
+     * @param componentId
+     * @return
+     */
     @RequestMapping("/{departmentId}/recom/{componentId}")
     public Solar.RecomComponentDTO getRecomComponentById(@PathVariable("componentId") Long componentId) {
 
@@ -67,6 +97,13 @@ public class ComponentController extends BaseController {
         }
     }
 
+    /**
+     * 科室管理员申请开通科室后台管理权限
+     *
+     * @param departmentId
+     * @param option
+     * @return
+     */
     @RequestMapping("/{departmentId}/request-management-right")
     public COMMON.SimpleResponse requestManagementRight(@PathVariable("departmentId") Long departmentId, @RequestBody Solar.RequestManagementRightOption option) {
 

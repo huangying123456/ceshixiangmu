@@ -19,6 +19,12 @@ public class NurseController extends BaseController {
     @Autowired
     NurseBO nurseBO;
 
+    /**
+     * 获取科室下的当前活动护士列表
+     *
+     * @param departmentId
+     * @return
+     */
     @RequestMapping(value = "/{departmentId}/host-guest/nurses", method = RequestMethod.GET)
     public Yolar.NurseListDTO findActiveNursesInHostAndGuestDepartmentByHostDepartmentId(@PathVariable("departmentId") Long departmentId) {
         try {
