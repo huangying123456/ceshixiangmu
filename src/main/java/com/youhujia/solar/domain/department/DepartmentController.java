@@ -15,6 +15,12 @@ public class DepartmentController extends BaseController {
     @Autowired
     private DepartmentBO departmentBO;
 
+    /**
+     * 创建科室
+     *
+     * @param option
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Solar.DepartmentDTO createDepartment(@RequestBody Solar.DepartmentCreateOption option) {
 
@@ -25,6 +31,12 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    /**
+     * 根据科室id获取科室信息
+     *
+     * @param departmentId
+     * @return
+     */
     @RequestMapping(value = "/{departmentId}", method = RequestMethod.GET)
     public Solar.DepartmentDTO getDepartmentById(@PathVariable("departmentId") Long departmentId) {
 
@@ -35,6 +47,12 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    /**
+     * 根据科室id批量获取科室信息
+     *
+     * @param ids
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Solar.DepartmentListDTO getDepartmentListByIds(@RequestParam("departmentIds") String ids) {
 
@@ -45,6 +63,12 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    /**
+     * 根据科室编号获取科室信息
+     *
+     * @param departmentNo
+     * @return
+     */
     @RequestMapping(value = "/no/{departmentNo}", method = RequestMethod.GET)
     public Solar.DepartmentDTO getDepartmentByNo(@PathVariable("departmentNo") String departmentNo) {
         try {
@@ -54,6 +78,12 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    /**
+     * 根据中科室id获取访客科室
+     *
+     * @param departmentId
+     * @return
+     */
     @RequestMapping(value = "/{departmentId}/guest", method = RequestMethod.GET)
     public Solar.DepartmentDTO getGuestDepartmentByHostDepartmentId(@PathVariable("departmentId") Long departmentId) {
 
@@ -64,6 +94,12 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    /**
+     * 更新科室信息
+     *
+     * @param department
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.PATCH)
     public Solar.DepartmentDTO updateDepartment(@RequestBody Solar.DepartmentUpdateOption department) {
 
@@ -74,6 +110,12 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    /**
+     * 更新科室微信二维码
+     *
+     * @param option
+     * @return
+     */
     @RequestMapping(value = "/wxQrCode", method = RequestMethod.PATCH)
     public Solar.DepartmentDTO updateDepartmentWxQrCode(@RequestBody Solar.DepartmentOption option) {
 
@@ -85,6 +127,13 @@ public class DepartmentController extends BaseController {
     }
 
     //---------------- code for improve department zhushou -------------------//
+
+    /**
+     * 根据机构id获取科室（助手端）
+     *
+     * @param orgId
+     * @return
+     */
     @RequestMapping(value = "/get-by-org-id/{orgId}", method = RequestMethod.GET)
     public Solar.LBSDepartmentDTO getDepartmentByOrgIdForZhuShou(@PathVariable("orgId") Long orgId) {
 
@@ -96,6 +145,13 @@ public class DepartmentController extends BaseController {
     }
 
     //---------------- code for improve department admin -------------------//
+
+    /**
+     * 管理员根据机构id获取科室
+     *
+     * @param orgId
+     * @return
+     */
     @RequestMapping(value = "/manager-department", method = RequestMethod.GET)
     public Solar.ManagerDepartmentListDTO getAllDepartmentsWithoutDeleteByOrganizationId(@RequestParam("orgId") Long orgId) {
 
@@ -106,6 +162,12 @@ public class DepartmentController extends BaseController {
         }
     }
 
+    /**
+     * 管理员删除科室
+     *
+     * @param departmentId
+     * @return
+     */
     @RequestMapping(value = "/manager-department/{departmentId}", method = RequestMethod.DELETE)
     public Solar.ManagerDepartmentDTO managerDeleteDepartment(@PathVariable("departmentId") Long departmentId) {
 
