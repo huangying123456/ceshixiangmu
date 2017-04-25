@@ -1,4 +1,4 @@
-${AnsiColor.BLACK}
+${AnsiColor.YELLOW}
                         _
                     ,.-" "-.,
                    /   ===   \
@@ -28,4 +28,4 @@ ${AnsiColor.BLACK}
           |             |             |         |
            \__|__|__|__/ \__|__|__|__/ \_|__|__/ S
 
-${AnsiColor.BLACK}
+${AnsiColor.YELLOW}
