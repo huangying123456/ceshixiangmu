@@ -70,6 +70,7 @@ public class ComponentDTOFactory {
                             }
                         });
                     }
+                    componentListData.setDepartmentId(tagListDTO.getData().getTags(0).getDptId());
                     componentListData.addComponent(componentBuild.build());
                 });
                 componentListDataListDTO.addComponentListData(componentListData.build());
