@@ -1,7 +1,9 @@
 package com.youhujia.solar.domain.department;
 
+import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.halo.yolar.Yolar;
+import com.youhujia.solar.domain.component.query.requestManagerRight.RequestBO;
 import com.youhujia.solar.domain.department.create.DepCreateBO;
 import com.youhujia.solar.domain.department.create.DepCreateContext;
 import com.youhujia.solar.domain.department.delete.DepDeleteBO;
@@ -30,6 +32,9 @@ public class DepartmentBO {
 
     @Autowired
     private DepDeleteBO depDeleteBO;
+
+    @Autowired
+    private RequestBO requestBO;
 
     @Autowired
     private DepartmentDTOFactory departmentFactory;
@@ -117,4 +122,9 @@ public class DepartmentBO {
         DepUpdateContext context = depUpdateBO.updateDepartmentWxQrCode(option);
         return departmentFactory.buildUpdateDepartmentDTO(context);
     }
+
+    public COMMON.SimpleResponse requestManagementRight(Long departmentId, Solar.RequestManagementRightOption option) {
+        return requestBO.requestManagementRight(departmentId, option);
+    }
+
 }
