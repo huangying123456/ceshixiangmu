@@ -50,23 +50,23 @@ public class ComponentDTOFactory {
                             HDFragments.TagDTO tagDTO = hdFragmentsServiceWrap.getTagById(Long.parseLong(jsonObject.get("categoryId").toString()));
                             if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName())) {
                                 componentBuild.setType(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName());
-                                componentBuild.setArticleDiseaseGroup(transform2ArticleGroupComponent2(tag, jsonObject));
+                                componentBuild.setArticleDiseaseGroup(transform2ArticleGroupComponent(tag, jsonObject));
                             }
                             if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.DIRECT.getName())) {
                                 componentBuild.setType(ComponentTypeEnum.DIRECT.getName());
-                                componentBuild.setDirect(transform2DirectComponent2(tag, jsonObject));
+                                componentBuild.setDirect(transform2DirectComponent(tag, jsonObject));
                             }
                             if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.SELF_EVALUATION.getName())) {
                                 componentBuild.setType(ComponentTypeEnum.SELF_EVALUATION.getName());
-                                componentBuild.setSelfEvaluation(transform2SelfEvaluationComponent2(tag, jsonObject));
+                                componentBuild.setSelfEvaluation(transform2SelfEvaluationComponent(tag, jsonObject));
                             }
                             if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.SERVICE_ITEM.getName())) {
                                 componentBuild.setType(ComponentTypeEnum.SERVICE_ITEM.getName());
-                                componentBuild.setServiceItem(transform2ServiceItem2(tag, jsonObject));
+                                componentBuild.setServiceItem(transform2ServiceItem(tag, jsonObject));
                             }
                             if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.Recom.getName())) {
                                 componentBuild.setType(ComponentTypeEnum.Recom.getName());
-                                componentBuild.setRecom(transform2RecomComponent2(tag, jsonObject));
+                                componentBuild.setRecom(transform2RecomComponent(tag, jsonObject));
                             }
                         });
                     }
@@ -79,7 +79,7 @@ public class ComponentDTOFactory {
         return componentListDataListDTO.setResult(ResponseUtil.resultOK()).build();
     }
 
-    private Solar.Recom transform2RecomComponent2(HDFragments.Tag tag, JSONObject jsonObject) {
+    private Solar.Recom transform2RecomComponent(HDFragments.Tag tag, JSONObject jsonObject) {
         Solar.Recom.Builder recomBuild = Solar.Recom.newBuilder();
 
         if (tag.hasName()) {
@@ -106,7 +106,7 @@ public class ComponentDTOFactory {
         return recomBuild.build();
     }
 
-    private Solar.ServiceItem transform2ServiceItem2(HDFragments.Tag tag, JSONObject jsonObject) {
+    private Solar.ServiceItem transform2ServiceItem(HDFragments.Tag tag, JSONObject jsonObject) {
         Solar.ServiceItem.Builder serviceItem = Solar.ServiceItem.newBuilder();
 
         if (tag.hasName()) {
@@ -133,7 +133,7 @@ public class ComponentDTOFactory {
         return serviceItem.build();
     }
 
-    private Solar.SelfEvaluation transform2SelfEvaluationComponent2(HDFragments.Tag tag, JSONObject jsonObject) {
+    private Solar.SelfEvaluation transform2SelfEvaluationComponent(HDFragments.Tag tag, JSONObject jsonObject) {
 
         Solar.SelfEvaluation.Builder selfEvaluationBuild = Solar.SelfEvaluation.newBuilder();
 
@@ -161,7 +161,7 @@ public class ComponentDTOFactory {
         return selfEvaluationBuild.build();
     }
 
-    private Solar.Direct transform2DirectComponent2(HDFragments.Tag tag, JSONObject jsonObject) {
+    private Solar.Direct transform2DirectComponent(HDFragments.Tag tag, JSONObject jsonObject) {
 
         Solar.Direct.Builder directBuild = Solar.Direct.newBuilder();
 
@@ -185,7 +185,7 @@ public class ComponentDTOFactory {
         return directBuild.build();
     }
 
-    private Solar.ArticleDiseaseGroup transform2ArticleGroupComponent2(HDFragments.Tag tag, JSONObject jsonObject) {
+    private Solar.ArticleDiseaseGroup transform2ArticleGroupComponent(HDFragments.Tag tag, JSONObject jsonObject) {
 
         Solar.ArticleDiseaseGroup.Builder articleDiseaseGroupBuild = Solar.ArticleDiseaseGroup.newBuilder();
 
@@ -227,7 +227,7 @@ public class ComponentDTOFactory {
                 if (!tag.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName())) {
                     throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
                 }
-                articleDiseaseGroupDTOBuild.setArticleDiseaseGroup(transform2ArticleGroupComponent2(tagDTO.getData().getTag(), jsonObject));
+                articleDiseaseGroupDTOBuild.setArticleDiseaseGroup(transform2ArticleGroupComponent(tagDTO.getData().getTag(), jsonObject));
             });
         }
         return articleDiseaseGroupDTOBuild.setResult(ResponseUtil.resultOK()).build();
@@ -248,7 +248,7 @@ public class ComponentDTOFactory {
                 if (!tag.getData().getTag().getName().equals(ComponentTypeEnum.SELF_EVALUATION.getName())) {
                     throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
                 }
-                selfEvaluationComponentBuild.setSelfEvaluation(transform2SelfEvaluationComponent2(tagDTO.getData().getTag(), jsonObject));
+                selfEvaluationComponentBuild.setSelfEvaluation(transform2SelfEvaluationComponent(tagDTO.getData().getTag(), jsonObject));
             });
         }
         return selfEvaluationComponentBuild.setResult(ResponseUtil.resultOK()).build();
@@ -267,7 +267,7 @@ public class ComponentDTOFactory {
                 if (!tag.getData().getTag().getName().equals(ComponentTypeEnum.SERVICE_ITEM.getName())) {
                     throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
                 }
-                serviceItemBuild.setServiceItem(transform2ServiceItem2(tagDTO.getData().getTag(), jsonObject));
+                serviceItemBuild.setServiceItem(transform2ServiceItem(tagDTO.getData().getTag(), jsonObject));
             });
         }
         return serviceItemBuild.setResult(ResponseUtil.resultOK()).build();
@@ -287,7 +287,7 @@ public class ComponentDTOFactory {
                 if (!tag.getData().getTag().getName().equals(ComponentTypeEnum.Recom.getName())) {
                     throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
                 }
-                recomBuild.setRecom(transform2RecomComponent2(tagDTO.getData().getTag(), jsonObject));
+                recomBuild.setRecom(transform2RecomComponent(tagDTO.getData().getTag(), jsonObject));
             });
         }
         return recomBuild.setResult(ResponseUtil.resultOK()).build();

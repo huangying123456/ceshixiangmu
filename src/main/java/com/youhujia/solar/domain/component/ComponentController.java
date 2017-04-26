@@ -97,21 +97,4 @@ public class ComponentController extends BaseController {
         }
     }
 
-    /**
-     * 科室管理员申请开通科室后台管理权限
-     *
-     * @param departmentId
-     * @param option
-     * @return
-     */
-    @RequestMapping("/{departmentId}/request-management-right")
-    public COMMON.SimpleResponse requestManagementRight(@PathVariable("departmentId") Long departmentId, @RequestBody Solar.RequestManagementRightOption option) {
-
-        try {
-            return componentBO.requestManagementRight(departmentId, option);
-        } catch (Exception e) {
-            return handleException(a -> COMMON.SimpleResponse.newBuilder().setResult(a).build(), e);
-        }
-    }
-
 }

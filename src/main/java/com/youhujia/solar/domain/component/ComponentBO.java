@@ -33,8 +33,6 @@ public class ComponentBO {
     @Autowired
     RecomComponentQueryBO recomComponentQueryBO;
     @Autowired
-    RequestBO requestBO;
-    @Autowired
     ComponentDTOFactory componentDTOFactory;
 
     public Solar.ComponentListDataListDTO batchComponentListByDepartmentIds(String ids) {
@@ -62,7 +60,4 @@ public class ComponentBO {
         return componentDTOFactory.buildRecomComponentDTO(context);
     }
 
-    public COMMON.SimpleResponse requestManagementRight(Long departmentId, Solar.RequestManagementRightOption option) {
-        return requestBO.requestManagementRight(departmentId, option);
-    }
 }

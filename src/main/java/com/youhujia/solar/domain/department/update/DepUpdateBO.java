@@ -11,6 +11,8 @@ import com.youhujia.solar.domain.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -89,6 +91,8 @@ public class DepUpdateBO {
         if (option.hasMayContact()) {
             department.setMayContact(option.getMayContact());
         }
+
+        department.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         return department;
     }
 

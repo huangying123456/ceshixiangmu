@@ -1,6 +1,7 @@
 package com.youhujia.solar.domain.department;
 
 import com.youhujia.halo.common.BaseController;
+import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -123,6 +124,23 @@ public class DepartmentController extends BaseController {
             return departmentBO.updateDepartmentWxQrCode(option);
         } catch (Exception e) {
             return handleException(a -> Solar.DepartmentDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
+    /**
+     * 科室管理员申请开通科室后台管理权限
+     *
+     * @param departmentId
+     * @param option
+     * @return
+     */
+    @RequestMapping("/{departmentId}/request-management-right")
+    public COMMON.SimpleResponse requestManagementRight(@PathVariable("departmentId") Long departmentId, @RequestBody Solar.RequestManagementRightOption option) {
+
+        try {
+            return departmentBO.requestManagementRight(departmentId, option);
+        } catch (Exception e) {
+            return handleException(a -> COMMON.SimpleResponse.newBuilder().setResult(a).build(), e);
         }
     }
 
