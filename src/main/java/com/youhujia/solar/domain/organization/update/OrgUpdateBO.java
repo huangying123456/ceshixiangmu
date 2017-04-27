@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -72,6 +73,7 @@ public class OrgUpdateBO {
             organization.setImgUrl(option.getImgUrl());
         }
 
+        organization.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         return organization;
     }
 }

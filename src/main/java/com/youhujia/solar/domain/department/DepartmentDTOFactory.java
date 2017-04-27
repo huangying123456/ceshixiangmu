@@ -165,9 +165,11 @@ public class DepartmentDTOFactory {
             .setName(department.getName())
             .setOrganizationId(department.getOrganizationId())
             .setOrganizationName(getOrganization(department.getOrganizationId()).getName())
-            .setNumber(department.getNumber())
             .setCreatedAt(department.getCreatedAt().getTime())
             .setUpdatedAt(department.getUpdatedAt().getTime());
+        if (department.getNumber() != null) {
+            builder.setNumber(department.getNumber());
+        }
         if (department.getAuthCode() != null) {
             builder.setAuthCode(department.getAuthCode());
         }
