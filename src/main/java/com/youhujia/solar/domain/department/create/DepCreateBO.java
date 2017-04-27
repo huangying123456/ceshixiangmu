@@ -123,6 +123,8 @@ public class DepCreateBO {
             guestDepartment.setHostId(department.getId());
             guestDepartment.setName(department.getName());
             guestDepartment.setStatus(department.getStatus());
+            guestDepartment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            guestDepartment.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
             if(department.getNumber() != null){
                 guestDepartment.setNumber(department.getNumber());
