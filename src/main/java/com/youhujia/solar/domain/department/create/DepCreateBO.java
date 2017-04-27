@@ -122,12 +122,25 @@ public class DepCreateBO {
             guestDepartment.setGuest(true);
             guestDepartment.setHostId(department.getId());
             guestDepartment.setName(department.getName());
-            guestDepartment.setNumber(department.getNumber());
-            guestDepartment.setAuthCode(department.getAuthCode());
             guestDepartment.setStatus(department.getStatus());
-            guestDepartment.setWxSubQRCodeValue(department.getWxSubQRCodeValue());
-            guestDepartment.setImgUrl(department.getImgUrl());
-            guestDepartment.setMayContact(department.getMayContact());
+            guestDepartment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            guestDepartment.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+
+            if(department.getNumber() != null){
+                guestDepartment.setNumber(department.getNumber());
+            }
+            if(department.getAuthCode() != null){
+                guestDepartment.setAuthCode(department.getAuthCode());
+            }
+            if(department.getMayContact() != null){
+                guestDepartment.setMayContact(department.getMayContact());
+            }
+            if(department.getWxSubQRCodeValue() != null){
+                guestDepartment.setWxSubQRCodeValue(department.getWxSubQRCodeValue());
+            }
+            if(department.getImgUrl() != null){
+                guestDepartment.setImgUrl(department.getImgUrl());
+            }
             return departmentDAO.save(guestDepartment);
         }
     }
