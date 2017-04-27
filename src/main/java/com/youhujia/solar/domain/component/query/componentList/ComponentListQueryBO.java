@@ -44,8 +44,12 @@ public class ComponentListQueryBO {
             HDFragments.TagListDTO tagListDTO = hdFragmentsServiceWrap.getTags(queryParam);
 
             if (tagListDTO.getData().getTagsList().size() == 0) {
-                Department department = departmentDAO.findOne(Long.parseLong(departmentDAO.findOne(Long.parseLong(departmentId)).getClassificationType()));
-                queryParam.put(HDFragmentsTagQueryEnum.DEPARTMENT_ID.getName(), Long.valueOf(department.getId()).toString());
+                Department realDepartment = departmentDAO.findOne(Long.parseLong(departmentId));
+                if(realDepartment.getClassificationType() == null){
+                    continue;
+                }
+                Department temPlateDepartment = departmentDAO.findOne(Long.parseLong(realDepartment.getClassificationType()));
+                queryParam.put(HDFragmentsTagQueryEnum.DEPARTMENT_ID.getName(), Long.valueOf(temPlateDepartment.getId()).toString());
                 HDFragments.TagListDTO temPlateTagListDTO = hdFragmentsServiceWrap.getTags(queryParam);
                 tagListDTOList.add(temPlateTagListDTO);
                 continue;
