@@ -45,7 +45,7 @@ public class DepCreateBO {
 
     private void checkCreateOption(Solar.DepartmentCreateOption option) {
         if (!option.hasOrganizationId()) {
-            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "科室id为空");
+            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "医院id为空");
         } else {
             Organization organization = organizationDAO.findOne(option.getOrganizationId());
             if (organization == null) {
