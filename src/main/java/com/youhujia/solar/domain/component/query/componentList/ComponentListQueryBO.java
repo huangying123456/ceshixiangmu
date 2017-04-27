@@ -6,6 +6,8 @@ import com.youhujia.halo.hdfragments.HDFragments;
 import com.youhujia.halo.hdfragments.HDFragmentsServiceWrap;
 import com.youhujia.halo.hdfragments.HDFragmentsTagQueryEnum;
 import com.youhujia.halo.hdfragments.HDFragmentsTagTypeEnum;
+import com.youhujia.solar.domain.department.Department;
+import com.youhujia.solar.domain.department.DepartmentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +26,9 @@ public class ComponentListQueryBO {
     @Autowired
     HDFragmentsServiceWrap hdFragmentsServiceWrap;
 
+    @Autowired
+    DepartmentDAO departmentDAO;
+
     public ComponentListQueryContext batchComponentListByDepartmentIds(String ids) {
         String[] str = ids.split(",");
 
@@ -37,7 +42,12 @@ public class ComponentListQueryBO {
             queryParam.put(HDFragmentsTagQueryEnum.DEPARTMENT_ID.getName(), Long.valueOf(departmentId).toString());
             queryParam.put(HDFragmentsTagQueryEnum.TAG_TYPE.getName(), Long.valueOf(HDFragmentsTagTypeEnum.UI_CONFIG.getType()).toString());
             HDFragments.TagListDTO tagListDTO = hdFragmentsServiceWrap.getTags(queryParam);
+
             if (tagListDTO.getData().getTagsList().size() == 0) {
+                Department department = departmentDAO.findOne(Long.parseLong(departmentDAO.findOne(Long.parseLong(departmentId)).getClassificationType()));
+                queryParam.put(HDFragmentsTagQueryEnum.DEPARTMENT_ID.getName(), Long.valueOf(department.getId()).toString());
+                HDFragments.TagListDTO temPlateTagListDTO = hdFragmentsServiceWrap.getTags(queryParam);
+                tagListDTOList.add(temPlateTagListDTO);
                 continue;
             }
             tagListDTOList.add(tagListDTO);
