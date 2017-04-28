@@ -1,6 +1,5 @@
 package com.youhujia.solar.domain.component;
 
-import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.component.query.articleDisease.ArticleDiseaseComponentQueryBO;
 import com.youhujia.solar.domain.component.query.articleDisease.ArticleDiseaseComponentQueryContext;
@@ -8,7 +7,6 @@ import com.youhujia.solar.domain.component.query.componentList.ComponentListQuer
 import com.youhujia.solar.domain.component.query.componentList.ComponentListQueryContext;
 import com.youhujia.solar.domain.component.query.recommend.RecomComponentQueryBO;
 import com.youhujia.solar.domain.component.query.recommend.RecomComponentQueryContext;
-import com.youhujia.solar.domain.component.query.requestManagerRight.RequestBO;
 import com.youhujia.solar.domain.component.query.selfEvaluation.SelfEvaluationComponentQueryBO;
 import com.youhujia.solar.domain.component.query.selfEvaluation.SelfEvaluationComponentQueryContext;
 import com.youhujia.solar.domain.component.query.serviceItem.ServiceItemComponentQueryBO;

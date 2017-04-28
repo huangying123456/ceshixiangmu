@@ -1,10 +1,12 @@
 package com.youhujia.solar.domain.component;
 
 import com.youhujia.halo.common.BaseController;
-import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by ljm on 2017/4/17.

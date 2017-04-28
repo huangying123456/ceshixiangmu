@@ -4,7 +4,6 @@ import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.hdfragments.HDFragments;
 import com.youhujia.halo.hdfragments.HDFragmentsServiceWrap;
-import com.youhujia.halo.solar.ComponentTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
