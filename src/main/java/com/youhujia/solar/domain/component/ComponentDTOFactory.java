@@ -48,9 +48,9 @@ public class ComponentDTOFactory {
                         tagPropertiesDTO.getData().getPropertiesList().stream().forEach(tagProperty -> {
                             JSONObject jsonObject = JSONObject.parseObject(tagProperty.getValue());
                             HDFragments.TagDTO tagDTO = hdFragmentsServiceWrap.getTagById(Long.parseLong(jsonObject.get("categoryId").toString()));
-                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName())) {
-                                componentBuild.setType(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName());
-                                componentBuild.setArticleDiseaseGroup(transform2ArticleGroupComponent(tag, jsonObject));
+                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_GROUP.getName())) {
+                                componentBuild.setType(ComponentTypeEnum.ARTICLE_GROUP.getName());
+                                componentBuild.setArticleGroup(transform2ArticleGroupComponent(tag, jsonObject));
                             }
                             if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.DIRECT.getName())) {
                                 componentBuild.setType(ComponentTypeEnum.DIRECT.getName());
@@ -185,9 +185,9 @@ public class ComponentDTOFactory {
         return directBuild.build();
     }
 
-    private Solar.ArticleDiseaseGroup transform2ArticleGroupComponent(HDFragments.Tag tag, JSONObject jsonObject) {
+    private Solar.ArticleGroup transform2ArticleGroupComponent(HDFragments.Tag tag, JSONObject jsonObject) {
 
-        Solar.ArticleDiseaseGroup.Builder articleDiseaseGroupBuild = Solar.ArticleDiseaseGroup.newBuilder();
+        Solar.ArticleGroup.Builder articleDiseaseGroupBuild = Solar.ArticleGroup.newBuilder();
 
         if (tag.hasName()) {
             articleDiseaseGroupBuild.setTitle(tag.getName());
@@ -213,10 +213,10 @@ public class ComponentDTOFactory {
         return articleDiseaseGroupBuild.build();
     }
 
-    public Solar.ArticleDiseaseGroupDTO buildArticleDiseaseGroupDTO(ArticleDiseaseComponentQueryContext context) {
+    public Solar.ArticleGroupDTO buildArticleDiseaseGroupDTO(ArticleDiseaseComponentQueryContext context) {
 
         HDFragments.TagDTO tagDTO = context.getTagDTO();
-        Solar.ArticleDiseaseGroupDTO.Builder articleDiseaseGroupDTOBuild = Solar.ArticleDiseaseGroupDTO.newBuilder();
+        Solar.ArticleGroupDTO.Builder articleDiseaseGroupDTOBuild = Solar.ArticleGroupDTO.newBuilder();
 
         HDFragments.TagPropertiesDTO tagPropertiesDTO = getTagPropertiesByTagId(tagDTO.getData().getTag().getId());
 
@@ -224,10 +224,10 @@ public class ComponentDTOFactory {
             tagPropertiesDTO.getData().getPropertiesList().stream().forEach(tagProperty -> {
                 JSONObject jsonObject = JSONObject.parseObject(tagProperty.getValue());
                 HDFragments.TagDTO tag = hdFragmentsServiceWrap.getTagById(Long.parseLong(jsonObject.get("categoryId").toString()));
-                if (!tag.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_DISEASE_GROUP.getName())) {
+                if (!tag.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_GROUP.getName())) {
                     throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
                 }
-                articleDiseaseGroupDTOBuild.setArticleDiseaseGroup(transform2ArticleGroupComponent(tagDTO.getData().getTag(), jsonObject));
+                articleDiseaseGroupDTOBuild.setArticleGroup(transform2ArticleGroupComponent(tagDTO.getData().getTag(), jsonObject));
             });
         }
         return articleDiseaseGroupDTOBuild.setResult(ResponseUtil.resultOK()).build();

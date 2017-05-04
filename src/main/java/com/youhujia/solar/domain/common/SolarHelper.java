@@ -25,8 +25,8 @@ public class SolarHelper {
 
     }
 
-    public static Solar.ArticleDiseaseGroup.Group parseToSolarGroup(String json) {
-        Solar.ArticleDiseaseGroup.Group.Builder builder = Solar.ArticleDiseaseGroup.Group.newBuilder();
+    public static Solar.ArticleGroup.Group parseToSolarGroup(String json) {
+        Solar.ArticleGroup.Group.Builder builder = Solar.ArticleGroup.Group.newBuilder();
         if (json == null || json.trim().equalsIgnoreCase("")) {
             return builder.build();
         }

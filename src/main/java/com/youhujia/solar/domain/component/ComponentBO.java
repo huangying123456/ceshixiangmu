@@ -38,8 +38,8 @@ public class ComponentBO {
         return componentDTOFactory.buildComponentListDTO(context);
     }
 
-    public Solar.ArticleDiseaseGroupDTO getDiseaseComponentById(Long componentId) {
-        ArticleDiseaseComponentQueryContext context = articleDiseaseComponentQueryBO.getDiseaseComponentById(componentId);
+    public Solar.ArticleGroupDTO getArticleGroupComponentById(Long componentId) {
+        ArticleDiseaseComponentQueryContext context = articleDiseaseComponentQueryBO.getArticleGroupComponentById(componentId);
         return componentDTOFactory.buildArticleDiseaseGroupDTO(context);
     }
 
