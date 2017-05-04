@@ -36,7 +36,7 @@ public class ComponentController extends BaseController {
     }
 
     /**
-     * 获取wenzhangzu组件
+     * 获取文章组组件
      *
      * @param componentId
      * @return
