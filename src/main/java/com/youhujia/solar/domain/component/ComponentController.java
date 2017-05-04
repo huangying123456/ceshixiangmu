@@ -36,18 +36,19 @@ public class ComponentController extends BaseController {
     }
 
     /**
-     * 获取疾病组件
+     * 获取文章组组件
      *
      * @param componentId
      * @return
      */
-    @RequestMapping("/{departmentId}/disease-component/{componentId}")
-    public Solar.ArticleDiseaseGroupDTO getDiseaseComponentById(@PathVariable("componentId") Long componentId) {
+    //todo
+    @RequestMapping("/{departmentId}/articleGroup-component/{componentId}")
+    public Solar.ArticleGroupDTO getArticleGroupComponentById(@PathVariable("componentId") Long componentId) {
 
         try {
-            return componentBO.getDiseaseComponentById(componentId);
+            return componentBO.getArticleGroupComponentById(componentId);
         } catch (Exception e) {
-            return handleException(a -> Solar.ArticleDiseaseGroupDTO.newBuilder().setResult(a).build(), e);
+            return handleException(a -> Solar.ArticleGroupDTO.newBuilder().setResult(a).build(), e);
         }
     }
 

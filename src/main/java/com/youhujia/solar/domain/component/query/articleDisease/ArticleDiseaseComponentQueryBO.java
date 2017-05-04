@@ -16,7 +16,7 @@ public class ArticleDiseaseComponentQueryBO {
     @Autowired
     HDFragmentsServiceWrap hdFragmentsServiceWrap;
 
-    public ArticleDiseaseComponentQueryContext getDiseaseComponentById(Long componentId) {
+    public ArticleDiseaseComponentQueryContext getArticleGroupComponentById(Long componentId) {
         ArticleDiseaseComponentQueryContext context = new ArticleDiseaseComponentQueryContext();
         context.setTagDTO(getTagById(componentId));
         return context;
