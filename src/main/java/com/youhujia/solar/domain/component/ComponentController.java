@@ -41,7 +41,6 @@ public class ComponentController extends BaseController {
      * @param componentId
      * @return
      */
-    //todo
     @RequestMapping("/{departmentId}/articleGroup-component/{componentId}")
     public Solar.ArticleGroupDTO getArticleGroupComponentById(@PathVariable("componentId") Long componentId) {
 
