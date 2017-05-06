@@ -3,6 +3,8 @@ package com.youhujia.solar.domain.map;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youhujia.halo.common.COMMON;
+import com.youhujia.halo.solar.DepartmentStatusEnum;
+import com.youhujia.halo.solar.OrganizationStatusEnum;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.common.HttpConnectionUtils;
@@ -213,7 +215,7 @@ public class MapBO {
                         newDepartment.setName(departmentName);
                         newDepartment.setGuest(false);
                         newDepartment.setOrganizationId(orgId);
-                        newDepartment.setStatus(new Byte("0"));
+                        newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                         newDepartment = departmentDAO.save(newDepartment);
                         map.put(departmentName, newDepartment);
                         //更新map
@@ -243,7 +245,7 @@ public class MapBO {
                             newDepartment.setName(departmentName);
                             newDepartment.setGuest(false);
                             newDepartment.setOrganizationId(orgId);
-                            newDepartment.setStatus(new Byte("0"));
+                            newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                             newDepartment = departmentDAO.save(newDepartment);
                             map.put(departmentName, newDepartment);
                             //更新map
@@ -253,7 +255,7 @@ public class MapBO {
                         //医院不存在，新建医院 科室更不可能存在 同时也要新建科室
                         Organization newOrganization = new Organization();
                         newOrganization.setName(hospitalName);
-                        newOrganization.setStatus(new Byte("0"));
+                        newOrganization.setStatus(OrganizationStatusEnum.UNAUTHORIZED.getStatus());
                         newOrganization.setAddress(address);
                         newOrganization.setAreaId(areaId);
                         newOrganization.setLat(new BigDecimal(lat));
@@ -268,7 +270,7 @@ public class MapBO {
                         newDepartment.setName(departmentName);
                         newDepartment.setGuest(false);
                         newDepartment.setOrganizationId(newOrganization.getId());
-                        newDepartment.setStatus(new Byte("0"));
+                        newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                         newDepartment = departmentDAO.save(newDepartment);
                         //更新map
                         Map<String, Department> map = new HashMap<>();
@@ -375,7 +377,7 @@ public class MapBO {
                     newDepartment.setName(departmentName);
                     newDepartment.setGuest(false);
                     newDepartment.setOrganizationId(orgId);
-                    newDepartment.setStatus(new Byte("0"));
+                    newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                     newDepartment = departmentDAO.save(newDepartment);
                     map.put(departmentName, newDepartment);
                     //更新map
@@ -385,7 +387,7 @@ public class MapBO {
                     //若sameHospitalFlag为false 则医院一定不存在
                     Organization newOrganization = new Organization();
                     newOrganization.setName(hospitalName);
-                    newOrganization.setStatus(new Byte("0"));
+                    newOrganization.setStatus(OrganizationStatusEnum.UNAUTHORIZED.getStatus());
                     newOrganization.setAddress(address);
                     newOrganization.setAreaId(areaId);
                     newOrganization.setLat(new BigDecimal(lat));
@@ -400,7 +402,7 @@ public class MapBO {
                     newDepartment.setName(departmentName);
                     newDepartment.setGuest(false);
                     newDepartment.setOrganizationId(newOrganization.getId());
-                    newDepartment.setStatus(new Byte("0"));
+                    newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                     newDepartment = departmentDAO.save(newDepartment);
                     //更新map
                     Map<String, Department> map = new HashMap<>();

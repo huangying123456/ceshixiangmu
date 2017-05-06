@@ -2,6 +2,8 @@ package com.youhujia.solar.domain.organization.query;
 
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.solar.DepartmentStatusEnum;
+import com.youhujia.halo.solar.OrganizationStatusEnum;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
 import com.youhujia.solar.domain.common.SolarExceptionCodeEnum;
@@ -27,25 +29,16 @@ public class OrgQueryBO {
 
     @Autowired
     private OrgQueryContextFactory queryContextFactory;
-
     @Autowired
     private OrganizationDAO organizationDAO;
-
     @Autowired
     private DepartmentDAO departmentDAO;
-
     @Autowired
     private AreaDAO areaDAO;
 
-    public static String IS_CHECKED = "1";
-
-    public static String IS_NOT_CHECKED = "0";
-
-    public static String IS_DELETED = "-1";
-
     public OrgQueryContext findAll() {
 
-        List<Organization> organizations = organizationDAO.findByStatus(new Byte(IS_CHECKED));
+        List<Organization> organizations = organizationDAO.findByStatus(DepartmentStatusEnum.NORMAL.getStatus());
 
         OrgQueryContext queryContext = new OrgQueryContext();
 
@@ -67,7 +60,7 @@ public class OrgQueryBO {
 
         OrgQueryContext queryContext = new OrgQueryContext();
 
-        List<Department> departmentList = departmentDAO.findByOrganizationIdAndGuestAndStatus(organizationId, false, new Byte(IS_CHECKED));
+        List<Department> departmentList = departmentDAO.findByOrganizationIdAndGuestAndStatus(organizationId, false, DepartmentStatusEnum.NORMAL.getStatus());
 
         queryContext.setDepartmentList(departmentList);
 
@@ -78,7 +71,7 @@ public class OrgQueryBO {
 
         OrgQueryContext queryContext = new OrgQueryContext();
 
-        List<Department> departmentList = departmentDAO.findByOrganizationIdAndStatus(organizationId, new Byte(IS_CHECKED));
+        List<Department> departmentList = departmentDAO.findByOrganizationIdAndStatus(organizationId, DepartmentStatusEnum.NORMAL.getStatus());
 
         queryContext.setDepartmentList(departmentList);
 
@@ -93,7 +86,7 @@ public class OrgQueryBO {
         if (area == null) {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "地理区域信息id有误!");
         }
-        List<Organization> organizationList = organizationDAO.findByAreaIdAndStatus(areaId, new Byte("1"));
+        List<Organization> organizationList = organizationDAO.findByAreaIdAndStatus(areaId, OrganizationStatusEnum.NORMAL.getStatus());
 
         queryContext.setOrganizationList(organizationList);
         return queryContext;
@@ -113,7 +106,7 @@ public class OrgQueryBO {
         if (length < 0 || start < 0) {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！参数错误!");
         }
-        List<Organization> organizationList = organizationDAO.findbyAreaIdWithStatus(adId, new Byte(IS_DELETED));
+        List<Organization> organizationList = organizationDAO.findbyAreaIdWithStatus(adId, OrganizationStatusEnum.NORMAL.getStatus());
 
         queryContext.setOrganizationList(organizationList);
         queryContext.setDraw(draw);

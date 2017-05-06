@@ -52,7 +52,7 @@ public class RequestBO {
         if (department == null) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "科室不存在");
         }
-        if (department.getStatus() != DepartmentStatusEnum.TEMPLATE.getType().byteValue()) {
+        if (department.getStatus() != DepartmentStatusEnum.TEMPLATE.getStatus()) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "科室应该处于模板科室模式");
         }
 
@@ -68,7 +68,7 @@ public class RequestBO {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "请上传资质照片，作为凭证");
         }
 
-        department.setStatus(DepartmentStatusEnum.SELF_MANAGEMENT.getType().byteValue());
+        department.setStatus(DepartmentStatusEnum.SELF_MANAGEMENT.getStatus());
 
         context.setDepartment(department);
 

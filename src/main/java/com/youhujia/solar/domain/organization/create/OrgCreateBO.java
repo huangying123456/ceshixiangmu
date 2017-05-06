@@ -2,6 +2,7 @@ package com.youhujia.solar.domain.organization.create;
 
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.solar.OrganizationStatusEnum;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.area.Area;
 import com.youhujia.solar.domain.area.AreaDAO;
@@ -72,9 +73,9 @@ public class OrgCreateBO {
             organization.setAddress(option.getAddress());
         }
         if (option.hasStatus()) {
-            organization.setStatus((new Long(option.getStatus()).byteValue()));
+            organization.setStatus((int) option.getStatus());
         } else {
-            organization.setStatus((byte) 0);
+            organization.setStatus(OrganizationStatusEnum.UNAUTHORIZED.getStatus());
         }
         if (option.hasLat()) {
             organization.setLat(new BigDecimal(option.getLat()));

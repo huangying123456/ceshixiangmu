@@ -49,7 +49,7 @@ public class OrgUpdateBO {
             organization.setAddress(option.getAddress());
         }
         if (option.hasStatus()) {
-            organization.setStatus(new Long(option.getStatus()).byteValue());
+            organization.setStatus((int) option.getStatus());
         }
         if (option.hasLat()) {
             organization.setLat(new BigDecimal(option.getLat()));

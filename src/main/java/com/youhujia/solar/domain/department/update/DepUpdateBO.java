@@ -86,7 +86,7 @@ public class DepUpdateBO {
             department.setImgUrl(option.getImgUrl());
         }
         if (option.hasStatus()) {
-            department.setStatus(new Long(option.getStatus()).byteValue());
+            department.setStatus((int) option.getStatus());
         }
         if (option.hasMayContact()) {
             department.setMayContact(option.getMayContact());

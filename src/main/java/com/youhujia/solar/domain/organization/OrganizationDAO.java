@@ -14,17 +14,18 @@ import java.util.List;
  */
 @Transactional
 public interface OrganizationDAO extends JpaRepository<Organization, Long> {
-    List<Organization> findByStatus(Byte status);
 
-    List<Organization> findByAreaIdAndStatus(Long areaId, Byte status);
+    List<Organization> findByStatus(Integer status);
+
+    List<Organization> findByAreaIdAndStatus(Long areaId, Integer status);
 
     @Modifying
     @Query(value = "from Organization o where o.status > ?1")
-    List<Organization> findWithStatus(Byte status);
+    List<Organization> findWithStatus(Integer status);
 
     @Modifying
     @Query(value = "from Organization o where o.areaId = ?1 and o.status > ?2")
-    List<Organization> findbyAreaIdWithStatus(Long areaId, Byte status);
+    List<Organization> findbyAreaIdWithStatus(Long areaId, Integer status);
 
     String select = "select o from Organization o";
     String count = "select count(o) from Organization o";

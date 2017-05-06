@@ -2,6 +2,7 @@ package com.youhujia.solar.domain.department.delete;
 
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,6 @@ public class DepDeleteBO {
     @Autowired
     private DepartmentDAO departmentDAO;
 
-    public static String IS_DELETED = "-1";
-
-
     public DepDeleteContext markDeleteDepartmentById(Long departmentId) {
 
         DepDeleteContext context = new DepDeleteContext();
@@ -30,7 +28,7 @@ public class DepDeleteBO {
         if (department == null) {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！错误的科室id!");
         }
-        department.setStatus(new Byte(IS_DELETED));
+        department.setStatus(DepartmentStatusEnum.DELETED.getStatus());
         department = departmentDAO.save(department);
 
         context.setDepartment(department);

@@ -2,17 +2,16 @@ package com.youhujia.solar.domain.department.query;
 
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
 import com.youhujia.solar.domain.department.create.DepCreateBO;
-import com.youhujia.solar.domain.department.delete.DepDeleteContext;
 import com.youhujia.solar.domain.organization.Organization;
 import com.youhujia.solar.domain.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,10 +26,6 @@ public class DepQueryBO {
     private OrganizationDAO organizationDAO;
     @Autowired
     private DepCreateBO depCreateBO;
-
-    public static String IS_CHECKED = "1";
-
-    public static String IS_DELETED = "-1";
 
     public DepQueryContext getDepartmentById(Long departmentId) {
 
@@ -65,7 +60,7 @@ public class DepQueryBO {
 
         DepQueryContext context = new DepQueryContext();
 
-        List<Department> list = departmentDAO.findByNumberAndStatus(departmentNo, new Byte(IS_CHECKED));
+        List<Department> list = departmentDAO.findByNumberAndStatus(departmentNo, DepartmentStatusEnum.NORMAL.getStatus());
 
         List<Department> rstList = new ArrayList<>();
         for (Department dpt : list) {
@@ -96,7 +91,7 @@ public class DepQueryBO {
         if (department.getGuest()) {
             context.setDepartment(department);
         } else {
-            context.setDepartment(departmentDAO.save(depCreateBO.createOrGetGuestDepartment(department)));
+            context.setDepartment(depCreateBO.createOrGetGuestDepartment(department));
         }
 
         return context;
@@ -111,7 +106,7 @@ public class DepQueryBO {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误的医院id");
         }
 
-        List<Department> departments = departmentDAO.findByOrganizationIdAndStatus(orgId, new Byte(IS_CHECKED));
+        List<Department> departments = departmentDAO.findByOrganizationIdAndStatus(orgId, DepartmentStatusEnum.NORMAL.getStatus());
 
         context.setDepartmentList(departments);
 
@@ -129,7 +124,7 @@ public class DepQueryBO {
         if (organization == null) {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "此id对应的医院并不存在啊！！");
         }
-        List<Department> departments = departmentDAO.findByOrganizationIdWithStatus(orgId, new Byte(IS_DELETED));
+        List<Department> departments = departmentDAO.findByOrganizationIdWithStatus(orgId, DepartmentStatusEnum.NORMAL.getStatus());
 
         context.setDepartmentList(departments);
         context.setOrganization(organization);
@@ -146,7 +141,6 @@ public class DepQueryBO {
         }
         return list;
     }
-
 
 
 }

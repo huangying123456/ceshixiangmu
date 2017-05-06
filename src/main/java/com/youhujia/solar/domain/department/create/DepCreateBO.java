@@ -2,14 +2,16 @@ package com.youhujia.solar.domain.department.create;
 
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.department.Department;
 import com.youhujia.solar.domain.department.DepartmentDAO;
 import com.youhujia.solar.domain.organization.Organization;
 import com.youhujia.solar.domain.organization.OrganizationDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -17,16 +19,14 @@ import java.util.List;
 /**
  * Created by huangYing on 2017/4/17.
  */
-@Component
+@Service
 public class DepCreateBO {
 
-    @Autowired
+    @Resource
     private DepartmentDAO departmentDAO;
 
-    @Autowired
+    @Resource
     private OrganizationDAO organizationDAO;
-
-    public static String IS_CHECKED = "1";
 
     public DepCreateContext createDepartment(Solar.DepartmentCreateOption option) {
 
@@ -86,9 +86,9 @@ public class DepCreateBO {
             department.setImgUrl(option.getImgUrl());
         }
         if (option.hasStatus()) {
-            department.setStatus(new Integer(option.getStatus()).byteValue());
+            department.setStatus(option.getStatus());
         } else {
-            department.setStatus((byte) 0);
+            department.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
         }
         if (option.hasMayContact()) {
             department.setMayContact(option.getMayContact());
@@ -111,37 +111,21 @@ public class DepCreateBO {
         }
 
         // department is Host department
-        List<Department> guestDepartmentList = departmentDAO.findByHostIdAndStatus(department.getId(), new Byte(IS_CHECKED));
+        List<Department> guestDepartmentList = departmentDAO.findByHostIdAndStatus(department.getId(), DepartmentStatusEnum.NORMAL.getStatus());
 
         if (guestDepartmentList.size() > 0) {
             return guestDepartmentList.get(0);
         } else {
             // Create a guest of host department
-            Department guestDepartment = new Department();
-            guestDepartment.setOrganizationId(department.getOrganizationId());
-            guestDepartment.setGuest(true);
-            guestDepartment.setHostId(department.getId());
-            guestDepartment.setName(department.getName());
-            guestDepartment.setStatus(department.getStatus());
-            guestDepartment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-            guestDepartment.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+            Department guest = new Department();
+            BeanUtils.copyProperties(department, guest);
+            guest.setId(null);
+            guest.setGuest(true);
+            guest.setHostId(department.getId());
+            guest.setCreatedAt(null);
+            guest.setUpdatedAt(null);
 
-            if(department.getNumber() != null){
-                guestDepartment.setNumber(department.getNumber());
-            }
-            if(department.getAuthCode() != null){
-                guestDepartment.setAuthCode(department.getAuthCode());
-            }
-            if(department.getMayContact() != null){
-                guestDepartment.setMayContact(department.getMayContact());
-            }
-            if(department.getWxSubQRCodeValue() != null){
-                guestDepartment.setWxSubQRCodeValue(department.getWxSubQRCodeValue());
-            }
-            if(department.getImgUrl() != null){
-                guestDepartment.setImgUrl(department.getImgUrl());
-            }
-            return departmentDAO.save(guestDepartment);
+            return departmentDAO.save(guest);
         }
     }
 }
