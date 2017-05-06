@@ -18,7 +18,7 @@ public class Department {
     private String name;
     private String number;
     private String authCode;
-    private Byte status;
+    private Integer status;
     private String mayContact;
     private String imgUrl;
     private String wxSubQrCodeValue;
@@ -103,11 +103,11 @@ public class Department {
 
     @Basic
     @Column(name = "status", insertable = false, nullable = true)
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -152,7 +152,7 @@ public class Department {
     }
 
     @Basic
-    @Column(name = "`updated_at`", nullable = false,  updatable = false)
+    @Column(name = "`updated_at`", nullable = false, updatable = false)
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
@@ -197,7 +197,8 @@ public class Department {
             return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
-        if (classificationType != null ? !classificationType.equals(that.classificationType) : that.classificationType != null) return false;
+        if (classificationType != null ? !classificationType.equals(that.classificationType) : that.classificationType != null)
+            return false;
 
         return true;
     }
@@ -211,7 +212,7 @@ public class Department {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (number != null ? number.hashCode() : 0);
         result = 31 * result + (authCode != null ? authCode.hashCode() : 0);
-        result = 31 * result + (int) status;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (mayContact != null ? mayContact.hashCode() : 0);
         result = 31 * result + (imgUrl != null ? imgUrl.hashCode() : 0);
         result = 31 * result + (wxSubQrCodeValue != null ? wxSubQrCodeValue.hashCode() : 0);

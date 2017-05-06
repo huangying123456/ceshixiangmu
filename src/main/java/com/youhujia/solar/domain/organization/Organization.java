@@ -11,10 +11,10 @@ import java.util.Collection;
  * Created by huangYing on 2017/4/17.
  */
 @Entity
-public class Organization  {
+public class Organization {
     private Long id;
     private String name;
-    private Byte status;
+    private Integer status;
     private String level;
     private Long areaId;
     private String imgUrl;
@@ -49,11 +49,11 @@ public class Organization  {
 
     @Basic
     @Column(name = "status", nullable = false, insertable = false)
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -163,7 +163,7 @@ public class Organization  {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) status;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (level != null ? level.hashCode() : 0);
         result = 31 * result + (areaId != null ? areaId.hashCode() : 0);
         result = 31 * result + (imgUrl != null ? imgUrl.hashCode() : 0);
