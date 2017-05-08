@@ -1,18 +1,22 @@
 package com.youhujia.solar.domain.organization;
 
+import com.youhujia.solar.domain.department.Department;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * Created by huangYing on 2017/4/17.
  */
 @Entity
 public class Organization {
-    private long id;
+    private Long id;
     private String name;
-    private byte status;
+    private Integer status;
     private String level;
+    private Long areaId;
     private String imgUrl;
     private String address;
     private BigDecimal lat;
@@ -20,13 +24,16 @@ public class Organization {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
+    private Collection<Department> departmentsById;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,12 +48,12 @@ public class Organization {
     }
 
     @Basic
-    @Column(name = "status", nullable = false)
-    public byte getStatus() {
+    @Column(name = "status", nullable = false, insertable = false)
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -58,6 +65,16 @@ public class Organization {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    @Basic
+    @Column(name = "area_id", nullable = true)
+    public Long getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(Long areaId) {
+        this.areaId = areaId;
     }
 
     @Basic
@@ -101,7 +118,7 @@ public class Organization {
     }
 
     @Basic
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -111,7 +128,7 @@ public class Organization {
     }
 
     @Basic
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = false, updatable = false)
     public Timestamp getUpdatedAt() {
         return updatedAt;
     }
@@ -131,6 +148,7 @@ public class Organization {
         if (status != that.status) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (level != null ? !level.equals(that.level) : that.level != null) return false;
+        if (areaId != null ? !areaId.equals(that.areaId) : that.areaId != null) return false;
         if (imgUrl != null ? !imgUrl.equals(that.imgUrl) : that.imgUrl != null) return false;
         if (address != null ? !address.equals(that.address) : that.address != null) return false;
         if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
@@ -145,8 +163,9 @@ public class Organization {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (int) status;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (level != null ? level.hashCode() : 0);
+        result = 31 * result + (areaId != null ? areaId.hashCode() : 0);
         result = 31 * result + (imgUrl != null ? imgUrl.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (lat != null ? lat.hashCode() : 0);
@@ -155,4 +174,14 @@ public class Organization {
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
+
+    @OneToMany(mappedBy = "organizationByOrganizationId", fetch = FetchType.LAZY)
+    public Collection<Department> getDepartmentsById() {
+        return departmentsById;
+    }
+
+    public void setDepartmentsById(Collection<Department> departmentsById) {
+        this.departmentsById = departmentsById;
+    }
+
 }

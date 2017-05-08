@@ -1,0 +1,46 @@
+
+科室相关：
+
+1、创建：
+
+    将最老的创建和zhushou、admin合并
+
+     createDepartmentForZhuShou     ==》     createDepartment
+     managerCreateDepartment        ==》     createDepartment
+     createDepartment
+
+2、查询
+
+    getDepartmentById               ==》getDepartmentById
+    managerGetDepartmentById        ==》getDepartmentById
+
+3、修改
+
+    updateDepartment                ==》updateDepartment
+    managerUpdateDepartment         ==》updateDepartment
+
+
+
+
+ 医院相关：
+
+ 1、创建：
+
+    createOrganization              ==》createOrganization
+    managerCreateOrganization       ==》createOrganization
+    createOrganizationForZhuShou    ==》createOrganization
+
+ 2、查询：
+
+    getOrganizationById             ==》getOrganizationById
+    managerGetOrganizationById      ==》getOrganizationById
+
+ 3、修改
+
+    updateOrganization              ==》updateOrganization
+    managerUpdateOrganization       ==》updateOrganization
+
+
+
+map中的getAreas接口迁移到area包中
+
