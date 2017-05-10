@@ -16,12 +16,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -30,16 +27,13 @@ import java.util.stream.Stream;
 public class OrganizationDTOFactory {
 
     @Autowired
+    OrganizationDAO organizationDAO;
+    @Autowired
     private DepartmentDTOFactory departmentFactory;
-
     @Autowired
     private AreaDAO areaDAO;
-
     @Autowired
     private DepartmentDAO departmentDAO;
-
-    @Autowired
-    OrganizationDAO organizationDAO;
 
     public Solar.OrganizationDTO buildCreateDTO(OrgCreateContext context) {
 
@@ -232,17 +226,17 @@ public class OrganizationDTOFactory {
 
         Solar.OrganizationAndDepartmentListDTO.Builder builder = Solar.OrganizationAndDepartmentListDTO.newBuilder();
 
-        if(context.getOrganizationList().size() != 0){
+        if (context.getOrganizationList().size() != 0) {
             context.getOrganizationList().stream().forEach(organization -> {
                 List<Department> departments = departmentDAO.findByOrganizationId(organization.getId());
-                builder.addOrganization(buildSolarOrganizationOption(organization,departments));
+                builder.addOrganization(buildSolarOrganizationOption(organization, departments));
             });
         }
 
         return builder.setResult(ResponseUtil.resultOK()).build();
     }
 
-    private Solar.OrganizationOption buildSolarOrganizationOption(Organization organization,List<Department> departmentList){
+    private Solar.OrganizationOption buildSolarOrganizationOption(Organization organization, List<Department> departmentList) {
         Solar.OrganizationOption.Builder builder = Solar.OrganizationOption.newBuilder();
 
         builder.setCreatedAt(organization.getCreatedAt().getTime());
@@ -250,7 +244,7 @@ public class OrganizationDTOFactory {
         builder.setOrganizationName(organization.getName());
         builder.setOrganizationId(organization.getId());
 
-        if(departmentList.size() != 0){
+        if (departmentList.size() != 0) {
             departmentList.stream().forEach(department -> {
                 builder.addDepartment(buildSolarDepartmentOption(department));
             });
@@ -272,7 +266,7 @@ public class OrganizationDTOFactory {
         if (StringUtils.isNotBlank(department.getWxSubQRCodeValue())) {
             builder.setDepartmentWxQrCode(department.getWxSubQRCodeValue());
         }
-        builder.setIsGuest(department.getGuest());
+        builder.setIsGuest(department.getGuest() > 0L);
         return builder.build();
     }
 

@@ -213,7 +213,7 @@ public class MapBO {
                     if (mayDepartment == null || mayDepartment.getId() == null) {
                         Department newDepartment = new Department();
                         newDepartment.setName(departmentName);
-                        newDepartment.setGuest(false);
+                        newDepartment.setGuest(0L);
                         newDepartment.setOrganizationId(orgId);
                         newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                         newDepartment = departmentDAO.save(newDepartment);
@@ -243,7 +243,7 @@ public class MapBO {
                         if (mayDepartment == null || mayDepartment.getId() == null) {
                             Department newDepartment = new Department();
                             newDepartment.setName(departmentName);
-                            newDepartment.setGuest(false);
+                            newDepartment.setGuest(0L);
                             newDepartment.setOrganizationId(orgId);
                             newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                             newDepartment = departmentDAO.save(newDepartment);
@@ -268,7 +268,7 @@ public class MapBO {
                         //存储科室的信息
                         Department newDepartment = new Department();
                         newDepartment.setName(departmentName);
-                        newDepartment.setGuest(false);
+                        newDepartment.setGuest(0L);
                         newDepartment.setOrganizationId(newOrganization.getId());
                         newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                         newDepartment = departmentDAO.save(newDepartment);
@@ -375,7 +375,7 @@ public class MapBO {
                     //因为是开疆扩土，爬取到的科室一定不存在
                     Department newDepartment = new Department();
                     newDepartment.setName(departmentName);
-                    newDepartment.setGuest(false);
+                    newDepartment.setGuest(0L);
                     newDepartment.setOrganizationId(orgId);
                     newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                     newDepartment = departmentDAO.save(newDepartment);
@@ -400,7 +400,7 @@ public class MapBO {
                     //存储科室的信息
                     Department newDepartment = new Department();
                     newDepartment.setName(departmentName);
-                    newDepartment.setGuest(false);
+                    newDepartment.setGuest(0L);
                     newDepartment.setOrganizationId(newOrganization.getId());
                     newDepartment.setStatus(DepartmentStatusEnum.UNAUTHORIZED.getStatus());
                     newDepartment = departmentDAO.save(newDepartment);

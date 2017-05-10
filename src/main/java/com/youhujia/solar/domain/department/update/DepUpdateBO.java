@@ -74,7 +74,7 @@ public class DepUpdateBO {
             department.setAuthCode(option.getAuthCode());
         }
         if (option.hasIsGuest()) {
-            department.setGuest(option.getIsGuest());
+            department.setGuest(option.getIsGuest() ? 1L : 0L);
         }
         if (option.hasHostId()) {
             department.setHostId(option.getHostId());

@@ -14,9 +14,9 @@ import java.util.List;
 @Transactional
 public interface DepartmentDAO extends JpaRepository<Department, Long> {
 
-    List<Department> findByOrganizationIdAndGuest(Long organizationId, Boolean isGuest);
+    List<Department> findByOrganizationIdAndGuest(Long organizationId, Long isGuest);
 
-    List<Department> findByOrganizationIdAndGuestAndStatus(Long organizationId, Boolean isGuest, Integer status);
+    List<Department> findByOrganizationIdAndGuestAndStatus(Long organizationId, Long isGuest, Integer status);
 
     List<Department> findByOrganizationId(Long organizationId);
 
@@ -35,7 +35,7 @@ public interface DepartmentDAO extends JpaRepository<Department, Long> {
     List<Department> findByOrganizationIdWithStatus(Long orgId, Integer status);
 
     @Modifying
-    @Query(value = "select d from Department d where d.guest = false and d.organizationId in :ids")
+    @Query(value = "select d from Department d where d.guest = 0 and d.organizationId in :ids")
     List<Department> queryByOrganizationIds(@Param("ids") List<Long> organizationIds);
 
 }
