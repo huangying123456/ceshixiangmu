@@ -60,7 +60,7 @@ public class OrgQueryBO {
 
         OrgQueryContext queryContext = new OrgQueryContext();
 
-        List<Department> departmentList = departmentDAO.findByOrganizationIdAndGuestAndStatus(organizationId, false, DepartmentStatusEnum.NORMAL.getStatus());
+        List<Department> departmentList = departmentDAO.findByOrganizationIdAndGuestAndStatus(organizationId, 0L, DepartmentStatusEnum.NORMAL.getStatus());
 
         queryContext.setDepartmentList(departmentList);
 
