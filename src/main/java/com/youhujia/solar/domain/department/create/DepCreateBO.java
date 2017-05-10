@@ -72,9 +72,9 @@ public class DepCreateBO {
             department.setAuthCode(option.getAuthCode());
         }
         if (option.hasIsGuest()) {
-            department.setGuest(option.getIsGuest());
+            department.setGuest(option.getIsGuest() ? 1L : 0L);
         } else {
-            department.setGuest(false);
+            department.setGuest(0L);
         }
         if (option.hasHostId()) {
             department.setHostId(option.getHostId());
@@ -106,7 +106,7 @@ public class DepCreateBO {
      */
     public Department createOrGetGuestDepartment(Department department) {
         // department is a Guest Department
-        if (department.getGuest()) {
+        if (department.getGuest() > 0L) {
             return department;
         }
 
@@ -120,7 +120,7 @@ public class DepCreateBO {
             Department guest = new Department();
             BeanUtils.copyProperties(department, guest);
             guest.setId(null);
-            guest.setGuest(true);
+            guest.setGuest(1L);
             guest.setHostId(department.getId());
             guest.setCreatedAt(null);
             guest.setUpdatedAt(null);

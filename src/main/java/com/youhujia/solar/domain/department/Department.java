@@ -13,7 +13,7 @@ import java.util.Collection;
 public class Department {
     private Long id;
     private Long organizationId;
-    private Boolean isGuest;
+    private Long isGuest;
     private Long hostId;
     private String name;
     private String number;
@@ -53,11 +53,11 @@ public class Department {
 
     @Basic
     @Column(name = "is_guest", nullable = false)
-    public Boolean getGuest() {
+    public Long getGuest() {
         return isGuest;
     }
 
-    public void setGuest(Boolean guest) {
+    public void setGuest(Long guest) {
         isGuest = guest;
     }
 
@@ -206,8 +206,8 @@ public class Department {
     @Override
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (int) (organizationId ^ (organizationId >>> 32));
-        result = 31 * result + (isGuest ? 1 : 0);
+        result = 31 * result + (organizationId != null ? organizationId.hashCode() : 0);
+        result = 31 * result + (isGuest != null ? isGuest.hashCode() : 0);
         result = 31 * result + (hostId != null ? hostId.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (number != null ? number.hashCode() : 0);
