@@ -64,7 +64,7 @@ public class DepQueryBO {
 
         List<Department> rstList = new ArrayList<>();
         for (Department dpt : list) {
-            if (dpt.getGuest()) {
+            if (dpt.getGuest() > 0L) {
                 continue;
             }
             rstList.add(dpt);
@@ -88,7 +88,7 @@ public class DepQueryBO {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "there is not found guest department by host departmentId, departmentId:" + departmentId);
         }
 
-        if (department.getGuest()) {
+        if (department.getGuest() > 0L) {
             context.setDepartment(department);
         } else {
             context.setDepartment(depCreateBO.createOrGetGuestDepartment(department));
