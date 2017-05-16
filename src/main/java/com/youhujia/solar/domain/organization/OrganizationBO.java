@@ -3,12 +3,15 @@ package com.youhujia.solar.domain.organization;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.domain.organization.create.OrgCreateBO;
 import com.youhujia.solar.domain.organization.create.OrgCreateContext;
+import com.youhujia.solar.domain.organization.delete.OrgDeleteBO;
+import com.youhujia.solar.domain.organization.delete.OrgDeleteContext;
 import com.youhujia.solar.domain.organization.query.OrgQueryBO;
 import com.youhujia.solar.domain.organization.query.OrgQueryContext;
 import com.youhujia.solar.domain.organization.update.OrgUpdateBO;
 import com.youhujia.solar.domain.organization.update.OrgUpdateContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.Map;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -27,6 +30,9 @@ public class OrganizationBO {
 
     @Autowired
     private OrgQueryBO queryBO;
+
+    @Autowired
+    private OrgDeleteBO orgDeleteBO;
 
     public Solar.OrganizationDTO create(Solar.OrganizationCreateOption option) {
 
@@ -59,7 +65,7 @@ public class OrganizationBO {
 
         OrgQueryContext queryContext = queryBO.getDepartmentsByOrganizationId(organizationId);
 
-        Solar.DepartmentListDTO departmentListDTO= organizationDTOFactory.buildDepartmentListDTO(queryContext);
+        Solar.DepartmentListDTO departmentListDTO = organizationDTOFactory.buildDepartmentListDTO(queryContext);
 
         return departmentListDTO;
     }
@@ -77,13 +83,34 @@ public class OrganizationBO {
 
         OrgUpdateContext updateContext = updateBO.updateOrganization(option);
 
-        Solar.OrganizationDTO organizationDTO= organizationDTOFactory.buildUpdateOrganizationDTO(updateContext);
+        Solar.OrganizationDTO organizationDTO = organizationDTOFactory.buildUpdateOrganizationDTO(updateContext);
 
         return organizationDTO;
     }
 
+    public Solar.LBSOrganizationDTO getOrganizationListByAreaId(Long areaId) {
 
-    // TODO: 2017/4/17  code for improve department admin
+        OrgQueryContext queryContext = queryBO.getOrganizationListByAreaId(areaId);
 
+        return organizationDTOFactory.buildGetOrganizationListByAreaIdDTO(queryContext);
+    }
 
+    public Solar.ManagerOrganizationListDTO getAllWithoutDeleteOrgListByAreaId(Long adId, Integer draw, Integer length, Integer start) {
+
+        OrgQueryContext queryContext = queryBO.getAllWithoutDeleteOrgListByAreaId(adId, draw, length, start);
+
+        return organizationDTOFactory.buildGetAllWithoutDeleteOrgListByAreaIdDTO(queryContext);
+    }
+
+    public Solar.ManagerOrganizationDTO markDeleteOrganizationById(Long orgId) {
+
+        OrgDeleteContext context = orgDeleteBO.markDeleteOrganizationById(orgId);
+
+        return organizationDTOFactory.buildMarkDeleteOrganizationByIdDTO(context);
+    }
+
+    public Solar.OrganizationAndDepartmentListDTO findAllOrganizationAndDepartment(Map<String, String> map) {
+        OrgQueryContext context = queryBO.findAllOrganizationAndDepartment(map);
+        return organizationDTOFactory.buildOrganizationAndDepartmentListDTO(context);
+    }
 }

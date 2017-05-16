@@ -1,0 +1,46 @@
+CREATE TABLE IF NOT EXISTS `area` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(512) DEFAULT NULL,
+  `parent_id` BIGINT(20) DEFAULT '-999',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `organization` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(512) NOT NULL,
+  `status` BIGINT(20) NOT NULL DEFAULT '0',
+  `level` VARCHAR(512) DEFAULT NULL,
+  `area_id` BIGINT(20) UNSIGNED DEFAULT NULL,
+  `img_url` VARCHAR(512) DEFAULT NULL,
+  `address` VARCHAR(512) DEFAULT NULL,
+  `lat` DECIMAL(10,8) DEFAULT NULL,
+  `lon` DECIMAL(11,8) DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `organization_area` (`area_id`),
+  CONSTRAINT `organization_area` FOREIGN KEY (`area_id`) REFERENCES `area` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100025 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `department` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `organization_id` BIGINT(20) UNSIGNED NOT NULL,
+  `is_guest` BIT(1) NOT NULL,
+  `host_id` BIGINT(20) UNSIGNED DEFAULT NULL,
+  `name` VARCHAR(512) NOT NULL,
+  `number` VARCHAR(512) DEFAULT NULL,
+  `auth_code` VARCHAR(512) DEFAULT NULL,
+  `status` BIGINT(20) NOT NULL DEFAULT '0',
+  `may_contact` VARCHAR(512) DEFAULT NULL,
+  `img_url` VARCHAR(512) DEFAULT NULL,
+  `wx_sub_qr_code_value` VARCHAR(255) DEFAULT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `department_organization_id_fk_idx` (`organization_id`),
+  KEY `department_host_id_fk_idx` (`host_id`),
+  CONSTRAINT `department_host_id_fk` FOREIGN KEY (`host_id`) REFERENCES `department` (`id`),
+  CONSTRAINT `department_organization_id_fk` FOREIGN KEY (`organization_id`) REFERENCES `organization` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=100388 DEFAULT CHARSET=utf8;
