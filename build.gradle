@@ -81,7 +81,7 @@ dependencies {
 if (project.hasProperty("buildPro") && buildPro == 'release') {
     println("release version")
     dependencies {
-        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v1.5.8"
+        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.1"
     }
     jar {
         exclude "META-INF/*.SF"
