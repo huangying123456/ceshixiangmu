@@ -1,11 +1,8 @@
 package com.youhujia.solar.organization;
 
-import com.youhujia.solar.department.Department;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -23,8 +20,6 @@ public class Organization {
     private BigDecimal lon;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-
-    private Collection<Department> departmentsById;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -174,14 +169,4 @@ public class Organization {
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         return result;
     }
-
-    @OneToMany(mappedBy = "organizationByOrganizationId", fetch = FetchType.LAZY)
-    public Collection<Department> getDepartmentsById() {
-        return departmentsById;
-    }
-
-    public void setDepartmentsById(Collection<Department> departmentsById) {
-        this.departmentsById = departmentsById;
-    }
-
 }
