@@ -26,10 +26,6 @@ public class Department {
     private Timestamp updatedAt;
     private String classificationType;
 
-    private Organization organizationByOrganizationId;
-    private Department departmentByHostId;
-    private Collection<Department> departmentsById;
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -222,35 +218,5 @@ public class Department {
 
         return result;
     }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    public Organization getOrganizationByOrganizationId() {
-        return organizationByOrganizationId;
-    }
-
-    public void setOrganizationByOrganizationId(Organization organizationByOrganizationId) {
-        this.organizationByOrganizationId = organizationByOrganizationId;
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_id", referencedColumnName = "id", insertable = false, updatable = false)
-    public Department getDepartmentByHostId() {
-        return departmentByHostId;
-    }
-
-    public void setDepartmentByHostId(Department departmentByHostId) {
-        this.departmentByHostId = departmentByHostId;
-    }
-
-    @OneToMany(mappedBy = "departmentByHostId", fetch = FetchType.LAZY)
-    public Collection<Department> getDepartmentsById() {
-        return departmentsById;
-    }
-
-    public void setDepartmentsById(Collection<Department> departmentsById) {
-        this.departmentsById = departmentsById;
-    }
-
 }
 
