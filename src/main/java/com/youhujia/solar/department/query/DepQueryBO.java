@@ -154,6 +154,4 @@ public class DepQueryBO {
         }
         return list;
     }
-
-
 }
