@@ -142,7 +142,7 @@ public class DepartmentDTOFactory {
         Solar.DepartmentDTO.Builder DTOBuilder = Solar.DepartmentDTO.newBuilder();
 
         DTOBuilder.setDepartment(buildDepartment(department))
-                .setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
+            .setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
         return DTOBuilder.build();
     }
 
@@ -162,11 +162,16 @@ public class DepartmentDTOFactory {
         Solar.Department.Builder builder = Solar.Department.newBuilder();
 
         builder.setDepartmentId(department.getId())
-                .setName(department.getName())
-                .setOrganizationId(department.getOrganizationId())
-                .setOrganizationName(getOrganization(department.getOrganizationId()).getName())
-                .setCreatedAt(department.getCreatedAt().getTime())
-                .setUpdatedAt(department.getUpdatedAt().getTime());
+            .setName(department.getName())
+            .setOrganizationId(department.getOrganizationId())
+            .setOrganizationName(getOrganization(department.getOrganizationId()).getName());
+
+        if (department.getCreatedAt() != null) {
+            builder.setCreatedAt(department.getCreatedAt().getTime());
+        }
+        if (department.getUpdatedAt() != null) {
+            builder.setUpdatedAt(department.getUpdatedAt().getTime());
+        }
         if (department.getNumber() != null) {
             builder.setNumber(department.getNumber());
         }
