@@ -38,10 +38,11 @@ public class DepQueryBO {
 
         DepQueryContext context = new DepQueryContext();
 
-        if (departmentId == null || departmentId < 0) {
-            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！科室id为空或者非法!！");
-        }
         Department department = departmentDAO.findOne(departmentId);
+
+        if (department == null) {
+            return context;
+        }
 
         if (StringUtils.isEmpty(department.getWxSubQRCodeValue())
             || department.getWxSubQRCodeValue().contains("http://")) {
