@@ -1,10 +1,7 @@
 package com.youhujia.solar.department;
 
-import com.youhujia.solar.organization.Organization;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 /**
  * Created by huangYing on 2017/4/17.
