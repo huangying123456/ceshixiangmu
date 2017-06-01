@@ -45,7 +45,7 @@ public class DepQueryBO {
         }
 
         if (StringUtils.isEmpty(department.getWxSubQRCodeValue())
-            || department.getWxSubQRCodeValue().contains("http://")) {
+                || department.getWxSubQRCodeValue().contains("http://")) {
             department.setWxSubQRCodeValue(wechatQRCodeBO.generateWxSubQRCodeBase64Image(departmentId));
             department = departmentDAO.save(department);
         }
