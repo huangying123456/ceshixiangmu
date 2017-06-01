@@ -126,6 +126,7 @@ public class DepCreateBO {
             guest.setId(null);
             guest.setGuest(1L);
             guest.setHostId(department.getId());
+            guest.setStatus(DepartmentStatusEnum.NORMAL.getStatus()); // 科室默认状态为 1
             guest.setCreatedAt(null);
             guest.setUpdatedAt(null);
 
