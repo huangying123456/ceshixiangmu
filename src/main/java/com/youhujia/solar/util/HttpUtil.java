@@ -2,6 +2,8 @@ package com.youhujia.solar.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.halo.util.Utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,6 +14,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,9 +28,10 @@ import java.nio.charset.Charset;
  * Created by hy on 2016/12/1.
  */
 public class HttpUtil {
-    static Log log = LogFactory.getLog(HttpUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     public static String getUrlAsStr(String url) {
+        String where = "HttpUtil->getUrlAsStr";
         try {
             URL website = new URL(url);
             URLConnection connection = website.openConnection();
@@ -44,14 +49,16 @@ public class HttpUtil {
 
             return response.toString();
         } catch (Exception e) {
-            log.error("Err when getUrlAsStr, st:" + Utils.getStackTraceString(e));
+            logger.error(LogInfoGenerator.generateErrorInfo(where, YHJExceptionCodeEnum.THE_THIRD_PARTY_EXCEPTION, "exception", "url", url));
 
             return null;
         }
     }
 
     public static String post(String url, String payload) {
-        log.debug(String.format("POST %s, payload: %s", url, payload));
+
+        String where = "HttpUtil->post";
+
 
         HttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(url);
@@ -66,12 +73,12 @@ public class HttpUtil {
 
             if (entity != null) {
                 String str = EntityUtils.toString(entity);
-                log.debug(String.format("Resp of post to url[%s]: %s\npost body: %s", url, str, payload));
+                logger.debug(LogInfoGenerator.generateCallInfo(where, "url", url+str, "payload", payload));
 
                 return str;
             }
         } catch (IOException e) {
-            log.error("Err when post, st:" + Utils.getStackTraceString(e));
+            logger.error(LogInfoGenerator.generateErrorInfo(where, YHJExceptionCodeEnum.THE_THIRD_PARTY_EXCEPTION, "exception", "url", url));
 
             return null;
         }
@@ -80,8 +87,11 @@ public class HttpUtil {
     }
 
     public static JsonNode getUrlAsJSON(String url){
+
+        String where = "HttpUtil->getUrlAsJson";
+
         String content = getUrlAsStr(url);
-        log.info("getUrlAsJson()\nurl:" + url + "\ncontent:" + content);
+        logger.info("getUrlAsJson()\nurl:" + url + "\ncontent:" + content);
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -89,7 +99,7 @@ public class HttpUtil {
 
             return jsonNode;
         } catch (IOException e) {
-            log.warn("err when parse json content:" + content);
+            logger.error(LogInfoGenerator.generateErrorInfo(where, YHJExceptionCodeEnum.THE_THIRD_PARTY_EXCEPTION, "exception", "url", url, "message", e.getMessage()));
 
             return objectMapper.createObjectNode();
         }

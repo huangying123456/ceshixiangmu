@@ -3,8 +3,10 @@ package com.youhujia.solar.map;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youhujia.halo.common.COMMON;
+import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.OrganizationStatusEnum;
+import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.solar.area.Area;
 import com.youhujia.solar.area.AreaDAO;
 import com.youhujia.solar.common.HttpConnectionUtils;
@@ -14,6 +16,8 @@ import com.youhujia.solar.organization.Organization;
 import com.youhujia.solar.organization.OrganizationDAO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -60,13 +64,14 @@ public class MapBO {
     @Autowired
     DepartmentDAO departmentDAO;
 
-    Log log = LogFactory.getLog(Log.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
     //--------------------------------读取存储数据（属于一次性接口）------------------
 
     public COMMON.Result resetAreaInfo() {
 
+        String where = "MapBO->resetAreaInfo";
         StringBuffer stringBuffer = HttpConnectionUtils.sendGETRequest(areaInfoUrl, areaInfoParams);
         ObjectMapper mapper = new ObjectMapper();
 
@@ -114,12 +119,16 @@ public class MapBO {
 
             }
         } catch (IOException e) {
-            log.error("json解析失败");
+//            log.error("json解析失败");
+            logger.info(LogInfoGenerator.generateErrorInfo(where, YHJExceptionCodeEnum.JSON_PARSE_ERROR, "json parse exception", "message", e.getMessage(),"stringBuffer",stringBuffer));
         }
         return COMMON.Result.newBuilder().setDisplaymsg("success").setCode(200).build();
     }
 
     public COMMON.Result updateOrganizationDepartmentFromFile() {
+
+        String where = "MapBO->updateOrganizationDepartmentFromFile";
+
         String fileName = readHospitalFileName;
         String godAPIKey = amapAPIKey;
         String godSearchUrl = amapSearchPOIUrl;
@@ -186,7 +195,7 @@ public class MapBO {
                     JsonNode godSearchResultNode = mapper.readTree(godSearchResult.toString());
                     JsonNode infoNode = godSearchResultNode.findValue("pois").get(0);
                     //尝试打一下log
-                    log.info("params:" + params.toString());
+                    logger.info(LogInfoGenerator.generateCallInfo(where,"params",params.toString(), "params", params));
                     if (infoNode == null || infoNode.size() < 1) {
                         logErrorHospitalInfo(tempString);
                         continue;
@@ -280,9 +289,10 @@ public class MapBO {
                 }
             }
         } catch (Exception e) {
-            log.error("文件打开失败！");
-            log.error(e.getMessage());
-            e.printStackTrace();
+//            log.error("文件打开失败！");
+            logger.info(LogInfoGenerator.generateErrorInfo(where,YHJExceptionCodeEnum.THE_THIRD_PARTY_EXCEPTION, "open file error", "message", e.getMessage()));
+//            log.error(e.getMessage());
+//            e.printStackTrace();
 
         } finally {
             if (reader != null) {
@@ -304,6 +314,8 @@ public class MapBO {
      * @return
      */
     public COMMON.Result setOrganizationDepartmentFromFile() {
+        String where = "MapBO->setOrganizationDepartmentFromFile";
+
         String fileName = readHospitalFileName;
         String godAPIKey = amapAPIKey;
         String godSearchUrl = amapSearchPOIUrl;
@@ -349,7 +361,7 @@ public class MapBO {
                     JsonNode godSearchResultNode = mapper.readTree(godSearchResult.toString());
                     JsonNode infoNode = godSearchResultNode.findValue("pois").get(0);
                     //尝试打一下log
-                    log.info("params:" + params.toString());
+                    logger.info(LogInfoGenerator.generateCallInfo(where, "params", params));
                     if (infoNode == null || infoNode.size() < 1) {
                         logErrorHospitalInfo(tempString);
                         continue;
@@ -411,9 +423,7 @@ public class MapBO {
                 }
             }
         } catch (Exception e) {
-            log.error("文件打开失败！");
-            log.error(e.getMessage());
-            e.printStackTrace();
+            logger.info(LogInfoGenerator.generateErrorInfo(where,YHJExceptionCodeEnum.THE_THIRD_PARTY_EXCEPTION, "open file error", "message", e.getMessage()));
         } finally {
             if (reader != null) {
                 try {
@@ -502,6 +512,7 @@ public class MapBO {
     }
 
     public void improveOrganizationInfo() {
+        String where = "MapBo->improveOrganizationInfo";
         List<Organization> organizationList = organizationDAO.findAll();
         Map<Long, Area> map = getAreaIdObjMap();
         ObjectMapper mapper = new ObjectMapper();
@@ -517,7 +528,7 @@ public class MapBO {
                     JsonNode godSearchResultNode = mapper.readTree(godSearchResult.toString());
                     JsonNode infoNode = godSearchResultNode.findValue("pois").get(0);
                     //尝试打一下log
-                    log.info("params:" + params.toString());
+                    logger.info(LogInfoGenerator.generateCallInfo(where, "params", params));
                     if (infoNode == null || infoNode.size() < 1) {
                         continue;
                     }
