@@ -83,24 +83,16 @@ dependencies {
     testCompile group: "org.springframework.boot", name: "spring-boot-starter-test", version: "$springBootVersion"
 }
 
-if (project.hasProperty("buildPro") && buildPro == 'release') {
-    println("release version")
-    dependencies {
-        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.1"
-    }
-    jar {
-        exclude "META-INF/*.SF"
-        exclude "META-INF/*.DSA"
-        exclude "META-INF/*.RSA"
-        from {
-            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    if (project.hasProperty("buildPro") && buildPro == 'release') {
+        println("release version")
+        dependencies {
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.4"
         }
-    }
-} else {
-    println("develop version")
-    dependencies {
-//        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.0"
-        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "pre-v2.0.0-SNAPSHOT"
+    } else {
+        println("develop version")
+        dependencies {
+    //        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.0"
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2-SNAPSHOT"
     }
 
     def execute = { cmdString ->
