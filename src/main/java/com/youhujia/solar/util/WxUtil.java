@@ -3,6 +3,8 @@ package com.youhujia.solar.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +13,8 @@ import java.util.regex.Pattern;
  * Created by mmliu on 04/11/2016.
  */
 public class WxUtil {
-    static Log log = LogFactory.getLog(WxUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(WxUtil.class);
+
 
     public static UInfo getUserInfo(String code, String wxAppId, String wxSecret){
         String url = String.format("https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code",
