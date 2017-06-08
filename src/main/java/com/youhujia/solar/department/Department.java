@@ -95,7 +95,7 @@ public class Department {
     }
 
     @Basic
-    @Column(name = "status", insertable = false, nullable = true)
+    @Column(name = "status", nullable = true)
     public Integer getStatus() {
         return status;
     }
