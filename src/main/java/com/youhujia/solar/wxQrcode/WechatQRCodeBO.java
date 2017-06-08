@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.zxing.WriterException;
+import com.youhujia.halo.util.LogInfoGenerator;
+import com.youhujia.solar.common.SolarExceptionCodeEnum;
 import com.youhujia.solar.util.HttpUtil;
 import com.youhujia.solar.util.QRCodeUtils;
 import org.slf4j.Logger;
@@ -51,6 +53,9 @@ public class WechatQRCodeBO {
     }
 
     private String getAccessToken() {
+
+        String where = "WechatQRCodeBO->getAccessToken";
+
         String urlTemplate = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
 
         String url = String.format(urlTemplate, wxAppid, wxSecret);
@@ -62,14 +67,12 @@ public class WechatQRCodeBO {
             JsonNode jsonNode = objectMapper.readTree(respJson);
             String token = jsonNode.get("access_token").asText();
 
-            logger.debug("get token:" + token);
-
+//            logger.debug("get token:" + token);
+            logger.info(LogInfoGenerator.generateCallInfo(where, "token", token));
             return token;
         } catch (IOException e) {
-            logger.debug("Err when parse:" + respJson);
-            e.printStackTrace();
+            logger.info(LogInfoGenerator.generateErrorInfo(where, SolarExceptionCodeEnum.UNKNOWN_ERROR, "exception","json", respJson, "message", e.getMessage()));
         }
-
         return null;
     }
 
@@ -82,7 +85,7 @@ public class WechatQRCodeBO {
             e.printStackTrace();
         }
         String url = jsonNode.get("url").asText();
-        System.out.println("resp json:" + jsonNode.toString());
+//        System.out.println("resp json:" + jsonNode.toString());
 
         return url;
     }

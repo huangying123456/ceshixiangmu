@@ -38,6 +38,14 @@
                         }
                     </pattern>
                 </pattern>
+                <stackTrace>
+                    <fieldName>stackTrace</fieldName>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <!--<exclude>net\.sf\.cglib\..*</exclude>-->
+                        <maxDepthPerThrowable>50</maxDepthPerThrowable>
+                        <rootCauseFirst>true</rootCauseFirst>
+                    </throwableConverter>
+                </stackTrace>
             </providers>
         </encoder>
     </appender>
