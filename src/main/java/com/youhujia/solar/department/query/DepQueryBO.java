@@ -4,6 +4,7 @@ import com.google.zxing.WriterException;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
+import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.solar.department.Department;
 import com.youhujia.solar.department.DepartmentDAO;
 import com.youhujia.solar.department.create.DepCreateBO;
@@ -11,6 +12,8 @@ import com.youhujia.solar.organization.Organization;
 import com.youhujia.solar.organization.OrganizationDAO;
 import com.youhujia.solar.wxQrcode.WechatQRCodeBO;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,6 +37,8 @@ public class DepQueryBO {
     @Resource
     private WechatQRCodeBO wechatQRCodeBO;
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     public DepQueryContext getDepartmentById(Long departmentId) throws IOException, WriterException {
 
         DepQueryContext context = new DepQueryContext();
@@ -41,6 +46,7 @@ public class DepQueryBO {
         Department department = departmentDAO.findOne(departmentId);
 
         if (department == null) {
+            logger.error(LogInfoGenerator.generateCallInfo("DepQueryBO—>getDepartmentById", "error", "departmentId illegal", "departmentId", departmentId));
             return context;
         }
 
