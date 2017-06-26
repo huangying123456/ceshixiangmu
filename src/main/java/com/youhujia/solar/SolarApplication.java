@@ -9,14 +9,14 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = {
-    "com.youhujia.solar",
-    "com.youhujia.halo.yolar",
-    "com.youhujia.halo.guard",
-    "com.youhujia.halo.hdfragments"})
+        "com.youhujia.solar",
+        "com.youhujia.halo.yolar",
+        "com.youhujia.halo.guard",
+        "com.youhujia.halo.hdfragments"})
 @EnableFeignClients(basePackages = {
-    "com.youhujia.halo.yolar",
-    "com.youhujia.halo.guard",
-    "com.youhujia.halo.hdfragments"})
+        "com.youhujia.halo.yolar",
+        "com.youhujia.halo.hdfragments",
+        "com.youhujia.halo.guard"})
 public class SolarApplication {
 
 
