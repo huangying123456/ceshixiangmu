@@ -25,7 +25,7 @@ public class ServiceHeartbeatController extends BaseController {
     private DepartmentDAO departmentDAO;
 
     @RequestMapping(value = "/heartbeat", method = RequestMethod.GET)
-    public COMMON.SimpleResponse heartbeat(@RequestParam(value = "db") Boolean db) {
+    public COMMON.SimpleResponse heartbeat() {
 
         try {
             logger.info("Heartbeat find first, id: " + departmentDAO.findFirstByOrderByIdDesc().getId().toString());
