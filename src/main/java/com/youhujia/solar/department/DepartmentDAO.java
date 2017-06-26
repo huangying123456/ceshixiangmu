@@ -38,4 +38,6 @@ public interface DepartmentDAO extends JpaRepository<Department, Long> {
     @Query(value = "select d from Department d where d.guest = 0 and d.organizationId in :ids")
     List<Department> queryByOrganizationIds(@Param("ids") List<Long> organizationIds);
 
+    Department findFirstByOrderByIdDesc();
+
 }
