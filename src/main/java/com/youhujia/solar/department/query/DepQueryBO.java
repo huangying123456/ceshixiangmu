@@ -52,13 +52,17 @@ public class DepQueryBO {
 
         if (StringUtils.isEmpty(department.getWxSubQRCodeValue())
                 || department.getWxSubQRCodeValue().contains("http://")) {
+            //如果此科室是访客科室，则将departmentId变为对应的hostId
+            if (department.getGuest() == 1) {
+                departmentId = department.getHostId();
+            }
+
             department.setWxSubQRCodeValue(wechatQRCodeBO.generateWxSubQRCodeBase64Image(departmentId));
             department = departmentDAO.save(department);
         }
 
         context.setDepartment(department);
         return context;
-
     }
 
     public DepQueryContext getDepartmentListByIds(String ids) {
