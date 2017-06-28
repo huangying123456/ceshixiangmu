@@ -54,7 +54,11 @@ public class DepQueryBO {
                 || department.getWxSubQRCodeValue().contains("http://")) {
             //如果此科室是访客科室，则将departmentId变为对应的hostId
             if (department.getGuest() == 1) {
-                departmentId = department.getHostId();
+                if (department.getHostId() == null) {
+                    logger.error(LogInfoGenerator.generateCallInfo("DepQueryBO—>getDepartmentById", "error", "department illegal,guest is 1 but hostId is null", "departmentId", departmentId));
+                } else {
+                    departmentId = department.getHostId();
+                }
             }
 
             department.setWxSubQRCodeValue(wechatQRCodeBO.generateWxSubQRCodeBase64Image(departmentId));
