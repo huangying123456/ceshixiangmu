@@ -1,5 +1,6 @@
 package com.youhujia.solar.common;
 
+import com.google.protobuf.ExtensionRegistry;
 import com.googlecode.protobuf.format.JsonFormat;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
@@ -17,7 +18,8 @@ public class SolarHelper {
             return builder.build();
         }
         try {
-            JsonFormat.merge(json, builder);
+            JsonFormat jsonFormat = new JsonFormat();
+            jsonFormat.merge(json, ExtensionRegistry.getEmptyRegistry(), builder);
             return builder.build();
         } catch (JsonFormat.ParseException pe) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "数据格式化异常");
@@ -31,7 +33,8 @@ public class SolarHelper {
             return builder.build();
         }
         try {
-            JsonFormat.merge(json, builder);
+            JsonFormat jsonFormat = new JsonFormat();
+            jsonFormat.merge(json, ExtensionRegistry.getEmptyRegistry(), builder);
             return builder.build();
         } catch (JsonFormat.ParseException pe) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "数据格式化异常");
