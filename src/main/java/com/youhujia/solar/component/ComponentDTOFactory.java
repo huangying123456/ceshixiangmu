@@ -124,6 +124,7 @@ public class ComponentDTOFactory {
         if (tag.hasDptId()) {
             serviceItem.setDepartmentId(tag.getDptId());
         }
+
         serviceItem.setRank(Long.parseLong(jsonObject.get("rank").toString()));
 
         JSONObject.parseArray(jsonObject.get("serviceItemId").toString()).stream().forEach(serviceItemId -> {
