@@ -39,50 +39,6 @@ public class ComponentDTOFactory {
             componentListData.addAllComponent(buildComponentList(v, context));
             componentListDataListDTO.addComponentListData(componentListData);
         });
-//        List<HDFragments.TagListDTO> tagListDTOList = context.getTagListDTOList();
-//        if (tagListDTOList.size() > 0) {
-//            tagListDTOList.stream().forEach(tagListDTO -> {
-//
-//                Solar.ComponentListData.Builder componentListData = Solar.ComponentListData.newBuilder();
-//                tagListDTO.getData().getTagsList().stream().forEach(tag -> {
-//
-//                    Solar.Component.Builder componentBuild = Solar.Component.newBuilder();
-//
-//                    HDFragments.TagPropertiesDTO tagPropertiesDTO = getTagPropertiesByTagId(tag.getId());
-//
-//                    if (tagPropertiesDTO.getData().getPropertiesList().size() != 0) {
-//
-//                        tagPropertiesDTO.getData().getPropertiesList().stream().forEach(tagProperty -> {
-//                            JSONObject jsonObject = JSONObject.parseObject(tagProperty.getValue());
-//                            HDFragments.TagDTO tagDTO = hdFragmentsServiceWrap.getTagById(Long.parseLong(jsonObject.get("categoryId").toString()));
-//                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_GROUP.getName())) {
-//                                componentBuild.setType(ComponentTypeEnum.ARTICLE_GROUP.getName());
-//                                componentBuild.setArticleGroup(transform2ArticleGroupComponent(tag, jsonObject));
-//                            }
-//                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.DIRECT.getName())) {
-//                                componentBuild.setType(ComponentTypeEnum.DIRECT.getName());
-//                                componentBuild.setDirect(transform2DirectComponent(tag, jsonObject));
-//                            }
-//                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.SELF_EVALUATION.getName())) {
-//                                componentBuild.setType(ComponentTypeEnum.SELF_EVALUATION.getName());
-//                                componentBuild.setSelfEvaluation(transform2SelfEvaluationComponent(tag, jsonObject));
-//                            }
-//                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.SERVICE_ITEM.getName())) {
-//                                componentBuild.setType(ComponentTypeEnum.SERVICE_ITEM.getName());
-//                                componentBuild.setServiceItem(transform2ServiceItem(tag, jsonObject));
-//                            }
-//                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.Recom.getName())) {
-//                                componentBuild.setType(ComponentTypeEnum.Recom.getName());
-//                                componentBuild.setRecom(transform2RecomComponent(tag, jsonObject));
-//                            }
-//                        });
-//                    }
-//                    componentListData.setDepartmentId(tagListDTO.getData().getTags(0).getDptId());
-//                    componentListData.addComponent(componentBuild.build());
-//                });
-//                componentListDataListDTO.addComponentListData(componentListData.build());
-//            });
-//        }
         return componentListDataListDTO.setResult(ResponseUtil.resultOK()).build();
     }
 
