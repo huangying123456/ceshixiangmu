@@ -6,6 +6,8 @@ import com.youhujia.halo.solar.Solar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -184,4 +186,18 @@ public class DepartmentController extends BaseController {
             return handleException(a -> Solar.ManagerDepartmentDTO.newBuilder().setResult(a).build(), e);
         }
     }
+    /**
+     * QueryDepartment
+     */
+    @RequestMapping(value = "/query-department", method = RequestMethod.GET)
+    public Solar.DepartmentListDTO queryDepartment(@RequestParam Map<String, String> map) {
+
+        try {
+            return departmentBO.queryDepartment(map);
+        } catch (Exception e) {
+            return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
+
 }

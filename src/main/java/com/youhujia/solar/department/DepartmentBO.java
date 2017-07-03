@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -127,6 +128,14 @@ public class DepartmentBO {
 
     public COMMON.SimpleResponse requestManagementRight(Long departmentId, Solar.RequestManagementRightOption option) {
         return requestBO.requestManagementRight(departmentId, option);
+    }
+
+    public Solar.DepartmentListDTO queryDepartment(Map<String, String> map) {
+
+        DepQueryContext context = depQueryBo.queryDepartment(map);
+
+        return departmentFactory.toDepartmentListDTO(context.getDepartmentList());
+
     }
 
 }

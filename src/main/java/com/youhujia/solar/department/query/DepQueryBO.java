@@ -3,6 +3,7 @@ package com.youhujia.solar.department.query;
 import com.google.zxing.WriterException;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.owl.Owl;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.solar.department.Department;
@@ -14,12 +15,18 @@ import com.youhujia.solar.wxQrcode.WechatQRCodeBO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -38,6 +45,9 @@ public class DepQueryBO {
     private WechatQRCodeBO wechatQRCodeBO;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private DepQueryContextFactory depQueryContextFactory;
 
     public DepQueryContext getDepartmentById(Long departmentId) throws IOException, WriterException {
 
@@ -168,5 +178,14 @@ public class DepQueryBO {
             list.add(Long.parseLong(strings1));
         }
         return list;
+    }
+
+    public DepQueryContext queryDepartment(Map<String, String> map) {
+
+        DepQueryContext queryContext = depQueryContextFactory.buildQueryDepartmentContext(map);
+
+        return queryContext;
+
+
     }
 }

@@ -3,6 +3,7 @@ package com.youhujia.solar.department.query;
 import com.youhujia.solar.department.Department;
 import com.youhujia.solar.organization.Organization;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,43 @@ public class DepQueryContext {
     private Department department;
     private List<Department> departmentList;
     private Organization organization;
+
+    private Long status;
+    private List<Long> departmentIdsList = new ArrayList<>();
+    private List<Long> organizationIdsList = new ArrayList<>();
+    private List<Long> organizationsWithStatus;
+
+    public List<Long> getOrganizationsWithStatus() {
+        return organizationsWithStatus;
+    }
+
+    public void setOrganizationsWithStatus(List<Long> organizationsWithStatus) {
+        this.organizationsWithStatus = organizationsWithStatus;
+    }
+
+    public List<Long> getDepartmentIdsList() {
+        return departmentIdsList;
+    }
+
+    public void setDepartmentIdsList(List<Long> departmentIdsList) {
+        this.departmentIdsList = departmentIdsList;
+    }
+
+    public List<Long> getOrganizationIdsList() {
+        return organizationIdsList;
+    }
+
+    public void setOrganizationIdsList(List<Long> organizationIdsList) {
+        this.organizationIdsList = organizationIdsList;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
 
     public Department getDepartment() {
         return department;
