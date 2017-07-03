@@ -91,7 +91,7 @@ dependencies {
     } else {
         println("develop version")
         dependencies {
-            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2-SNAPSHOT"
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2-SNAPSHOT", changing: true
     }
 
     def execute = { cmdString ->
