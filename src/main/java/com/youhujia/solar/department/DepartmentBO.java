@@ -135,7 +135,5 @@ public class DepartmentBO {
         DepQueryContext context = depQueryBo.queryDepartment(map);
 
         return departmentFactory.toDepartmentListDTO(context.getDepartmentList());
-
     }
-
 }

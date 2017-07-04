@@ -3,7 +3,6 @@ package com.youhujia.solar.department.query;
 import com.google.zxing.WriterException;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
-import com.youhujia.halo.owl.Owl;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.solar.department.Department;
@@ -16,10 +15,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -185,7 +180,5 @@ public class DepQueryBO {
         DepQueryContext queryContext = depQueryContextFactory.buildQueryDepartmentContext(map);
 
         return queryContext;
-
-
     }
 }

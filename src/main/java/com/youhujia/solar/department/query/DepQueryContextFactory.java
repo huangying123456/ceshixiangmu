@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -144,8 +143,6 @@ public class DepQueryContextFactory {
         } else {
             return context.getOrganizationIdsList();
         }
-
-
     }
 
     private List<Department> computeDepartmentsByOrgIds(List<Long> orgIds) {
@@ -163,7 +160,6 @@ public class DepQueryContextFactory {
             }
         }
         return departments;
-
     }
 
     private List<Department> computeDeptsByOrgIdsAndDeptIds(List<Long> orgIds, List<Long> deptIds) {
@@ -176,7 +172,6 @@ public class DepQueryContextFactory {
             }
         }
         return departments;
-
     }
 
     private List<Department> computeDeptsByDeptIds(List<Long> deptIds) {
@@ -187,7 +182,5 @@ public class DepQueryContextFactory {
             departments.add(department);
         }
         return departments;
-
     }
-
 }

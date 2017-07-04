@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -198,6 +197,4 @@ public class DepartmentController extends BaseController {
             return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
         }
     }
-
-
 }
