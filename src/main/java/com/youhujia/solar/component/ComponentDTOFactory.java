@@ -52,23 +52,28 @@ public class ComponentDTOFactory {
                     JSONObject jsonObject = JSONObject.parseObject(tagProperty.getValue());
                     Integer categoryId = (Integer) jsonObject.get("categoryId");
 
-                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_GROUP.getName()) == categoryId.longValue()) {
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_GROUP.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_GROUP.getName()) == categoryId.longValue()) {
                         componentBuild.setType(ComponentTypeEnum.ARTICLE_GROUP.getName());
                         componentBuild.setArticleGroup(transform2ArticleGroupComponent(tagAndProperty.getTag(), jsonObject));
                     }
-                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.DIRECT.getName()) == categoryId.longValue()) {
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.DIRECT.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.DIRECT.getName()) == categoryId.longValue()) {
                         componentBuild.setType(ComponentTypeEnum.DIRECT.getName());
                         componentBuild.setDirect(transform2DirectComponent(tagAndProperty.getTag(), jsonObject));
                     }
-                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SELF_EVALUATION.getName()) == categoryId.longValue()) {
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SELF_EVALUATION.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SELF_EVALUATION.getName()) == categoryId.longValue()) {
                         componentBuild.setType(ComponentTypeEnum.SELF_EVALUATION.getName());
                         componentBuild.setSelfEvaluation(transform2SelfEvaluationComponent(tagAndProperty.getTag(), jsonObject));
                     }
-                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SERVICE_ITEM.getName()) == categoryId.longValue()) {
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SERVICE_ITEM.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SERVICE_ITEM.getName()) == categoryId.longValue()) {
                         componentBuild.setType(ComponentTypeEnum.SERVICE_ITEM.getName());
                         componentBuild.setServiceItem(transform2ServiceItem(tagAndProperty.getTag(), jsonObject));
                     }
-                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.Recom.getName()) == categoryId.longValue()) {
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.Recom.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.Recom.getName()) == categoryId.longValue()) {
                         componentBuild.setType(ComponentTypeEnum.Recom.getName());
                         componentBuild.setRecom(transform2RecomComponent(tagAndProperty.getTag(), jsonObject));
                     }
