@@ -40,4 +40,6 @@ public interface DepartmentDAO extends JpaRepository<Department, Long> {
 
     Department findFirstByOrderByIdDesc();
 
+    List<Department> findByIdIn(List<Long> ids);
+
 }

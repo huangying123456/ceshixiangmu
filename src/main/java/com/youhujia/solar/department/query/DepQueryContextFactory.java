@@ -7,7 +7,6 @@ import com.youhujia.halo.solar.SolarDepartmentQueryEnum;
 import com.youhujia.solar.common.SolarExceptionCodeEnum;
 import com.youhujia.solar.department.Department;
 import com.youhujia.solar.department.DepartmentDAO;
-import com.youhujia.solar.organization.OrganizationDAO;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -36,7 +35,6 @@ public class DepQueryContextFactory {
         try {
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 SolarDepartmentQueryEnum param = SolarDepartmentQueryEnum.getByName(entry.getKey());
-                String value = entry.getValue();
                 switch (param) {
                     case STATUS:
                         status = (entry.getValue());

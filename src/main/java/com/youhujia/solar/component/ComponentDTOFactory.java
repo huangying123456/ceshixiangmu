@@ -17,7 +17,9 @@ import com.youhujia.solar.component.query.serviceItem.ServiceItemComponentQueryC
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ljm on 2017/4/19.
@@ -25,58 +27,61 @@ import java.util.List;
 
 @Component
 public class ComponentDTOFactory {
-
     @Autowired
     HDFragmentsServiceWrap hdFragmentsServiceWrap;
 
     public Solar.ComponentListDataListDTO buildComponentListDTO(ComponentListQueryContext context) {
         Solar.ComponentListDataListDTO.Builder componentListDataListDTO = Solar.ComponentListDataListDTO.newBuilder();
-        List<HDFragments.TagListDTO> tagListDTOList = context.getTagListDTOList();
-
-        if (tagListDTOList.size() > 0) {
-            tagListDTOList.stream().forEach(tagListDTO -> {
-
-                Solar.ComponentListData.Builder componentListData = Solar.ComponentListData.newBuilder();
-                tagListDTO.getData().getTagsList().stream().forEach(tag -> {
-
-                    Solar.Component.Builder componentBuild = Solar.Component.newBuilder();
-
-                    HDFragments.TagPropertiesDTO tagPropertiesDTO = getTagPropertiesByTagId(tag.getId());
-
-                    if (tagPropertiesDTO.getData().getPropertiesList().size() != 0) {
-
-                        tagPropertiesDTO.getData().getPropertiesList().stream().forEach(tagProperty -> {
-                            JSONObject jsonObject = JSONObject.parseObject(tagProperty.getValue());
-                            HDFragments.TagDTO tagDTO = hdFragmentsServiceWrap.getTagById(Long.parseLong(jsonObject.get("categoryId").toString()));
-                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_GROUP.getName())) {
-                                componentBuild.setType(ComponentTypeEnum.ARTICLE_GROUP.getName());
-                                componentBuild.setArticleGroup(transform2ArticleGroupComponent(tag, jsonObject));
-                            }
-                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.DIRECT.getName())) {
-                                componentBuild.setType(ComponentTypeEnum.DIRECT.getName());
-                                componentBuild.setDirect(transform2DirectComponent(tag, jsonObject));
-                            }
-                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.SELF_EVALUATION.getName())) {
-                                componentBuild.setType(ComponentTypeEnum.SELF_EVALUATION.getName());
-                                componentBuild.setSelfEvaluation(transform2SelfEvaluationComponent(tag, jsonObject));
-                            }
-                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.SERVICE_ITEM.getName())) {
-                                componentBuild.setType(ComponentTypeEnum.SERVICE_ITEM.getName());
-                                componentBuild.setServiceItem(transform2ServiceItem(tag, jsonObject));
-                            }
-                            if (tagDTO.getData().getTag().getName().equals(ComponentTypeEnum.Recom.getName())) {
-                                componentBuild.setType(ComponentTypeEnum.Recom.getName());
-                                componentBuild.setRecom(transform2RecomComponent(tag, jsonObject));
-                            }
-                        });
-                    }
-                    componentListData.setDepartmentId(tagListDTO.getData().getTags(0).getDptId());
-                    componentListData.addComponent(componentBuild.build());
-                });
-                componentListDataListDTO.addComponentListData(componentListData.build());
-            });
-        }
+        Map<Long, List<HDFragments.TagAndProperty>> dtpIdTagAndPropertyListDic = context.getDtpIdTagAndPropertyListDic();
+        dtpIdTagAndPropertyListDic.forEach((k, v) -> {
+            Solar.ComponentListData.Builder componentListData = Solar.ComponentListData.newBuilder();
+            componentListData.setDepartmentId(k);
+            componentListData.addAllComponent(buildComponentList(v, context));
+            componentListDataListDTO.addComponentListData(componentListData);
+        });
         return componentListDataListDTO.setResult(ResponseUtil.resultOK()).build();
+    }
+
+    private List<Solar.Component> buildComponentList(List<HDFragments.TagAndProperty> tagAndProperties, ComponentListQueryContext context) {
+        List<Solar.Component> list = new ArrayList<>();
+        tagAndProperties.forEach(tagAndProperty -> {
+            Solar.Component.Builder componentBuild = Solar.Component.newBuilder();
+            if (tagAndProperty.getPropertiesList().size() != 0) {
+
+                tagAndProperty.getPropertiesList().forEach(tagProperty -> {
+                    JSONObject jsonObject = JSONObject.parseObject(tagProperty.getValue());
+                    Integer categoryId = (Integer) jsonObject.get("categoryId");
+
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_GROUP.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_GROUP.getName()) == categoryId.longValue()) {
+                        componentBuild.setType(ComponentTypeEnum.ARTICLE_GROUP.getName());
+                        componentBuild.setArticleGroup(transform2ArticleGroupComponent(tagAndProperty.getTag(), jsonObject));
+                    }
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.DIRECT.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.DIRECT.getName()) == categoryId.longValue()) {
+                        componentBuild.setType(ComponentTypeEnum.DIRECT.getName());
+                        componentBuild.setDirect(transform2DirectComponent(tagAndProperty.getTag(), jsonObject));
+                    }
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SELF_EVALUATION.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SELF_EVALUATION.getName()) == categoryId.longValue()) {
+                        componentBuild.setType(ComponentTypeEnum.SELF_EVALUATION.getName());
+                        componentBuild.setSelfEvaluation(transform2SelfEvaluationComponent(tagAndProperty.getTag(), jsonObject));
+                    }
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SERVICE_ITEM.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.SERVICE_ITEM.getName()) == categoryId.longValue()) {
+                        componentBuild.setType(ComponentTypeEnum.SERVICE_ITEM.getName());
+                        componentBuild.setServiceItem(transform2ServiceItem(tagAndProperty.getTag(), jsonObject));
+                    }
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.Recom.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.Recom.getName()) == categoryId.longValue()) {
+                        componentBuild.setType(ComponentTypeEnum.Recom.getName());
+                        componentBuild.setRecom(transform2RecomComponent(tagAndProperty.getTag(), jsonObject));
+                    }
+                });
+            }
+            list.add(componentBuild.build());
+        });
+        return list;
     }
 
     private Solar.Recom transform2RecomComponent(HDFragments.Tag tag, JSONObject jsonObject) {
@@ -124,6 +129,7 @@ public class ComponentDTOFactory {
         if (tag.hasDptId()) {
             serviceItem.setDepartmentId(tag.getDptId());
         }
+
         serviceItem.setRank(Long.parseLong(jsonObject.get("rank").toString()));
 
         JSONObject.parseArray(jsonObject.get("serviceItemId").toString()).stream().forEach(serviceItemId -> {
