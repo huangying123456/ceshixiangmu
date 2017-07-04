@@ -49,7 +49,8 @@ public class ComponentListQueryBO {
         ComponentListQueryContext context = new ComponentListQueryContext();
         Map<Long, List<HDFragments.Tag>> dtpIdTagsDic = new HashMap<>();
 
-        HDFragments.TagListDTO tagListDTO = getTagListByDeptIdsAndType(ids);
+        HDFragments.TagListDTO tagListDTO =
+                getTagListByDeptIdsAndType(ids);
         // 如果该科室有ui配置，直接获取它所属的科室ui
         if (tagListDTO.getData().getTagsList().size() != 0) {
             computeUITagByDptId(dtpIdTagsDic, tagListDTO);
@@ -57,10 +58,11 @@ public class ComponentListQueryBO {
         // 如果该科室没有ui配置，获取它所属的模板科室ui
         List<Long> all = parseStringToLongList(ids);
         computeDptIdsNoUI(tagListDTO, all);
-        Map<Long, List<HDFragments.Tag>> dic = getTagListDTOByTemplateDptIds(all);
-
-        if (dic.entrySet().size() != 0) {
-            dtpIdTagsDic.putAll(dic);
+        if(all.size() != 0){
+            Map<Long, List<HDFragments.Tag>> dic = getTagListDTOByTemplateDptIds(all);
+            if (dic.entrySet().size() != 0) {
+                dtpIdTagsDic.putAll(dic);
+            }
         }
         buildTagAndProperty(dtpIdTagsDic,context);
         buildComponentTypeCategoryIdDic(context);
@@ -149,20 +151,18 @@ public class ComponentListQueryBO {
 
     private Map<Long, List<HDFragments.Tag>> getTagListDTOByTemplateDptIds(List<Long> all) {
         List<Department> dpts = departmentDAO.findByIdIn(all);
-        List<String> templateDptIds = dpts.stream()
-                .map(department -> department.getClassificationType()).collect(Collectors.toList());
-        Map<String, Long> templateDptIdAndDptIdDic = dpts.stream()
-                .collect(Collectors.toMap(Department::getClassificationType, Department::getId));
+        Map<String, List<Department>> templateDptIdAndDptIdDic = dpts.stream()
+                .collect(Collectors.groupingBy(Department::getClassificationType));
 
-        HDFragments.TagListDTO tagListDTO = getTagListByDeptIdsAndType(parseCollectionToString(templateDptIds));
+        HDFragments.TagListDTO tagListDTO = getTagListByDeptIdsAndType(parseCollectionToString(templateDptIdAndDptIdDic.keySet()));
         Map<Long, List<HDFragments.Tag>> templateDptIdTagsdic = tagListDTO.getData().getTagsList()
                 .stream().collect(Collectors.groupingBy(HDFragments.Tag::getDptId));
 
         Map<Long, List<HDFragments.Tag>> dptIdTagsDic = new HashMap<>();
 
         templateDptIdTagsdic.forEach((k, v) -> {
-            Long dptId = templateDptIdAndDptIdDic.get(k.toString());
-            dptIdTagsDic.put(dptId, v);
+            List<Department> list = templateDptIdAndDptIdDic.get(k.toString());
+            list.forEach(department ->dptIdTagsDic.put(department.getId(), v));
         });
 
         return dptIdTagsDic;
