@@ -1,5 +1,6 @@
 package com.youhujia.solar.department.query;
 
+import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.solar.department.Department;
 import com.youhujia.solar.organization.Organization;
 
@@ -15,17 +16,25 @@ public class DepQueryContext {
     private List<Department> departmentList;
     private Organization organization;
 
-    private Long status;
     private List<Long> departmentIdsList = new ArrayList<>();
     private List<Long> organizationIdsList = new ArrayList<>();
-    private List<Long> organizationsWithStatus;
+    private List<DepartmentStatusEnum> departmentStatusEnumList = new ArrayList<>();
+    private List<Department> departmentListWithoutStatus;
 
-    public List<Long> getOrganizationsWithStatus() {
-        return organizationsWithStatus;
+    public List<Department> getDepartmentListWithoutStatus() {
+        return departmentListWithoutStatus;
     }
 
-    public void setOrganizationsWithStatus(List<Long> organizationsWithStatus) {
-        this.organizationsWithStatus = organizationsWithStatus;
+    public void setDepartmentListWithoutStatus(List<Department> departmentListWithoutStatus) {
+        this.departmentListWithoutStatus = departmentListWithoutStatus;
+    }
+
+    public List<DepartmentStatusEnum> getDepartmentStatusEnumList() {
+        return departmentStatusEnumList;
+    }
+
+    public void setDepartmentStatusEnumList(List<DepartmentStatusEnum> departmentStatusEnumList) {
+        this.departmentStatusEnumList = departmentStatusEnumList;
     }
 
     public List<Long> getDepartmentIdsList() {
@@ -42,14 +51,6 @@ public class DepQueryContext {
 
     public void setOrganizationIdsList(List<Long> organizationIdsList) {
         this.organizationIdsList = organizationIdsList;
-    }
-
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
     }
 
     public Department getDepartment() {

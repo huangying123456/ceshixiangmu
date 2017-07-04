@@ -187,6 +187,8 @@ public class DepartmentController extends BaseController {
     }
     /**
      * QueryDepartment
+     * 组合查询  详情参考 com.youhujia.halo.solar.SolarDepartmentQueryEnum
+     *
      */
     @RequestMapping(value = "/query-department", method = RequestMethod.GET)
     public Solar.DepartmentListDTO queryDepartment(@RequestParam Map<String, String> map) {

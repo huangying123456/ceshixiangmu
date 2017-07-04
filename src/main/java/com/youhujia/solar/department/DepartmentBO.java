@@ -10,8 +10,10 @@ import com.youhujia.solar.department.delete.DepDeleteBO;
 import com.youhujia.solar.department.delete.DepDeleteContext;
 import com.youhujia.solar.department.query.DepQueryBO;
 import com.youhujia.solar.department.query.DepQueryContext;
+import com.youhujia.solar.department.query.DepQueryContextFactory;
 import com.youhujia.solar.department.update.DepUpdateBO;
 import com.youhujia.solar.department.update.DepUpdateContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -41,6 +43,9 @@ public class DepartmentBO {
 
     @Resource
     private DepartmentDTOFactory departmentFactory;
+
+    @Resource
+    private DepQueryContextFactory depQueryContextFactory;
 
     public Solar.DepartmentDTO createDepartment(Solar.DepartmentCreateOption option) {
 
@@ -132,8 +137,6 @@ public class DepartmentBO {
 
     public Solar.DepartmentListDTO queryDepartment(Map<String, String> map) {
 
-        DepQueryContext context = depQueryBo.queryDepartment(map);
-
-        return departmentFactory.toDepartmentListDTO(context.getDepartmentList());
+        return depQueryBo.queryDepartment(map);
     }
 }

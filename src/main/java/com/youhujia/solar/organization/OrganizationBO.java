@@ -110,7 +110,9 @@ public class OrganizationBO {
     }
 
     public Solar.OrganizationAndDepartmentListDTO findAllOrganizationAndDepartment(Map<String, String> map) {
+
         OrgQueryContext context = queryBO.findAllOrganizationAndDepartment(map);
+
         return organizationDTOFactory.buildOrganizationAndDepartmentListDTO(context);
     }
 }

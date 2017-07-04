@@ -4,9 +4,11 @@ import com.google.zxing.WriterException;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
+import com.youhujia.halo.solar.Solar;
 import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.solar.department.Department;
 import com.youhujia.solar.department.DepartmentDAO;
+import com.youhujia.solar.department.DepartmentDTOFactory;
 import com.youhujia.solar.department.create.DepCreateBO;
 import com.youhujia.solar.organization.Organization;
 import com.youhujia.solar.organization.OrganizationDAO;
@@ -43,6 +45,9 @@ public class DepQueryBO {
 
     @Autowired
     private DepQueryContextFactory depQueryContextFactory;
+
+    @Autowired
+    private DepartmentDTOFactory departmentDTOFactory;
 
     public DepQueryContext getDepartmentById(Long departmentId) throws IOException, WriterException {
 
@@ -175,10 +180,10 @@ public class DepQueryBO {
         return list;
     }
 
-    public DepQueryContext queryDepartment(Map<String, String> map) {
+    public Solar.DepartmentListDTO queryDepartment(Map<String, String> map) {
 
-        DepQueryContext queryContext = depQueryContextFactory.buildQueryDepartmentContext(map);
+        DepQueryContext context = depQueryContextFactory.buildQueryDepartmentContext(map);
 
-        return queryContext;
+        return departmentDTOFactory.buildDepartmentListDTO(context);
     }
 }

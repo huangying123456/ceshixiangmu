@@ -3,7 +3,9 @@ package com.youhujia.solar.department;
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
+import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.Solar;
+import com.youhujia.solar.common.SolarExceptionCodeEnum;
 import com.youhujia.solar.department.create.DepCreateContext;
 import com.youhujia.solar.department.delete.DepDeleteContext;
 import com.youhujia.solar.department.query.DepQueryContext;
@@ -13,7 +15,12 @@ import com.youhujia.solar.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static com.youhujia.halo.util.ResponseUtil.resultOK;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -23,6 +30,10 @@ public class DepartmentDTOFactory {
 
     @Autowired
     private OrganizationDAO organizationDAO;
+
+    @Autowired
+    private DepartmentDAO departmentDAO;
+
 
     public Solar.DepartmentDTO buildCreateDepartmentDTO(DepCreateContext context) {
 
@@ -152,9 +163,8 @@ public class DepartmentDTOFactory {
         list.stream().forEach(department -> {
             builder.addDepartment(buildDepartment(department));
         });
-        builder.setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
 
-        return builder.build();
+        return builder.setResult(resultOK()).build();
     }
 
     private Solar.Department buildDepartment(Department department) {
@@ -211,4 +221,18 @@ public class DepartmentDTOFactory {
         }
         return organization;
     }
+
+    public Solar.DepartmentListDTO buildDepartmentListDTO(DepQueryContext context) {
+
+        Solar.DepartmentListDTO.Builder builder = Solar.DepartmentListDTO.newBuilder();
+        context.getDepartmentList().stream().forEach(department -> {
+            builder.addDepartment(buildDepartment(department));
+        });
+
+        return builder.setResult(resultOK()).build();
+    }
+
+
+
+
 }
