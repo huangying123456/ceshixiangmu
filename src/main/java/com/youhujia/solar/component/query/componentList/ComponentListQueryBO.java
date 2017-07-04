@@ -6,7 +6,6 @@ import com.youhujia.halo.hdfragments.HDFragments;
 import com.youhujia.halo.hdfragments.HDFragmentsServiceWrap;
 import com.youhujia.halo.hdfragments.HDFragmentsTagQueryEnum;
 import com.youhujia.halo.hdfragments.HDFragmentsTagTypeEnum;
-import com.youhujia.halo.solar.ComponentTypeEnum;
 import com.youhujia.solar.department.Department;
 import com.youhujia.solar.department.DepartmentDAO;
 import org.springframework.beans.BeanUtils;
@@ -49,8 +48,7 @@ public class ComponentListQueryBO {
         ComponentListQueryContext context = new ComponentListQueryContext();
         Map<Long, List<HDFragments.Tag>> dtpIdTagsDic = new HashMap<>();
 
-        HDFragments.TagListDTO tagListDTO =
-                getTagListByDeptIdsAndType(ids);
+        HDFragments.TagListDTO tagListDTO = getTagListByDeptIdsAndType(ids);
         // 如果该科室有ui配置，直接获取它所属的科室ui
         if (tagListDTO.getData().getTagsList().size() != 0) {
             computeUITagByDptId(dtpIdTagsDic, tagListDTO);
@@ -58,24 +56,24 @@ public class ComponentListQueryBO {
         // 如果该科室没有ui配置，获取它所属的模板科室ui
         List<Long> all = parseStringToLongList(ids);
         computeDptIdsNoUI(tagListDTO, all);
-        if(all.size() != 0){
+        if (all.size() != 0) {
             Map<Long, List<HDFragments.Tag>> dic = getTagListDTOByTemplateDptIds(all);
             if (dic.entrySet().size() != 0) {
                 dtpIdTagsDic.putAll(dic);
             }
         }
-        buildTagAndProperty(dtpIdTagsDic,context);
+        buildTagAndProperty(dtpIdTagsDic, context);
         buildComponentTypeCategoryIdDic(context);
         return context;
     }
 
     private void buildComponentTypeCategoryIdDic(ComponentListQueryContext context) {
-        Map<String,Long> componentNameCategoryIdDic = context.getTagIdCategoryTagDic().values().stream()
-                .collect(Collectors.toMap(HDFragments.Tag::getName,HDFragments.Tag::getId));
+        Map<String, Long> componentNameCategoryIdDic = context.getTagIdCategoryTagDic().values().stream()
+                .collect(Collectors.toMap(HDFragments.Tag::getName, HDFragments.Tag::getId));
         context.setComponentNameCategoryIdDic(componentNameCategoryIdDic);
     }
 
-    private void buildTagAndProperty(Map<Long, List<HDFragments.Tag>> dtpIdTagsDic,ComponentListQueryContext context) {
+    private void buildTagAndProperty(Map<Long, List<HDFragments.Tag>> dtpIdTagsDic, ComponentListQueryContext context) {
         List<Long> tagIds = dtpIdTagsDic.values().stream()
                 .flatMap(Collection::stream)
                 .map(HDFragments.Tag::getId)
@@ -90,8 +88,8 @@ public class ComponentListQueryBO {
 
 
         HDFragments.TagsAndPropertiesDTO tagsAndPropertiesDTO = hdFragmentsServiceWrap.getTagsAndPropertiesByTagIds(parseCollectionToString(tagIds));
-        Map<Long,HDFragments.TagAndProperty> tagIdTagAndPropertyDic= tagsAndPropertiesDTO.getTagsList().stream()
-                .collect(Collectors.toMap(tagAndProperty->tagAndProperty.getTag().getId(), Function.identity()));
+        Map<Long, HDFragments.TagAndProperty> tagIdTagAndPropertyDic = tagsAndPropertiesDTO.getTagsList().stream()
+                .collect(Collectors.toMap(tagAndProperty -> tagAndProperty.getTag().getId(), Function.identity()));
 
 
         Map<Long, List<HDFragments.TagAndProperty>> dtpIdTagAndPropertyListDic = new HashMap<>();
@@ -100,15 +98,15 @@ public class ComponentListQueryBO {
             v.forEach(tag -> {
                 tagAndPropertys.add(tagIdTagAndPropertyDic.get(tag.getId()));
             });
-            dtpIdTagAndPropertyListDic.put(k,tagAndPropertys);
+            dtpIdTagAndPropertyListDic.put(k, tagAndPropertys);
         });
         context.setDtpIdTagAndPropertyListDic(dtpIdTagAndPropertyListDic);
 
 
-        Map<Long,HDFragments.Tag> tagIdCategoryTagDic = tagsAndPropertiesDTO.getTagsList().stream()
+        Map<Long, HDFragments.Tag> tagIdCategoryTagDic = tagsAndPropertiesDTO.getTagsList().stream()
                 .map(HDFragments.TagAndProperty::getTag)
                 .filter(tag -> categoryTagIds.contains(tag.getId()))
-                .collect(Collectors.toMap(HDFragments.Tag::getId,Function.identity()));
+                .collect(Collectors.toMap(HDFragments.Tag::getId, Function.identity()));
         context.setTagIdCategoryTagDic(tagIdCategoryTagDic);
     }
 
@@ -162,7 +160,7 @@ public class ComponentListQueryBO {
 
         templateDptIdTagsdic.forEach((k, v) -> {
             List<Department> list = templateDptIdAndDptIdDic.get(k.toString());
-            list.forEach(department ->dptIdTagsDic.put(department.getId(), v));
+            list.forEach(department -> dptIdTagsDic.put(department.getId(), v));
         });
 
         return dptIdTagsDic;
