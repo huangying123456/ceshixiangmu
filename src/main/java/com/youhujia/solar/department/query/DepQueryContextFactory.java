@@ -73,11 +73,9 @@ public class DepQueryContextFactory {
     }
 
     private void checkQueryParam(DepQueryContext context) {
-        if (context.getStatus() == null) {
-            if (context.getDepartmentIdsList() == null || context.getDepartmentIdsList().size() < 1) {
-                if (context.getOrganizationIdsList() == null || context.getOrganizationIdsList().size() < 1) {
-                    throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "查询参数不能全为空！");
-                }
+        if (context.getDepartmentIdsList() == null || context.getDepartmentIdsList().size() < 1) {
+            if (context.getOrganizationIdsList() == null || context.getOrganizationIdsList().size() < 1) {
+                throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "organizationIds departmentIds不能全为空！");
             }
         }
 
@@ -92,7 +90,7 @@ public class DepQueryContextFactory {
             for (Long id : context.getOrganizationIdsList()) {
                 Organization organization = organizationDAO.findOne(id);
                 if (organization == null || organization.getId() == 0) {
-                    throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "参数organization id 非法！");
+                    throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "参数organizationId 非法！");
                 }
             }
         }
@@ -102,7 +100,7 @@ public class DepQueryContextFactory {
             for (Long id : context.getDepartmentIdsList()) {
                 Department department = departmentDAO.findOne(id);
                 if (department == null || department.getId() == 0) {
-                    throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "参数department id 非法！");
+                    throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "参数departmentId 非法！");
                 }
             }
         }
@@ -110,12 +108,9 @@ public class DepQueryContextFactory {
     }
 
 
-
     private DepQueryContext computeDepartmentList(DepQueryContext context) {
 
-        List<Department> departments = new ArrayList<>();
-
-        List<Department> departmentList = new ArrayList<>();
+        List<Department> departments;
 
         List<Long> organizationIds = computeOrganizationWithStatusIds(context);
 
@@ -123,26 +118,13 @@ public class DepQueryContextFactory {
 
         //分三种情况：1.department和organization都存在。2.department存在，organization不存在。3.organization存在，department不存在
         if (departmentIds != null && departmentIds.size() > 0) {
-            for (Long id : departmentIds) {
-                Department department = departmentDAO.findOne(id);
-                if (organizationIds != null && organizationIds.size() > 0) {
-                    if (organizationIds.contains(department.getOrganizationId())) {
-                        departmentList.add(department);
-                    }
-                } else {
-                    departmentList.add(department);
-                }
+            if (organizationIds != null && organizationIds.size() > 0) {
+                departments = computeDeptsByOrgIdsAndDeptIds(organizationIds, departmentIds);
+            } else {
+                departments = computeDeptsByDeptIds(departmentIds);
             }
-
         } else {
-            for (Long l : organizationIds) {
-                departmentList = departmentDAO.findByOrganizationId(l);
-                if (departmentList != null || departmentList.size() > 0) {
-                    for (Department department : departmentList) {
-                        departments.add(department);
-                    }
-                }
-            }
+            departments = computeDepartmentsByOrgIds(organizationIds);
         }
         context.setDepartmentList(departments);
         return context;
@@ -151,7 +133,7 @@ public class DepQueryContextFactory {
     private List<Long> computeOrganizationWithStatusIds(DepQueryContext context) {
 
         List<Long> organizationWithStatusIds = new ArrayList<>();
-        if (context.getStatus() != null && context.getOrganizationIdsList()!=null) {
+        if (context.getStatus() != null && context.getOrganizationIdsList() != null) {
             for (Long orgId : context.getOrganizationIdsList()) {
                 Organization organization = organizationDAO.findOne(orgId);
                 if (organization.getStatus().longValue() == context.getStatus().longValue()) {
@@ -165,4 +147,47 @@ public class DepQueryContextFactory {
 
 
     }
+
+    private List<Department> computeDepartmentsByOrgIds(List<Long> orgIds) {
+
+        List<Department> departments = new ArrayList<>();
+
+        List<Department> DepartmentsByOrgIds = new ArrayList<>();
+
+        for (Long l : orgIds) {
+            DepartmentsByOrgIds = departmentDAO.findByOrganizationId(l);
+            if (DepartmentsByOrgIds != null || DepartmentsByOrgIds.size() > 0) {
+                for (Department department : DepartmentsByOrgIds) {
+                    departments.add(department);
+                }
+            }
+        }
+        return departments;
+
+    }
+
+    private List<Department> computeDeptsByOrgIdsAndDeptIds(List<Long> orgIds, List<Long> deptIds) {
+
+        List<Department> departments = new ArrayList<>();
+        for (Long id : deptIds) {
+            Department department = departmentDAO.findOne(id);
+            if (orgIds.contains(department.getOrganizationId())) {
+                departments.add(department);
+            }
+        }
+        return departments;
+
+    }
+
+    private List<Department> computeDeptsByDeptIds(List<Long> deptIds) {
+
+        List<Department> departments = new ArrayList<>();
+        for (Long id : deptIds) {
+            Department department = departmentDAO.findOne(id);
+            departments.add(department);
+        }
+        return departments;
+
+    }
+
 }
