@@ -86,13 +86,12 @@ dependencies {
     if (project.hasProperty("buildPro") && buildPro == 'release') {
         println("release version")
         dependencies {
-            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.8"
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.10"
         }
     } else {
         println("develop version")
         dependencies {
-    //        compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.0"
-            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2-SNAPSHOT"
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2-SNAPSHOT", changing: true
     }
 
     def execute = { cmdString ->
