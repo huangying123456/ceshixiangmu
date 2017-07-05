@@ -24,7 +24,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 创建科室
-     *
      * @param option
      * @return
      */
@@ -40,7 +39,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据科室id获取科室信息
-     *
      * @param departmentId
      * @return
      */
@@ -56,7 +54,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据科室id批量获取科室信息
-     *
      * @param ids
      * @return
      */
@@ -72,7 +69,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据科室编号获取科室信息
-     *
      * @param departmentNo
      * @return
      */
@@ -87,7 +83,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据中科室id获取访客科室
-     *
      * @param departmentId
      * @return
      */
@@ -103,7 +98,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 更新科室信息
-     *
      * @param department
      * @return
      */
@@ -119,7 +113,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 更新科室微信二维码
-     *
      * @param option
      * @return
      */
@@ -135,7 +128,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 科室管理员申请开通科室后台管理权限
-     *
      * @param departmentId
      * @param option
      * @return
@@ -154,7 +146,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据机构id获取科室（助手端）
-     *
      * @param orgId
      * @return
      */
@@ -172,7 +163,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 管理员根据机构id获取科室
-     *
      * @param orgId
      * @return
      */
@@ -188,7 +178,6 @@ public class DepartmentController extends BaseController {
 
     /**
      * 管理员删除科室
-     *
      * @param departmentId
      * @return
      */

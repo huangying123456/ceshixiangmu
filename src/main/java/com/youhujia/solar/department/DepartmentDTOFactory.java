@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.youhujia.halo.util.ResponseUtil.resultOK;
-
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -212,7 +211,6 @@ public class DepartmentDTOFactory {
         }
         return organization;
     }
-
     public Solar.DepartmentListDTO buildDepartmentListDTO(DepQueryContext context) {
 
         Solar.DepartmentListDTO.Builder builder = Solar.DepartmentListDTO.newBuilder();
@@ -222,6 +220,4 @@ public class DepartmentDTOFactory {
 
         return builder.setResult(resultOK()).build();
     }
-
-
 }
