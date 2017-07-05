@@ -166,16 +166,16 @@ public class DepQueryContextFactory {
 
         List<Department> departments = new ArrayList<>();
 
-        if(context.getDepartmentStatusEnumList()!=null && context.getDepartmentStatusEnumList().size()>0){
+        if (context.getDepartmentStatusEnumList() != null && context.getDepartmentStatusEnumList().size() > 0) {
             for (Department department : context.getDepartmentListWithoutStatus()) {
                 //如果部门的status是enum中的一个
-                if (context.getDepartmentStatusEnumList().contains(department.getStatus())) {
+                if (context.getDepartmentStatusEnumList().contains(DepartmentStatusEnum.getByStatus(Long.valueOf(department.getStatus())))) {
 
                     departments.add(department);
                 }
             }
-          }else{
-                 departments=context.getDepartmentListWithoutStatus();
+        } else {
+            departments = context.getDepartmentListWithoutStatus();
         }
 
         return departments;

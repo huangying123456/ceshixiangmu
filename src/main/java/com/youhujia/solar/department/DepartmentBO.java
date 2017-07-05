@@ -13,7 +13,6 @@ import com.youhujia.solar.department.query.DepQueryContext;
 import com.youhujia.solar.department.query.DepQueryContextFactory;
 import com.youhujia.solar.department.update.DepUpdateBO;
 import com.youhujia.solar.department.update.DepUpdateContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
