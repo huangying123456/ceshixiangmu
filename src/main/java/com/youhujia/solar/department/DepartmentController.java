@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
-
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -21,7 +20,6 @@ public class DepartmentController extends BaseController {
 
     @Resource
     private DepQueryBO depQueryBO;
-
     /**
      * 创建科室
      * @param option
