@@ -150,6 +150,7 @@ public class ComponentListQueryBO {
     private Map<Long, List<HDFragments.Tag>> getTagListDTOByTemplateDptIds(List<Long> all) {
         List<Department> dpts = departmentDAO.findByIdIn(all);
         Map<String, List<Department>> templateDptIdAndDptIdDic = dpts.stream()
+                .filter(department -> department.getClassificationType() != null)
                 .collect(Collectors.groupingBy(Department::getClassificationType));
 
         HDFragments.TagListDTO tagListDTO = getTagListByDeptIdsAndType(parseCollectionToString(templateDptIdAndDptIdDic.keySet()));
