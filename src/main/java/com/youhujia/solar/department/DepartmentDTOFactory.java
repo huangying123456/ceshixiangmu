@@ -3,9 +3,7 @@ package com.youhujia.solar.department;
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
-import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.Solar;
-import com.youhujia.solar.common.SolarExceptionCodeEnum;
 import com.youhujia.solar.department.create.DepCreateContext;
 import com.youhujia.solar.department.delete.DepDeleteContext;
 import com.youhujia.solar.department.query.DepQueryContext;
@@ -15,10 +13,7 @@ import com.youhujia.solar.organization.OrganizationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.youhujia.halo.util.ResponseUtil.resultOK;
 
@@ -30,10 +25,6 @@ public class DepartmentDTOFactory {
 
     @Autowired
     private OrganizationDAO organizationDAO;
-
-    @Autowired
-    private DepartmentDAO departmentDAO;
-
 
     public Solar.DepartmentDTO buildCreateDepartmentDTO(DepCreateContext context) {
 
@@ -153,7 +144,7 @@ public class DepartmentDTOFactory {
         Solar.DepartmentDTO.Builder DTOBuilder = Solar.DepartmentDTO.newBuilder();
 
         DTOBuilder.setDepartment(buildDepartment(department))
-            .setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
+                .setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
         return DTOBuilder.build();
     }
 
@@ -172,9 +163,9 @@ public class DepartmentDTOFactory {
         Solar.Department.Builder builder = Solar.Department.newBuilder();
 
         builder.setDepartmentId(department.getId())
-            .setName(department.getName())
-            .setOrganizationId(department.getOrganizationId())
-            .setOrganizationName(getOrganization(department.getOrganizationId()).getName());
+                .setName(department.getName())
+                .setOrganizationId(department.getOrganizationId())
+                .setOrganizationName(getOrganization(department.getOrganizationId()).getName());
 
         if (department.getCreatedAt() != null) {
             builder.setCreatedAt(department.getCreatedAt().getTime());
@@ -231,8 +222,6 @@ public class DepartmentDTOFactory {
 
         return builder.setResult(resultOK()).build();
     }
-
-
 
 
 }

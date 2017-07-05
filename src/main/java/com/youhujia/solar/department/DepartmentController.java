@@ -3,10 +3,12 @@ package com.youhujia.solar.department;
 import com.youhujia.halo.common.BaseController;
 import com.youhujia.halo.common.COMMON;
 import com.youhujia.halo.solar.Solar;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.youhujia.solar.department.query.DepQueryBO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.Map;
+
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -14,11 +16,15 @@ import java.util.Map;
 @RequestMapping(value = "/api/solar/v1/departments")
 public class DepartmentController extends BaseController {
 
-    @Autowired
+    @Resource
     private DepartmentBO departmentBO;
+
+    @Resource
+    private DepQueryBO depQueryBO;
 
     /**
      * 创建科室
+     *
      * @param option
      * @return
      */
@@ -34,6 +40,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据科室id获取科室信息
+     *
      * @param departmentId
      * @return
      */
@@ -49,6 +56,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据科室id批量获取科室信息
+     *
      * @param ids
      * @return
      */
@@ -64,6 +72,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据科室编号获取科室信息
+     *
      * @param departmentNo
      * @return
      */
@@ -78,6 +87,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据中科室id获取访客科室
+     *
      * @param departmentId
      * @return
      */
@@ -93,6 +103,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 更新科室信息
+     *
      * @param department
      * @return
      */
@@ -108,6 +119,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 更新科室微信二维码
+     *
      * @param option
      * @return
      */
@@ -123,6 +135,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 科室管理员申请开通科室后台管理权限
+     *
      * @param departmentId
      * @param option
      * @return
@@ -141,6 +154,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 根据机构id获取科室（助手端）
+     *
      * @param orgId
      * @return
      */
@@ -158,6 +172,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 管理员根据机构id获取科室
+     *
      * @param orgId
      * @return
      */
@@ -173,6 +188,7 @@ public class DepartmentController extends BaseController {
 
     /**
      * 管理员删除科室
+     *
      * @param departmentId
      * @return
      */
@@ -185,16 +201,16 @@ public class DepartmentController extends BaseController {
             return handleException(a -> Solar.ManagerDepartmentDTO.newBuilder().setResult(a).build(), e);
         }
     }
+
     /**
      * QueryDepartment
      * 组合查询  详情参考 com.youhujia.halo.solar.SolarDepartmentQueryEnum
-     *
      */
     @RequestMapping(value = "/query-department", method = RequestMethod.GET)
     public Solar.DepartmentListDTO queryDepartment(@RequestParam Map<String, String> map) {
 
         try {
-            return departmentBO.queryDepartment(map);
+            return depQueryBO.queryDepartment(map);
         } catch (Exception e) {
             return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
         }

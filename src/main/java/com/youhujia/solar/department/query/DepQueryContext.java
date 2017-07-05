@@ -19,15 +19,6 @@ public class DepQueryContext {
     private List<Long> departmentIdsList = new ArrayList<>();
     private List<Long> organizationIdsList = new ArrayList<>();
     private List<DepartmentStatusEnum> departmentStatusEnumList = new ArrayList<>();
-    private List<Department> departmentListWithoutStatus;
-
-    public List<Department> getDepartmentListWithoutStatus() {
-        return departmentListWithoutStatus;
-    }
-
-    public void setDepartmentListWithoutStatus(List<Department> departmentListWithoutStatus) {
-        this.departmentListWithoutStatus = departmentListWithoutStatus;
-    }
 
     public List<DepartmentStatusEnum> getDepartmentStatusEnumList() {
         return departmentStatusEnumList;

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -31,18 +32,15 @@ import java.util.Map;
 @Service
 public class DepQueryBO {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
     private DepartmentDAO departmentDAO;
     @Resource
     private OrganizationDAO organizationDAO;
     @Resource
     private DepCreateBO depCreateBO;
-
     @Resource
     private WechatQRCodeBO wechatQRCodeBO;
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     @Autowired
     private DepQueryContextFactory depQueryContextFactory;
 
@@ -184,6 +182,47 @@ public class DepQueryBO {
 
         DepQueryContext context = depQueryContextFactory.buildQueryDepartmentContext(map);
 
+        queryDepartmentList(context);
+
         return departmentDTOFactory.buildDepartmentListDTO(context);
+    }
+
+    private DepQueryContext queryDepartmentList(DepQueryContext context) {
+
+        /**
+         * 1. dpt ids size > 0, 取出所有科室
+         * 2. org ids size > 0, 第一步结果过滤 orgIds
+         * 3. 上一步结果过滤 status
+         */
+        List<Department> departments;
+        List<Long> organizationIds = context.getOrganizationIdsList();
+        List<Long> departmentIds = context.getDepartmentIdsList();
+
+        if (departmentIds.size() > 0) {
+            departments = departmentDAO.findAll(departmentIds);
+
+            if (organizationIds.size() > 0) {
+                departments = departments.stream().filter(d -> organizationIds.contains(d.getOrganizationId())).collect(Collectors.toList());
+            }
+        } else {
+            departments = departmentDAO.findByOrganizationIdIn(organizationIds);
+        }
+
+        context.setDepartmentList(departments);
+
+        filterDepartmentByStatus(context);
+
+        return context;
+    }
+
+    private void filterDepartmentByStatus(DepQueryContext context) {
+
+        List<Department> departmentList = context.getDepartmentList();
+
+        List<Integer> statusList = context.getDepartmentStatusEnumList().stream().map(DepartmentStatusEnum::getStatus).collect(Collectors.toList());
+
+        departmentList = departmentList.stream().filter(d -> statusList.contains(d.getStatus())).collect(Collectors.toList());
+
+        context.setDepartmentList(departmentList);
     }
 }
