@@ -33,7 +33,7 @@ public class DepQueryContextFactory {
                 String[] entries = entry.getValue().split(",");
                 switch (param) {
                     case STATUS:
-                        Arrays.stream(entries).forEach(status -> statusList.add(DepartmentStatusEnum.getByStatus(Long.valueOf(status))));
+                        Arrays.stream(entries).forEach(status -> statusList.add(DepartmentStatusEnum.getByStatus(Integer.valueOf(status))));
                         break;
                     case DEPARTMENT_IDS:
                         Arrays.stream(entries).forEach(deptId -> departmentIds.add(Long.valueOf(deptId)));
