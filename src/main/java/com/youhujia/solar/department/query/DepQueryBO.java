@@ -173,6 +173,9 @@ public class DepQueryBO {
         String[] strings = ids.split(",");
         List<Long> list = new ArrayList<>();
         for (String strings1 : strings) {
+            if (strings1 == null || strings1.trim().isEmpty()){
+                continue;
+            }
             list.add(Long.parseLong(strings1));
         }
         return list;
