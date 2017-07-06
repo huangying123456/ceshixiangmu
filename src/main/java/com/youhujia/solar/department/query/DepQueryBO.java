@@ -200,13 +200,17 @@ public class DepQueryBO {
 
         if (departmentIds.size() > 0) {
             departments = departmentDAO.findAll(departmentIds);
-
             if (organizationIds.size() > 0) {
                 departments = departments.stream().filter(d -> organizationIds.contains(d.getOrganizationId())).collect(Collectors.toList());
             }
         } else {
             departments = departmentDAO.findByOrganizationIdIn(organizationIds);
         }
+
+        //考虑到可能存在访客科室，要将访客科室过滤掉
+        departments.stream()
+                .filter(department -> department.getGuest()== 0)
+                .collect(Collectors.toList());
 
         context.setDepartmentList(departments);
 
