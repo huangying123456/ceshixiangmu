@@ -59,7 +59,7 @@ public class DepQueryBO {
         }
 
         if (StringUtils.isEmpty(department.getWxSubQRCodeValue())
-                || department.getWxSubQRCodeValue().contains("http://")) {
+            || department.getWxSubQRCodeValue().contains("http://")) {
             //如果此科室是访客科室，则将departmentId变为对应的hostId
             if (department.getGuest() == 1) {
                 if (department.getHostId() == null) {
@@ -81,14 +81,9 @@ public class DepQueryBO {
 
         DepQueryContext context = new DepQueryContext();
 
-        if (ids == null) {
-            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "departmentIds 为空");
-        }
         List<Department> departmentList = departmentDAO.findAll(getListByString(ids));
-        if (departmentList == null || departmentList.size() <= 0) {
-            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！错误的科室id！");
-        }
         context.setDepartmentList(departmentList);
+
         return context;
     }
 
@@ -172,11 +167,17 @@ public class DepQueryBO {
 
         String[] strings = ids.split(",");
         List<Long> list = new ArrayList<>();
-        for (String strings1 : strings) {
-            if (strings1 == null || strings1.trim().isEmpty()){
+        for (String id : strings) {
+            if (id == null || id.trim().isEmpty()) {
                 continue;
             }
-            list.add(Long.parseLong(strings1));
+
+            // 解析 ID
+            try {
+                list.add(Long.parseLong(id));
+            } catch (Exception e) {
+                logger.error(LogInfoGenerator.generateCallInfo("DepQueryBO—>getListByString", "error", "invalid id", "id", id));
+            }
         }
         return list;
     }
@@ -212,9 +213,9 @@ public class DepQueryBO {
 
         //考虑到可能存在访客科室，要将访客科室过滤掉
         List<Department> hostDepartments = departments
-                .stream()
-                .filter(department -> department.getGuest() == 0)
-                .collect(Collectors.toList());
+            .stream()
+            .filter(department -> department.getGuest() == 0)
+            .collect(Collectors.toList());
 
         context.setDepartmentList(hostDepartments);
 
