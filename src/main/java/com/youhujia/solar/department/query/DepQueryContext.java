@@ -1,8 +1,10 @@
 package com.youhujia.solar.department.query;
 
+import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.solar.department.Department;
 import com.youhujia.solar.organization.Organization;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +15,34 @@ public class DepQueryContext {
     private Department department;
     private List<Department> departmentList;
     private Organization organization;
+
+    private List<Long> departmentIdsList = new ArrayList<>();
+    private List<Long> organizationIdsList = new ArrayList<>();
+    private List<DepartmentStatusEnum> departmentStatusEnumList = new ArrayList<>();
+
+    public List<DepartmentStatusEnum> getDepartmentStatusEnumList() {
+        return departmentStatusEnumList;
+    }
+
+    public void setDepartmentStatusEnumList(List<DepartmentStatusEnum> departmentStatusEnumList) {
+        this.departmentStatusEnumList = departmentStatusEnumList;
+    }
+
+    public List<Long> getDepartmentIdsList() {
+        return departmentIdsList;
+    }
+
+    public void setDepartmentIdsList(List<Long> departmentIdsList) {
+        this.departmentIdsList = departmentIdsList;
+    }
+
+    public List<Long> getOrganizationIdsList() {
+        return organizationIdsList;
+    }
+
+    public void setOrganizationIdsList(List<Long> organizationIdsList) {
+        this.organizationIdsList = organizationIdsList;
+    }
 
     public Department getDepartment() {
         return department;
