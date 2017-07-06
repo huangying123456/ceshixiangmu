@@ -211,11 +211,11 @@ public class DepQueryBO {
         }
 
         //考虑到可能存在访客科室，要将访客科室过滤掉
-        departments.stream()
-                .filter(department -> department.getGuest()== 0)
+       List<Department> hostDepartments= departments.stream()
+                .filter(department -> department.getGuest() == 0)
                 .collect(Collectors.toList());
 
-        context.setDepartmentList(departments);
+        context.setDepartmentList(hostDepartments);
 
         filterDepartmentByStatus(context);
 
