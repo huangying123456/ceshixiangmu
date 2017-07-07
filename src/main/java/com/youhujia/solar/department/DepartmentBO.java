@@ -10,12 +10,14 @@ import com.youhujia.solar.department.delete.DepDeleteBO;
 import com.youhujia.solar.department.delete.DepDeleteContext;
 import com.youhujia.solar.department.query.DepQueryBO;
 import com.youhujia.solar.department.query.DepQueryContext;
+import com.youhujia.solar.department.query.DepQueryContextFactory;
 import com.youhujia.solar.department.update.DepUpdateBO;
 import com.youhujia.solar.department.update.DepUpdateContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -27,7 +29,7 @@ public class DepartmentBO {
     private DepCreateBO depCreateBO;
 
     @Resource
-    private DepQueryBO depQueryBo;
+    private DepQueryBO depQueryBO;
 
     @Resource
     private DepUpdateBO depUpdateBO;
@@ -41,6 +43,9 @@ public class DepartmentBO {
     @Resource
     private DepartmentDTOFactory departmentFactory;
 
+    @Resource
+    private DepQueryContextFactory depQueryContextFactory;
+
     public Solar.DepartmentDTO createDepartment(Solar.DepartmentCreateOption option) {
 
         DepCreateContext depCreateContext = depCreateBO.createDepartment(option);
@@ -52,7 +57,7 @@ public class DepartmentBO {
 
     public Solar.DepartmentDTO getDepartmentById(Long departmentId) throws IOException, WriterException {
 
-        DepQueryContext context = depQueryBo.getDepartmentById(departmentId);
+        DepQueryContext context = depQueryBO.getDepartmentById(departmentId);
 
         Solar.DepartmentDTO departmentDTO = departmentFactory.buildGetDepartmentByIdDTO(context);
 
@@ -61,7 +66,7 @@ public class DepartmentBO {
 
     public Solar.DepartmentListDTO getDepartmentListByIds(String ids) {
 
-        DepQueryContext context = depQueryBo.getDepartmentListByIds(ids);
+        DepQueryContext context = depQueryBO.getDepartmentListByIds(ids);
 
         Solar.DepartmentListDTO departmentListDTO = departmentFactory.buildGetDepartmentListByIdsDTO(context);
 
@@ -70,7 +75,7 @@ public class DepartmentBO {
 
     public Solar.DepartmentDTO getDepartmentByNo(String departmentNo) {
 
-        DepQueryContext context = depQueryBo.getDepartmentByNo(departmentNo);
+        DepQueryContext context = depQueryBO.getDepartmentByNo(departmentNo);
 
         Solar.DepartmentDTO departmentDTO = departmentFactory.buildGetDepartmentByNoDTO(context);
 
@@ -79,7 +84,7 @@ public class DepartmentBO {
 
     public Solar.DepartmentDTO getGuestDepartmentByHostDepartmentId(Long departmentId) {
 
-        DepQueryContext context = depQueryBo.getGuestDepartmentByHostDepartmentId(departmentId);
+        DepQueryContext context = depQueryBO.getGuestDepartmentByHostDepartmentId(departmentId);
 
         Solar.DepartmentDTO departmentDTO = departmentFactory.buildGetGuestDepartmentByHostDepartmentIdDTO(context);
 
@@ -100,7 +105,7 @@ public class DepartmentBO {
 
     public Solar.LBSDepartmentDTO getDepartmentListByOrgId(Long orgId) {
 
-        DepQueryContext context = depQueryBo.getDepartmentListByOrgId(orgId);
+        DepQueryContext context = depQueryBO.getDepartmentListByOrgId(orgId);
 
         return departmentFactory.buildGetDepartmentListByOrgIdDTO(context);
     }
@@ -108,7 +113,7 @@ public class DepartmentBO {
     //------------------- service for improve department admin --------------------//
     public Solar.ManagerDepartmentListDTO getAllWithoutDeleteDepartmentByOrgId(Long orgId) {
 
-        DepQueryContext context = depQueryBo.getAllWithoutDeleteDepartmentByOrgId(orgId);
+        DepQueryContext context = depQueryBO.getAllWithoutDeleteDepartmentByOrgId(orgId);
 
         return departmentFactory.buildGetAllWithoutDeleteDepartmentByOrgIdDTO(context);
     }
@@ -128,5 +133,4 @@ public class DepartmentBO {
     public COMMON.SimpleResponse requestManagementRight(Long departmentId, Solar.RequestManagementRightOption option) {
         return requestBO.requestManagementRight(departmentId, option);
     }
-
 }
