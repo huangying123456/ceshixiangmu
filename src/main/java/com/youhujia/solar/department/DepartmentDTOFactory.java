@@ -190,6 +190,9 @@ public class DepartmentDTOFactory {
         if (department.getWxSubQRCodeValue() != null) {
             builder.setWxQrcode(department.getWxSubQRCodeValue());
         }
+        if (department.getQrCode() != null) {
+            builder.setQrcode(department.getQrCode());
+        }
         if (department.getImgUrl() != null) {
             builder.setImgUrl(department.getImgUrl());
         }

@@ -169,4 +169,23 @@ public class DepQueryBO {
         }
         return list;
     }
+
+    public DepQueryContext getDepartmentByQRCode(String departmentQRCode) {
+
+        DepQueryContext context = new DepQueryContext();
+
+        List<Department> list = departmentDAO.findByQrCodeAndStatus(departmentQRCode, DepartmentStatusEnum.NORMAL.getStatus());
+
+        List<Department> rstList = new ArrayList<>();
+        for (Department dpt : list) {
+            if (dpt.getGuest() > 0L) {
+                continue;
+            }
+            rstList.add(dpt);
+        }
+        if (rstList.size() > 0) {
+            context.setDepartment(rstList.get(0));
+        }
+        return context;
+    }
 }
