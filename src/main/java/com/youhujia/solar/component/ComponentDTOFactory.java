@@ -10,10 +10,12 @@ import com.youhujia.halo.solar.Solar;
 import com.youhujia.halo.util.ResponseUtil;
 import com.youhujia.solar.common.SolarHelper;
 import com.youhujia.solar.component.query.articleDisease.ArticleDiseaseComponentQueryContext;
+import com.youhujia.solar.component.query.articleList.ArticleListComponentQueryContext;
 import com.youhujia.solar.component.query.componentList.ComponentListQueryContext;
 import com.youhujia.solar.component.query.recommend.RecomComponentQueryContext;
 import com.youhujia.solar.component.query.selfEvaluation.SelfEvaluationComponentQueryContext;
 import com.youhujia.solar.component.query.serviceItem.ServiceItemComponentQueryContext;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -301,5 +303,57 @@ public class ComponentDTOFactory {
 
     private HDFragments.TagPropertiesDTO getTagPropertiesByTagId(Long tagId) {
         return hdFragmentsServiceWrap.getTagPropertiesByTagId(tagId);
+    }
+
+
+    public Solar.ArticleListComponentDTO buildArticleListComponentDTO(ArticleListComponentQueryContext context) {
+        HDFragments.TagDTO tagDTO = context.getTagDTO();
+        Solar.ArticleListComponentDTO.Builder articleListComponentBuild = Solar.ArticleListComponentDTO.newBuilder();
+        if (tagDTO != null && tagDTO.getData().getTag() != null) {
+            HDFragments.TagPropertiesDTO tagPropertiesDTO = getTagPropertiesByTagId(tagDTO.getData().getTag().getId());
+
+            if (tagPropertiesDTO.getData().getPropertiesList().size() != 0) {
+                tagPropertiesDTO.getData().getPropertiesList().stream().forEach(tagProperty -> {
+                    JSONObject jsonObject = JSONObject.parseObject(tagProperty.getValue());
+                    HDFragments.TagDTO tag = hdFragmentsServiceWrap.getTagById(Long.parseLong(jsonObject.get("categoryId").toString()));
+                    if (!tag.getData().getTag().getName().equals(ComponentTypeEnum.ARTICLE_LIST.getName())) {
+                        throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "组件类别不符");
+                    }
+                    articleListComponentBuild.setArticleList(transform2ArticleListComponent(tagDTO.getData().getTag(), jsonObject));
+                });
+            }
+        }
+        return articleListComponentBuild.setResult(ResponseUtil.resultOK()).build();
+    }
+
+    private Solar.ArticleList transform2ArticleListComponent(HDFragments.Tag tag, JSONObject jsonObject) {
+
+        Solar.ArticleList.Builder articleListBuild = Solar.ArticleList.newBuilder();
+
+        if (tag.hasName()) {
+            articleListBuild.setTitle(tag.getName());
+        }
+
+        if (tag.hasId()) {
+            articleListBuild.setComponentId(tag.getId());
+        }
+
+        if (tag.hasCreatorId()) {
+            articleListBuild.setCreatorId(tag.getCreatorId());
+        }
+
+        if (tag.hasDptId()) {
+            articleListBuild.setDepartmentId(tag.getDptId());
+        }
+
+        if (StringUtils.isNotBlank(jsonObject.get("articleId").toString())) {
+            JSONObject.parseArray(jsonObject.get("articleId").toString()).stream().forEach(articleId -> {
+                articleListBuild.addArticleId(Long.parseLong(articleId.toString()));
+            });
+        }
+
+        articleListBuild.setRank(Long.parseLong(jsonObject.get("rank").toString()));
+
+        return articleListBuild.build();
     }
 }
