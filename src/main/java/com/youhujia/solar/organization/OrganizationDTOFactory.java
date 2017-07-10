@@ -1,6 +1,7 @@
 package com.youhujia.solar.organization;
 
 import com.youhujia.halo.common.COMMON;
+import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.halo.util.ResponseUtil;
 import com.youhujia.solar.area.Area;
@@ -228,7 +229,8 @@ public class OrganizationDTOFactory {
 
         if (context.getOrganizationList().size() != 0) {
             context.getOrganizationList().stream().forEach(organization -> {
-                List<Department> departments = departmentDAO.findByOrganizationId(organization.getId());
+                List<Department> departments = departmentDAO.findByOrganizationIdAndGuestAndStatus(organization.getId(),
+                        0l, DepartmentStatusEnum.NORMAL.getStatus());
                 builder.addOrganization(buildSolarOrganizationOption(organization, departments));
             });
         }
