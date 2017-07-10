@@ -74,7 +74,7 @@ public class ComponentDTOFactory {
                         componentBuild.setType(ComponentTypeEnum.SERVICE_ITEM.getName());
                         componentBuild.setServiceItem(transform2ServiceItem(tagAndProperty.getTag(), jsonObject));
                     }
-`                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_LIST.getName()) != null &&
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_LIST.getName()) != null &&
                             context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_LIST.getName()) == categoryId.longValue()) {
                         componentBuild.setType(ComponentTypeEnum.ARTICLE_LIST.getName());
                         componentBuild.setArticleList(transform2ArticleListComponent(tagAndProperty.getTag(), jsonObject));
