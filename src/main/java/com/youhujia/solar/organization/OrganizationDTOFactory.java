@@ -219,6 +219,15 @@ public class OrganizationDTOFactory {
         if (organization.getUpdatedAt() != null) {
             builder.setUpdatedAt(organization.getUpdatedAt().getTime());
         }
+        if (organization.getCode() != null) {
+            builder.setCode(organization.getCode());
+        }
+        if (organization.getVersion() != null) {
+            builder.setVersion(organization.getVersion());
+        }
+        if (organization.getExpiredAt() != null) {
+            builder.setExpiredAt(organization.getExpiredAt().getTime());
+        }
         return builder.build();
     }
 

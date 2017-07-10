@@ -49,17 +49,23 @@ public class OrgCreateBO {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "缺少医院名称，请填写科室名称");
         }
 
-        if (!option.hasAreaId()) {
-            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "地区id为空");
-        } else {
+//        if (!option.hasAreaId()) {
+//            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "地区id为空");
+//        } else {
+//            Area area = areaDao.findOne(option.getAreaId());
+//            if (area == null) {
+//                throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "the area was not found in the database ,areaId:" + option.getAreaId());
+//            }
+//        }
+//        if (!option.hasAddress()) {
+//            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "address is not exist");
+//        }
+
+        if (option.hasAreaId()) {
             Area area = areaDao.findOne(option.getAreaId());
             if (area == null) {
                 throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "the area was not found in the database ,areaId:" + option.getAreaId());
             }
-        }
-        if (!option.hasAddress()) {
-            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "address is not exist");
-
         }
     }
 
@@ -91,6 +97,15 @@ public class OrgCreateBO {
         }
         if (option.hasImgUrl()) {
             organization.setImgUrl(option.getImgUrl());
+        }
+        if (option.hasCode()) {
+            organization.setCode(option.getCode());
+        }
+        if (option.hasVersion()) {
+            organization.setVersion(option.getVersion());
+        }
+        if (option.hasExpiredAt()) {
+            organization.setExpiredAt(option.getExpiredAt());
         }
         organization.setCreatedAt(new Timestamp(new Date().getTime()));
         organization.setUpdatedAt(new Timestamp(new Date().getTime()));
