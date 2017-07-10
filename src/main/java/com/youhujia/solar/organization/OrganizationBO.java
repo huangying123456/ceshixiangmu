@@ -113,4 +113,11 @@ public class OrganizationBO {
         OrgQueryContext context = queryBO.findAllOrganizationAndDepartment(map);
         return organizationDTOFactory.buildOrganizationAndDepartmentListDTO(context);
     }
+
+    public Solar.OrganizationListDTO getAllSellOrganization() {
+        OrgQueryContext queryContext = queryBO.getAllSellOrganization();
+
+        Solar.OrganizationListDTO organizationListDTO = organizationDTOFactory.buildOrganizationListDTO(queryContext);
+
+        return organizationListDTO;    }
 }

@@ -46,6 +46,20 @@ public class OrganizationController extends BaseController {
     }
 
     /**
+     * 获取所有销售构建的机构
+     *
+     * @return
+     */
+    @RequestMapping(value = "/sell", method = RequestMethod.GET)
+    public Solar.OrganizationListDTO getAllSellOrganization() {
+        try {
+            return organizationBO.getAllSellOrganization();
+        } catch (Exception e) {
+            return handleException(r -> Solar.OrganizationListDTO.newBuilder().setResult(r).build(), e);
+        }
+    }
+
+    /**
      * 获取单个机构的信息
      *
      * @param organizationId

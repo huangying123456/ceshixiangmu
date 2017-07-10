@@ -47,6 +47,16 @@ public class OrgQueryBO {
         return queryContext;
     }
 
+    public OrgQueryContext getAllSellOrganization() {
+        List<Organization> organizations = organizationDAO.findByStatusAndVersionIsNull(DepartmentStatusEnum.NORMAL.getStatus());
+
+        OrgQueryContext queryContext = new OrgQueryContext();
+
+        queryContext.setOrganizationList(organizations);
+
+        return queryContext;
+    }
+
     public OrgQueryContext getOrganizationById(Long organizationId) {
 
         OrgQueryContext queryContext = new OrgQueryContext();
@@ -137,4 +147,5 @@ public class OrgQueryBO {
         }
 
     }
+
 }

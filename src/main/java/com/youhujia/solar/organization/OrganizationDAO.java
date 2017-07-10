@@ -17,6 +17,8 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long> {
 
     List<Organization> findByStatus(Integer status);
 
+    List<Organization> findByStatusAndVersionIsNull(Integer status);
+
     List<Organization> findByAreaIdAndStatus(Long areaId, Integer status);
 
     @Modifying
