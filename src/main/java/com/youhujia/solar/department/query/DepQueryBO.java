@@ -4,9 +4,11 @@ import com.google.zxing.WriterException;
 import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
+import com.youhujia.halo.solar.Solar;
 import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.solar.department.Department;
 import com.youhujia.solar.department.DepartmentDAO;
+import com.youhujia.solar.department.DepartmentDTOFactory;
 import com.youhujia.solar.department.create.DepCreateBO;
 import com.youhujia.solar.organization.Organization;
 import com.youhujia.solar.organization.OrganizationDAO;
@@ -14,12 +16,15 @@ import com.youhujia.solar.wxQrcode.WechatQRCodeBO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -27,17 +32,20 @@ import java.util.List;
 @Service
 public class DepQueryBO {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
     private DepartmentDAO departmentDAO;
     @Resource
     private OrganizationDAO organizationDAO;
     @Resource
     private DepCreateBO depCreateBO;
-
     @Resource
     private WechatQRCodeBO wechatQRCodeBO;
+    @Autowired
+    private DepQueryContextFactory depQueryContextFactory;
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private DepartmentDTOFactory departmentDTOFactory;
 
     public DepQueryContext getDepartmentById(Long departmentId) throws IOException, WriterException {
 
@@ -51,7 +59,7 @@ public class DepQueryBO {
         }
 
         if (StringUtils.isEmpty(department.getWxSubQRCodeValue())
-                || department.getWxSubQRCodeValue().contains("http://")) {
+            || department.getWxSubQRCodeValue().contains("http://")) {
             //如果此科室是访客科室，则将departmentId变为对应的hostId
             if (department.getGuest() == 1) {
                 if (department.getHostId() == null) {
@@ -73,14 +81,9 @@ public class DepQueryBO {
 
         DepQueryContext context = new DepQueryContext();
 
-        if (ids == null) {
-            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "departmentIds 为空");
-        }
         List<Department> departmentList = departmentDAO.findAll(getListByString(ids));
-        if (departmentList == null || departmentList.size() <= 0) {
-            throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "错误！错误的科室id！");
-        }
         context.setDepartmentList(departmentList);
+
         return context;
     }
 
@@ -164,9 +167,71 @@ public class DepQueryBO {
 
         String[] strings = ids.split(",");
         List<Long> list = new ArrayList<>();
-        for (String strings1 : strings) {
-            list.add(Long.parseLong(strings1));
+        for (String id : strings) {
+            if (id == null || id.trim().isEmpty()) {
+                continue;
+            }
+
+            // 解析 ID
+            try {
+                list.add(Long.parseLong(id));
+            } catch (Exception e) {
+                logger.error(LogInfoGenerator.generateCallInfo("DepQueryBO—>getListByString", "error", "invalid id", "id", id));
+            }
         }
         return list;
+    }
+
+    public Solar.DepartmentListDTO queryDepartment(Map<String, String> map) {
+
+        DepQueryContext context = depQueryContextFactory.buildQueryDepartmentContext(map);
+
+        queryDepartmentList(context);
+
+        return departmentDTOFactory.buildDepartmentListDTO(context);
+    }
+
+    private DepQueryContext queryDepartmentList(DepQueryContext context) {
+
+        /**
+         * 1. dpt ids size > 0, 取出所有科室
+         * 2. org ids size > 0, 第一步结果过滤 orgIds
+         * 3. 上一步结果过滤 status
+         */
+        List<Department> departments;
+        List<Long> organizationIds = context.getOrganizationIdsList();
+        List<Long> departmentIds = context.getDepartmentIdsList();
+
+        if (departmentIds.size() > 0) {
+            departments = departmentDAO.findAll(departmentIds);
+            if (organizationIds.size() > 0) {
+                departments = departments.stream().filter(d -> organizationIds.contains(d.getOrganizationId())).collect(Collectors.toList());
+            }
+        } else {
+            departments = departmentDAO.findByOrganizationIdIn(organizationIds);
+        }
+
+        //考虑到可能存在访客科室，要将访客科室过滤掉
+        List<Department> hostDepartments = departments
+            .stream()
+            .filter(department -> department.getGuest() == 0)
+            .collect(Collectors.toList());
+
+        context.setDepartmentList(hostDepartments);
+
+        filterDepartmentByStatus(context);
+
+        return context;
+    }
+
+    private void filterDepartmentByStatus(DepQueryContext context) {
+
+        List<Department> departmentList = context.getDepartmentList();
+
+        List<Integer> statusList = context.getDepartmentStatusEnumList().stream().map(DepartmentStatusEnum::getStatus).collect(Collectors.toList());
+
+        departmentList = departmentList.stream().filter(d -> statusList.contains(d.getStatus())).collect(Collectors.toList());
+
+        context.setDepartmentList(departmentList);
     }
 }
