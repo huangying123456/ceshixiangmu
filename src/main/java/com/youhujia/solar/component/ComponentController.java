@@ -99,4 +99,18 @@ public class ComponentController extends BaseController {
         }
     }
 
+    /** 新增
+     * 获取文章列表组件
+     *
+     * @return
+     */
+    @RequestMapping("/{departmentId}/article-list/{componentId}")
+    public Solar.ArticleListComponentDTO getArticleListComponentById(@PathVariable("componentId") Long componentId) {
+        try {
+            return componentBO.getArticleListComponentById(componentId);
+        } catch (Exception e) {
+            return handleException(a -> Solar.ArticleListComponentDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
 }
