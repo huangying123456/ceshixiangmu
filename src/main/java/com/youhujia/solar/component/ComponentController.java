@@ -84,20 +84,6 @@ public class ComponentController extends BaseController {
     }
 
     /**
-     * 获取文章列表组件
-     *
-     * @return
-     */
-//    @RequestMapping("/{departmentId}/serviceItem/{componentId}")
-//    public Solar.ArticleListDTO getServiceItemComponentById(@PathVariable("componentId") Long componentId) {
-//        try {
-//            return componentBO.getServiceItemComponentById(componentId);
-//        } catch (Exception e) {
-//            return handleException(a -> Solar.ArticleListDTO.newBuilder().setResult(a).build(), e);
-//        }
-//    }
-
-    /**
      * 获取推荐组件
      *
      * @param componentId
@@ -110,6 +96,20 @@ public class ComponentController extends BaseController {
             return componentBO.getRecomComponentById(componentId);
         } catch (Exception e) {
             return handleException(a -> Solar.RecomComponentDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
+    /** 新增
+     * 获取文章列表组件
+     *
+     * @return
+     */
+    @RequestMapping("/{departmentId}/article-list/{componentId}")
+    public Solar.ArticleListComponentDTO getArticleListComponentById(@PathVariable("componentId") Long componentId) {
+        try {
+            return componentBO.getArticleListComponentById(componentId);
+        } catch (Exception e) {
+            return handleException(a -> Solar.ArticleListComponentDTO.newBuilder().setResult(a).build(), e);
         }
     }
 
