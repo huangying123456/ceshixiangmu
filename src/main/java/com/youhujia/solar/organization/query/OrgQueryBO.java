@@ -47,14 +47,15 @@ public class OrgQueryBO {
         return queryContext;
     }
 
-    public OrgQueryContext getAllSellOrganization() {
-        List<Organization> organizations = organizationDAO.findByStatusAndVersionIsNull(DepartmentStatusEnum.NORMAL.getStatus());
+    public OrgQueryContext getAllSellOrganization(Map<String,String> map) {
+        OrgQueryContext context = queryContextFactory.buildQueryContext(map);
+        checkParams(context);
+        Pageable pageable = new PageRequest(context.getIndex().intValue(), context.getSize().intValue(), Sort.Direction.DESC, "id");
+        Page<Organization> organizations = organizationDAO.querySellOrganizations(DepartmentStatusEnum.NORMAL.getStatus(),pageable);
 
-        OrgQueryContext queryContext = new OrgQueryContext();
+        context.setOrganizationList(organizations.getContent());
 
-        queryContext.setOrganizationList(organizations);
-
-        return queryContext;
+        return context;
     }
 
     public OrgQueryContext getOrganizationById(Long organizationId) {

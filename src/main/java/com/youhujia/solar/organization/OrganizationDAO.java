@@ -1,5 +1,6 @@
 package com.youhujia.solar.organization;
 
+import feign.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +18,10 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long> {
 
     List<Organization> findByStatus(Integer status);
 
-    List<Organization> findByStatusAndVersionIsNull(Integer status);
+    String notVersionSelect = "select o from Organization o where o.version is not null AND (:status is null OR o.status = :status)";
+
+    @Query(value = notVersionSelect)
+    Page<Organization> querySellOrganizations(@Param("status")Integer status, Pageable pageable);
 
     List<Organization> findByAreaIdAndStatus(Long areaId, Integer status);
 

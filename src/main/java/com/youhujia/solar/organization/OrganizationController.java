@@ -51,9 +51,9 @@ public class OrganizationController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/sell", method = RequestMethod.GET)
-    public Solar.OrganizationListDTO getAllSellOrganization() {
+    public Solar.OrganizationListDTO getAllSellOrganization(@RequestParam Map<String,String> map) {
         try {
-            return organizationBO.getAllSellOrganization();
+            return organizationBO.getAllSellOrganization(map);
         } catch (Exception e) {
             return handleException(r -> Solar.OrganizationListDTO.newBuilder().setResult(r).build(), e);
         }
