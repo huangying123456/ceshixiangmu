@@ -59,9 +59,9 @@ public class DepCreateBO {
         if (!option.hasName()) {
             throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "缺少科室名称，请填写科室名称");
         }
-        if (!option.hasNumber()) {
-            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "缺少科室编号，请填写科室编号");
-        }
+//        if (!option.hasNumber()) {
+//            throw new YHJException(YHJExceptionCodeEnum.SHOW_EXCEPTION_INFO_TO_USER, "缺少科室编号，请填写科室编号");
+//        }
     }
 
     private Department toDepartment(Solar.DepartmentCreateOption option) {

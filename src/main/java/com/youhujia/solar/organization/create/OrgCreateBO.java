@@ -105,7 +105,7 @@ public class OrgCreateBO {
             organization.setVersion(option.getVersion());
         }
         if (option.hasExpiredAt()) {
-            organization.setExpiredAt(option.getExpiredAt());
+            organization.setExpiredAt(new Timestamp(option.getExpiredAt()));
         }
         organization.setCreatedAt(new Timestamp(new Date().getTime()));
         organization.setUpdatedAt(new Timestamp(new Date().getTime()));
