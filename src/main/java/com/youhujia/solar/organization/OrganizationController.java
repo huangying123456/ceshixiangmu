@@ -51,9 +51,9 @@ public class OrganizationController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/sell", method = RequestMethod.GET)
-    public Solar.OrganizationListDTO getAllSellOrganization(@RequestParam Map<String,String> map) {
+    public Solar.OrganizationListDTO getAllSellOrganization() {
         try {
-            return organizationBO.getAllSellOrganization(map);
+            return organizationBO.getAllSellOrganization();
         } catch (Exception e) {
             return handleException(r -> Solar.OrganizationListDTO.newBuilder().setResult(r).build(), e);
         }
@@ -101,6 +101,23 @@ public class OrganizationController extends BaseController {
 
         try {
             return organizationBO.getAllDepartmentsByOrganizationId(organizationId);
+        } catch (Exception e) {
+            return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
+
+    /**
+     * 通过获取多个机构下的所有科室
+     *
+     * @param organizationIds
+     * @return
+     */
+    @RequestMapping(value = "/departments", method = RequestMethod.GET)
+    public Solar.DepartmentListDTO getDepartmentsByOrganizationIds(@PathVariable("organizationIds") String organizationIds) {
+
+        try {
+            return organizationBO.getDepartmentsByOrganizationIds(organizationIds);
         } catch (Exception e) {
             return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
         }

@@ -47,15 +47,14 @@ public class OrgQueryBO {
         return queryContext;
     }
 
-    public OrgQueryContext getAllSellOrganization(Map<String,String> map) {
-        OrgQueryContext context = queryContextFactory.buildQueryContext(map);
-        checkParams(context);
-        Pageable pageable = new PageRequest(context.getIndex().intValue(), context.getSize().intValue(), Sort.Direction.DESC, "id");
-        Page<Organization> organizations = organizationDAO.querySellOrganizations(DepartmentStatusEnum.NORMAL.getStatus(),pageable);
+    public OrgQueryContext getAllSellOrganization() {
+        List<Organization> organizations = organizationDAO.findByVersionIsNotNullAndStatus(DepartmentStatusEnum.NORMAL.getStatus());
 
-        context.setOrganizationList(organizations.getContent());
+        OrgQueryContext queryContext = new OrgQueryContext();
 
-        return context;
+        queryContext.setOrganizationList(organizations);
+
+        return queryContext;
     }
 
     public OrgQueryContext getOrganizationById(Long organizationId) {
@@ -83,6 +82,16 @@ public class OrgQueryBO {
         OrgQueryContext queryContext = new OrgQueryContext();
 
         List<Department> departmentList = departmentDAO.findByOrganizationIdAndStatus(organizationId, DepartmentStatusEnum.NORMAL.getStatus());
+
+        queryContext.setDepartmentList(departmentList);
+
+        return queryContext;
+    }
+
+    public OrgQueryContext getDepartmentsByOrganizationIds(String organizationIds) {
+        OrgQueryContext queryContext = queryContextFactory.buildDepartmentsQueryContext(organizationIds);
+
+        List<Department> departmentList = departmentDAO.findByOrganizationIdInAndStatus(queryContext.getIds(), DepartmentStatusEnum.NORMAL.getStatus());
 
         queryContext.setDepartmentList(departmentList);
 
@@ -148,5 +157,6 @@ public class OrgQueryBO {
         }
 
     }
+
 
 }

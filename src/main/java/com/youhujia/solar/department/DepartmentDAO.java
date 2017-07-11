@@ -33,6 +33,8 @@ public interface DepartmentDAO extends JpaRepository<Department, Long> {
 
     List<Department> findByOrganizationIdAndStatus(Long organizationId, Integer status);
 
+    List<Department> findByOrganizationIdInAndStatus(Collection<Long> organizationIds, Integer status);
+
     @Modifying
     @Query(value = "from Department d where d.organizationId = ?1 and d.status > ?2")
     List<Department> findByOrganizationIdWithStatus(Long orgId, Integer status);

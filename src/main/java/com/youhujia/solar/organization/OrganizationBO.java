@@ -114,11 +114,19 @@ public class OrganizationBO {
         return organizationDTOFactory.buildOrganizationAndDepartmentListDTO(context);
     }
 
-    public Solar.OrganizationListDTO getAllSellOrganization(Map<String, String> map) {
-        OrgQueryContext queryContext = queryBO.getAllSellOrganization(map);
+    public Solar.OrganizationListDTO getAllSellOrganization() {
+        OrgQueryContext queryContext = queryBO.getAllSellOrganization();
 
         Solar.OrganizationListDTO organizationListDTO = organizationDTOFactory.buildOrganizationListDTO(queryContext);
 
         return organizationListDTO;
+    }
+
+    public Solar.DepartmentListDTO getDepartmentsByOrganizationIds(String organizationIds) {
+        OrgQueryContext queryContext = queryBO.getDepartmentsByOrganizationIds(organizationIds);
+
+        Solar.DepartmentListDTO departmentListDTO = organizationDTOFactory.buildDepartmentListDTO(queryContext);
+
+        return departmentListDTO;
     }
 }

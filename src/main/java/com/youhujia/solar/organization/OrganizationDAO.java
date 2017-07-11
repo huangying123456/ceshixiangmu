@@ -18,12 +18,9 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long> {
 
     List<Organization> findByStatus(Integer status);
 
-    String notVersionSelect = "select o from Organization o where o.version is not null AND (:status is null OR o.status = :status)";
-
-    @Query(value = notVersionSelect)
-    Page<Organization> querySellOrganizations(@Param("status")Integer status, Pageable pageable);
-
     List<Organization> findByAreaIdAndStatus(Long areaId, Integer status);
+
+    List<Organization> findByVersionIsNotNullAndStatus(Integer status);
 
     @Modifying
     @Query(value = "from Organization o where o.status > ?1")
