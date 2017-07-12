@@ -79,6 +79,11 @@ public class ComponentDTOFactory {
                         componentBuild.setType(ComponentTypeEnum.Recom.getName());
                         componentBuild.setRecom(transform2RecomComponent(tagAndProperty.getTag(), jsonObject));
                     }
+                    if (context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_LIST.getName()) != null &&
+                            context.getComponentNameCategoryIdDic().get(ComponentTypeEnum.ARTICLE_LIST.getName()) == categoryId.longValue()) {
+                        componentBuild.setType(ComponentTypeEnum.ARTICLE_LIST.getName());
+                        componentBuild.setArticleList(transform2ArticleListComponent(tagAndProperty.getTag(), jsonObject));
+                    }
                 });
             }
             list.add(componentBuild.build());
