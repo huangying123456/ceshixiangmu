@@ -199,6 +199,9 @@ public class OrganizationDTOFactory {
     private Solar.Organization buildOrganization(Organization organization) {
         Solar.Organization.Builder builder = Solar.Organization.newBuilder();
 
+        if (organization == null) {
+            return builder.build();
+        }
         builder.setId(organization.getId())
                 .setStatus(organization.getStatus());
 
