@@ -144,8 +144,8 @@ public class OrgQueryBO {
 
     }
 
-    public OrgQueryContext findOrganizationByIds(String organizationIds) {
-        if(organizationIds.isEmpty()){
+    public OrgQueryContext buildOrgQueryContext(String organizationIds) {
+        if(organizationIds == null || organizationIds.isEmpty()){
             throw new YHJException(SolarExceptionCodeEnum.PARAM_ERROR, "organizationIds is empty");
         }
         OrgQueryContext queryContext = new OrgQueryContext();
