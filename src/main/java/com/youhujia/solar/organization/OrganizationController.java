@@ -58,6 +58,19 @@ public class OrganizationController extends BaseController {
             return handleException(r -> Solar.OrganizationListDTO.newBuilder().setResult(r).build(), e);
         }
     }
+    /**
+     * 根据ids获取机构列表，ids=1，2，3
+     *
+     * @return
+     */
+    @RequestMapping(value = "/ids", method = RequestMethod.GET)
+    public Solar.OrganizationListDTO findOrganizationByIds(@RequestParam("organizationIds") String organizationIds) {
+        try {
+            return organizationBO.findOrganizationByIds(organizationIds);
+        } catch (Exception e) {
+            return handleException(r -> Solar.OrganizationListDTO.newBuilder().setResult(r).build(), e);
+        }
+    }
 
     /**
      * 获取单个机构的信息

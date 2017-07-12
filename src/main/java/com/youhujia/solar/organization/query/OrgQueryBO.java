@@ -4,6 +4,7 @@ import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.OrganizationStatusEnum;
+import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.solar.area.Area;
 import com.youhujia.solar.area.AreaDAO;
 import com.youhujia.solar.common.SolarExceptionCodeEnum;
@@ -11,6 +12,8 @@ import com.youhujia.solar.department.Department;
 import com.youhujia.solar.department.DepartmentDAO;
 import com.youhujia.solar.organization.Organization;
 import com.youhujia.solar.organization.OrganizationDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +39,8 @@ public class OrgQueryBO {
     private DepartmentDAO departmentDAO;
     @Autowired
     private AreaDAO areaDAO;
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public OrgQueryContext findAll() {
 
@@ -158,5 +164,24 @@ public class OrgQueryBO {
 
     }
 
+    public OrgQueryContext buildOrgQueryContext(String organizationIds) {
+        if(organizationIds == null || organizationIds.isEmpty()){
+            throw new YHJException(SolarExceptionCodeEnum.PARAM_ERROR, "organizationIds is empty");
+        }
+        OrgQueryContext queryContext = new OrgQueryContext();
+        String[] strIds = organizationIds.split(",");
+        List<Long> orgIdList = new ArrayList<>();
+        if(strIds.length != 0){
+            for (String id : strIds) {
+                try {
+                    orgIdList.add(Long.parseLong(id));
+                }catch (Exception e){
+                    logger.error(LogInfoGenerator.generateCallInfo("OrgQueryBO—>findOrganizationByIds", "error", "invalid id", "organizationIds", organizationIds));
+                }
+            }
+        }
+        queryContext.setOrganizationList(organizationDAO.findAll(orgIdList));
 
+        return queryContext;
+    }
 }

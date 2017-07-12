@@ -186,7 +186,7 @@ public class OrganizationDTOFactory {
         Solar.OrganizationListDTO.Builder organizationListDTOBuilder = Solar.OrganizationListDTO.newBuilder();
 
         if (list.size() == 0) {
-            return organizationListDTOBuilder.build();
+            return organizationListDTOBuilder.setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true)).build();
         }
         list.stream().forEach(organization -> {
             organizationListDTOBuilder.addOrganization(buildOrganization(organization));

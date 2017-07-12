@@ -129,4 +129,9 @@ public class OrganizationBO {
 
         return departmentListDTO;
     }
+
+    public Solar.OrganizationListDTO findOrganizationByIds(String organizationIds) {
+        OrgQueryContext context = queryBO.buildOrgQueryContext(organizationIds);
+        return organizationDTOFactory.buildOrganizationListDTO(context);
+    }
 }
