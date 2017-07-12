@@ -134,8 +134,8 @@ public class DepartmentBO {
         return requestBO.requestManagementRight(departmentId, option);
     }
 
-    public Solar.DepartmentDTO getDepartmentByQRCode(String departmentQRCode) {
-        DepQueryContext context = depQueryBO.getDepartmentByQRCode(departmentQRCode);
+    public Solar.DepartmentDTO getDepartmentByQRCode(Solar.DepartmentQRCodeOption departmentQRCodeOption) {
+        DepQueryContext context = depQueryBO.getDepartmentByQRCode(departmentQRCodeOption.getQrcode());
 
         return departmentFactory.buildGetDepartmentByIdDTO(context);
     }
