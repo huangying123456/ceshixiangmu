@@ -3,6 +3,8 @@ package com.youhujia.solar.component;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.solar.component.query.articleDisease.ArticleDiseaseComponentQueryBO;
 import com.youhujia.solar.component.query.articleDisease.ArticleDiseaseComponentQueryContext;
+import com.youhujia.solar.component.query.articleList.ArticleListComponentQueryBO;
+import com.youhujia.solar.component.query.articleList.ArticleListComponentQueryContext;
 import com.youhujia.solar.component.query.componentList.ComponentListQueryBO;
 import com.youhujia.solar.component.query.componentList.ComponentListQueryContext;
 import com.youhujia.solar.component.query.recommend.RecomComponentQueryBO;
@@ -22,6 +24,10 @@ public class ComponentBO {
 
     @Autowired
     ComponentListQueryBO componentListQueryBO;
+
+    @Autowired
+    ArticleListComponentQueryBO articleListComponentQueryBO;
+
     @Autowired
     ArticleDiseaseComponentQueryBO articleDiseaseComponentQueryBO;
     @Autowired
@@ -58,4 +64,8 @@ public class ComponentBO {
         return componentDTOFactory.buildRecomComponentDTO(context);
     }
 
+    public Solar.ArticleListComponentDTO getArticleListComponentById(Long componentId) {
+        ArticleListComponentQueryContext context = articleListComponentQueryBO.getArticleListComponentById(componentId);
+        return componentDTOFactory.buildArticleListComponentDTO(context);
+    }
 }
