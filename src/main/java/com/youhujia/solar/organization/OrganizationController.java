@@ -127,7 +127,7 @@ public class OrganizationController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/departments", method = RequestMethod.GET)
-    public Solar.DepartmentListDTO getDepartmentsByOrganizationIds(@PathVariable("organizationIds") String organizationIds) {
+    public Solar.DepartmentListDTO getDepartmentsByOrganizationIds(@RequestParam("organizationIds") String organizationIds) {
 
         try {
             return organizationBO.getDepartmentsByOrganizationIds(organizationIds);
@@ -137,7 +137,7 @@ public class OrganizationController extends BaseController {
     }
 
     /**
-     * 更新科室
+     * 更新机构
      *
      * @param option
      * @return
