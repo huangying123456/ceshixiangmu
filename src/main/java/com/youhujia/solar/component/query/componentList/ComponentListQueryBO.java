@@ -148,20 +148,36 @@ public class ComponentListQueryBO {
     }
 
     private Map<Long, List<HDFragments.Tag>> getTagListDTOByTemplateDptIds(List<Long> all) {
+        Map<Long, List<HDFragments.Tag>> dptIdTagsDic = new HashMap<>();
+
         List<Department> dpts = departmentDAO.findByIdIn(all);
+        if(dpts == null || dpts.isEmpty()){
+            return dptIdTagsDic;
+        }
+
         Map<String, List<Department>> templateDptIdAndDptIdDic = dpts.stream()
                 .filter(department -> department.getClassificationType() != null)
                 .collect(Collectors.groupingBy(Department::getClassificationType));
 
         HDFragments.TagListDTO tagListDTO = getTagListByDeptIdsAndType(parseCollectionToString(templateDptIdAndDptIdDic.keySet()));
+        if (tagListDTO == null || !tagListDTO.hasData() || tagListDTO.getData().getTagsList().isEmpty()){
+            return dptIdTagsDic;
+        }
         Map<Long, List<HDFragments.Tag>> templateDptIdTagsdic = tagListDTO.getData().getTagsList()
                 .stream().collect(Collectors.groupingBy(HDFragments.Tag::getDptId));
 
-        Map<Long, List<HDFragments.Tag>> dptIdTagsDic = new HashMap<>();
 
+        if(templateDptIdTagsdic == null || templateDptIdTagsdic.isEmpty() ||
+                templateDptIdAndDptIdDic == null || templateDptIdAndDptIdDic.isEmpty()){
+            return dptIdTagsDic;
+        }
         templateDptIdTagsdic.forEach((k, v) -> {
             List<Department> list = templateDptIdAndDptIdDic.get(k.toString());
-            list.forEach(department -> dptIdTagsDic.put(department.getId(), v));
+            list.forEach(department -> {
+                if(department != null && department.getId() > 0)
+                dptIdTagsDic.put(department.getId(), v);
+            });
+
         });
 
         return dptIdTagsDic;

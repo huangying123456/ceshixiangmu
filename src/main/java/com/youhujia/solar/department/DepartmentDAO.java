@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,6 +20,8 @@ public interface DepartmentDAO extends JpaRepository<Department, Long> {
     List<Department> findByOrganizationIdAndGuestAndStatus(Long organizationId, Long isGuest, Integer status);
 
     List<Department> findByOrganizationId(Long organizationId);
+
+    List<Department> findByOrganizationIdIn(Collection<Long> organizationIds);
 
     List<Department> findByHostId(Long departmentId);
 

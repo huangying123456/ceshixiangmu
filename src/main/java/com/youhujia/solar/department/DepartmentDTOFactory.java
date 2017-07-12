@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.youhujia.halo.util.ResponseUtil.resultOK;
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -142,7 +143,7 @@ public class DepartmentDTOFactory {
         Solar.DepartmentDTO.Builder DTOBuilder = Solar.DepartmentDTO.newBuilder();
 
         DTOBuilder.setDepartment(buildDepartment(department))
-            .setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
+                .setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
         return DTOBuilder.build();
     }
 
@@ -152,9 +153,8 @@ public class DepartmentDTOFactory {
         list.stream().forEach(department -> {
             builder.addDepartment(buildDepartment(department));
         });
-        builder.setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true).build());
 
-        return builder.build();
+        return builder.setResult(resultOK()).build();
     }
 
     private Solar.Department buildDepartment(Department department) {
@@ -162,9 +162,9 @@ public class DepartmentDTOFactory {
         Solar.Department.Builder builder = Solar.Department.newBuilder();
 
         builder.setDepartmentId(department.getId())
-            .setName(department.getName())
-            .setOrganizationId(department.getOrganizationId())
-            .setOrganizationName(getOrganization(department.getOrganizationId()).getName());
+                .setName(department.getName())
+                .setOrganizationId(department.getOrganizationId())
+                .setOrganizationName(getOrganization(department.getOrganizationId()).getName());
 
         if (department.getCreatedAt() != null) {
             builder.setCreatedAt(department.getCreatedAt().getTime());
@@ -213,5 +213,14 @@ public class DepartmentDTOFactory {
             throw new YHJException(YHJExceptionCodeEnum.OPTION_FORMAT_ERROR, "the department does not belong to any organization");
         }
         return organization;
+    }
+    public Solar.DepartmentListDTO buildDepartmentListDTO(DepQueryContext context) {
+
+        Solar.DepartmentListDTO.Builder builder = Solar.DepartmentListDTO.newBuilder();
+        context.getDepartmentList().stream().forEach(department -> {
+            builder.addDepartment(buildDepartment(department));
+        });
+
+        return builder.setResult(resultOK()).build();
     }
 }

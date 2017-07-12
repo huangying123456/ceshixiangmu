@@ -86,14 +86,19 @@ dependencies {
     if (project.hasProperty("buildPro") && buildPro == 'release') {
         println("release version")
         dependencies {
-            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.3"
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.10"
         }
     } else {
         println("develop version")
         dependencies {
+<<<<<<< HEAD
 //            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2-SNAPSHOT", changing: true
             compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2", changing: true
     }
+=======
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2-SNAPSHOT", changing: true
+        }
+>>>>>>> 9614789d4913a68c0d762242dd703ed1d3ef4def
 
     def execute = { cmdString ->
         def stdout = new ByteArrayOutputStream()
