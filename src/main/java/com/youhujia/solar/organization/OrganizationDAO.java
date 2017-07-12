@@ -1,5 +1,6 @@
 package com.youhujia.solar.organization;
 
+import feign.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,6 +19,8 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long> {
     List<Organization> findByStatus(Integer status);
 
     List<Organization> findByAreaIdAndStatus(Long areaId, Integer status);
+
+    List<Organization> findByVersionIsNotNullAndStatus(Integer status);
 
     @Modifying
     @Query(value = "from Organization o where o.status > ?1")

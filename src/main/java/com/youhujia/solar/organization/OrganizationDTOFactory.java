@@ -186,7 +186,7 @@ public class OrganizationDTOFactory {
         Solar.OrganizationListDTO.Builder organizationListDTOBuilder = Solar.OrganizationListDTO.newBuilder();
 
         if (list.size() == 0) {
-            return organizationListDTOBuilder.build();
+            return organizationListDTOBuilder.setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true)).build();
         }
         list.stream().forEach(organization -> {
             organizationListDTOBuilder.addOrganization(buildOrganization(organization));
@@ -219,6 +219,15 @@ public class OrganizationDTOFactory {
         }
         if (organization.getUpdatedAt() != null) {
             builder.setUpdatedAt(organization.getUpdatedAt().getTime());
+        }
+        if (organization.getCode() != null) {
+            builder.setCode(organization.getCode());
+        }
+        if (organization.getVersion() != null) {
+            builder.setVersion(organization.getVersion());
+        }
+        if (organization.getExpiredAt() != null) {
+            builder.setExpiredAt(organization.getExpiredAt().getTime());
         }
         return builder.build();
     }

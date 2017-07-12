@@ -46,6 +46,33 @@ public class OrganizationController extends BaseController {
     }
 
     /**
+     * 获取所有销售构建的机构
+     *
+     * @return
+     */
+    @RequestMapping(value = "/sell", method = RequestMethod.GET)
+    public Solar.OrganizationListDTO getAllSellOrganization() {
+        try {
+            return organizationBO.getAllSellOrganization();
+        } catch (Exception e) {
+            return handleException(r -> Solar.OrganizationListDTO.newBuilder().setResult(r).build(), e);
+        }
+    }
+    /**
+     * 根据ids获取机构列表，ids=1，2，3
+     *
+     * @return
+     */
+    @RequestMapping(value = "/ids", method = RequestMethod.GET)
+    public Solar.OrganizationListDTO findOrganizationByIds(@RequestParam("organizationIds") String organizationIds) {
+        try {
+            return organizationBO.findOrganizationByIds(organizationIds);
+        } catch (Exception e) {
+            return handleException(r -> Solar.OrganizationListDTO.newBuilder().setResult(r).build(), e);
+        }
+    }
+
+    /**
      * 获取单个机构的信息
      *
      * @param organizationId
@@ -87,6 +114,23 @@ public class OrganizationController extends BaseController {
 
         try {
             return organizationBO.getAllDepartmentsByOrganizationId(organizationId);
+        } catch (Exception e) {
+            return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
+
+    /**
+     * 通过获取多个机构下的所有科室
+     *
+     * @param organizationIds
+     * @return
+     */
+    @RequestMapping(value = "/departments", method = RequestMethod.GET)
+    public Solar.DepartmentListDTO getDepartmentsByOrganizationIds(@PathVariable("organizationIds") String organizationIds) {
+
+        try {
+            return organizationBO.getDepartmentsByOrganizationIds(organizationIds);
         } catch (Exception e) {
             return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
         }
