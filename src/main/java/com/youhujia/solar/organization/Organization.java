@@ -46,7 +46,7 @@ public class Organization {
     }
 
     @Basic
-    @Column(name = "status", nullable = false, insertable = false)
+    @Column(name = "status", nullable = false)
     public Integer getStatus() {
         return status;
     }
