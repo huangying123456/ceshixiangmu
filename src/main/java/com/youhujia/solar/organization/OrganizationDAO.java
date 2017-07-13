@@ -20,8 +20,6 @@ public interface OrganizationDAO extends JpaRepository<Organization, Long> {
 
     List<Organization> findByAreaIdAndStatus(Long areaId, Integer status);
 
-    List<Organization> findByCodeIsNotNullAndStatus(Integer status);
-
     @Modifying
     @Query(value = "from Organization o where o.status > ?1")
     List<Organization> findWithStatus(Integer status);

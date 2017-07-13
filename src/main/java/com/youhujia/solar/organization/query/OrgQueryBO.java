@@ -4,7 +4,6 @@ import com.youhujia.halo.common.YHJException;
 import com.youhujia.halo.common.YHJExceptionCodeEnum;
 import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.OrganizationStatusEnum;
-import com.youhujia.halo.solar.OrganizationVersionEnum;
 import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.solar.area.Area;
 import com.youhujia.solar.area.AreaDAO;
@@ -47,20 +46,6 @@ public class OrgQueryBO {
     public OrgQueryContext findAll() {
 
         List<Organization> organizations = organizationDAO.findByStatus(DepartmentStatusEnum.NORMAL.getStatus());
-
-        OrgQueryContext queryContext = new OrgQueryContext();
-
-        queryContext.setOrganizationList(organizations);
-
-        return queryContext;
-    }
-
-    public OrgQueryContext getAllSellOrganization() {
-        List<Organization> organizations = organizationDAO.findByCodeIsNotNullAndStatus(DepartmentStatusEnum.NORMAL.getStatus());
-
-        organizations = organizations.stream()
-                .filter(organization -> OrganizationVersionEnum.getByType(organization.getVersion()) != null)
-                .collect(Collectors.toList());
 
         OrgQueryContext queryContext = new OrgQueryContext();
 
