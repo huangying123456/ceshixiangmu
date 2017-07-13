@@ -53,6 +53,16 @@ public class OrgQueryBO {
         return queryContext;
     }
 
+    public OrgQueryContext getAllSellOrganization() {
+        List<Organization> organizations = organizationDAO.findByVersionIsNotNullAndStatus(DepartmentStatusEnum.NORMAL.getStatus());
+
+        OrgQueryContext queryContext = new OrgQueryContext();
+
+        queryContext.setOrganizationList(organizations);
+
+        return queryContext;
+    }
+
     public OrgQueryContext getOrganizationById(Long organizationId) {
 
         OrgQueryContext queryContext = new OrgQueryContext();
@@ -78,6 +88,16 @@ public class OrgQueryBO {
         OrgQueryContext queryContext = new OrgQueryContext();
 
         List<Department> departmentList = departmentDAO.findByOrganizationIdAndStatus(organizationId, DepartmentStatusEnum.NORMAL.getStatus());
+
+        queryContext.setDepartmentList(departmentList);
+
+        return queryContext;
+    }
+
+    public OrgQueryContext getDepartmentsByOrganizationIds(String organizationIds) {
+        OrgQueryContext queryContext = queryContextFactory.buildDepartmentsQueryContext(organizationIds);
+
+        List<Department> departmentList = departmentDAO.findByOrganizationIdInAndStatus(queryContext.getIds(), DepartmentStatusEnum.NORMAL.getStatus());
 
         queryContext.setDepartmentList(departmentList);
 
@@ -145,9 +165,6 @@ public class OrgQueryBO {
     }
 
     public OrgQueryContext buildOrgQueryContext(String organizationIds) {
-        if(organizationIds == null || organizationIds.isEmpty()){
-            throw new YHJException(SolarExceptionCodeEnum.PARAM_ERROR, "organizationIds is empty");
-        }
         OrgQueryContext queryContext = new OrgQueryContext();
         String[] strIds = organizationIds.split(",");
         List<Long> orgIdList = new ArrayList<>();
