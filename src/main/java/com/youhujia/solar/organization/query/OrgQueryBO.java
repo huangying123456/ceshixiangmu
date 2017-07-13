@@ -165,9 +165,6 @@ public class OrgQueryBO {
     }
 
     public OrgQueryContext buildOrgQueryContext(String organizationIds) {
-        if(organizationIds == null || organizationIds.isEmpty()){
-            throw new YHJException(SolarExceptionCodeEnum.PARAM_ERROR, "organizationIds is empty");
-        }
         OrgQueryContext queryContext = new OrgQueryContext();
         String[] strIds = organizationIds.split(",");
         List<Long> orgIdList = new ArrayList<>();
