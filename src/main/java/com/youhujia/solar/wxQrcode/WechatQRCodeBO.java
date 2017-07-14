@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by dam0n on 2017/4/21.
@@ -26,6 +28,8 @@ import java.io.IOException;
 @Service
 public class WechatQRCodeBO {
 
+    public final static String WXSUBQRCODEKEY = "wxSubQRCode";
+    public final static String QRCODEKEY = "qrCode";
     private final String WxSceneCodeForDptIdPrefix = "departmentId_";
     private final String SHADOW_WX_SCENE_CODE_FOR_DPTID_PREFIX = "shadow_";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -39,7 +43,7 @@ public class WechatQRCodeBO {
     @Value("${wx.secret}")
     String wxSecret;
 
-    public String generateWxSubQRCodeBase64Image(Long departmentId) throws IOException, WriterException {
+    public Map<String,String> generateWxSubQRCodeBase64Image(Long departmentId) throws IOException, WriterException {
         boolean isShadowWxAccount = false;
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -66,7 +70,11 @@ public class WechatQRCodeBO {
         String resp = HttpUtil.post(wxUrl, actionNode.toString());
 
         String url = getUrl(resp);
-        return QRCodeUtils.getImageBase64Src(url, 250, 250, QRCodeUtils.PNG_FORMAT);
+        Map<String,String> valueMap = new HashMap<>();
+        valueMap.put(QRCODEKEY,url);
+        String wxSubQRCode = QRCodeUtils.getImageBase64Src(url, 250, 250, QRCodeUtils.PNG_FORMAT);
+        valueMap.put(WXSUBQRCODEKEY,wxSubQRCode);
+        return valueMap;
     }
 
     private String getAccessToken(boolean isShadowWxAccount, Yolar.ShadowWxAccountDTO sdWx) {
