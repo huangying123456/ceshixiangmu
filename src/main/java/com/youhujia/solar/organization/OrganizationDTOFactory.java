@@ -199,6 +199,9 @@ public class OrganizationDTOFactory {
     private Solar.Organization buildOrganization(Organization organization) {
         Solar.Organization.Builder builder = Solar.Organization.newBuilder();
 
+        if (organization == null) {
+            return builder.build();
+        }
         builder.setId(organization.getId())
                 .setStatus(organization.getStatus());
 
@@ -219,6 +222,15 @@ public class OrganizationDTOFactory {
         }
         if (organization.getUpdatedAt() != null) {
             builder.setUpdatedAt(organization.getUpdatedAt().getTime());
+        }
+        if (organization.getCode() != null) {
+            builder.setCode(organization.getCode());
+        }
+        if (organization.getVersion() != null) {
+            builder.setVersion(organization.getVersion());
+        }
+        if (organization.getExpiredAt() != null) {
+            builder.setExpiredAt(organization.getExpiredAt().getTime());
         }
         return builder.build();
     }

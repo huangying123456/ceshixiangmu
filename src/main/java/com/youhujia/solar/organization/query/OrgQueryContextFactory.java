@@ -1,8 +1,12 @@
 package com.youhujia.solar.organization.query;
 
 import com.youhujia.halo.solar.SolarOrganizationQueryEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,6 +14,7 @@ import java.util.Map;
  */
 @Component
 public class OrgQueryContextFactory {
+    private Logger logger  = LoggerFactory.getLogger(getClass());
 
     public OrgQueryContext buildQueryContext(Map<String, String> map) {
 
@@ -29,6 +34,29 @@ public class OrgQueryContextFactory {
                     break;
             }
         }
+        return context;
+    }
+
+    public OrgQueryContext buildDepartmentsQueryContext(String organizationIds) {
+        OrgQueryContext context = new OrgQueryContext();
+        List<Long> list = new ArrayList<>();
+
+
+        String[] idArr = organizationIds.split(",");
+        if (idArr.length <= 0){
+            context.setIds(list);
+            return context;
+        }
+
+        for (String idStr : idArr){
+            try {
+                Long adminId = Long.parseLong(idStr);
+                list.add(adminId);
+            } catch (NumberFormatException e) {
+                logger.error("getDepartmentsByOrganizationIds, organizationIds not is number,organizationIds is:" + organizationIds);
+            }
+        }
+        context.setIds(list);
         return context;
     }
 }
