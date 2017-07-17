@@ -60,7 +60,8 @@ public class DepQueryBO {
         }
 
         if (StringUtils.isEmpty(department.getWxSubQRCodeValue())
-            || department.getWxSubQRCodeValue().contains("http://")) {
+                || department.getWxSubQRCodeValue().contains("http://")
+                || StringUtils.isEmpty(department.getQrCode())) {
             //如果此科室是访客科室，则将departmentId变为对应的hostId
             if (department.getGuest() == 1) {
                 if (department.getHostId() == null) {
