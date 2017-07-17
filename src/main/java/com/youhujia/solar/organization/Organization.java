@@ -20,6 +20,9 @@ public class Organization {
     private BigDecimal lon;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private String code;
+    private Long version;
+    private Timestamp expiredAt;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +46,7 @@ public class Organization {
     }
 
     @Basic
-    @Column(name = "status", nullable = false, insertable = false)
+    @Column(name = "status", nullable = false)
     public Integer getStatus() {
         return status;
     }
@@ -132,6 +135,36 @@ public class Organization {
         this.updatedAt = updatedAt;
     }
 
+    @Basic
+    @Column(name = "code", nullable = true)
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @Basic
+    @Column(name = "version", nullable = true)
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    @Basic
+    @Column(name = "expired_at", nullable = true)
+    public Timestamp getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void setExpiredAt(Timestamp expiredAt) {
+        this.expiredAt = expiredAt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -150,6 +183,9 @@ public class Organization {
         if (lon != null ? !lon.equals(that.lon) : that.lon != null) return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
+        if (code != null ? !code.equals(that.code) : that.code != null) return false;
+        if (version != null ? !version.equals(that.version) : that.version != null) return false;
+        if (expiredAt != null ? !expiredAt.equals(that.expiredAt) : that.expiredAt != null) return false;
 
         return true;
     }
@@ -167,6 +203,10 @@ public class Organization {
         result = 31 * result + (lon != null ? lon.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
+        result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (version != null ? version.hashCode() : 0);
+        result = 31 * result + (expiredAt != null ? expiredAt.hashCode() : 0);
         return result;
     }
+
 }
