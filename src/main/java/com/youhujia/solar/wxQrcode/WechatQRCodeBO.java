@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.zxing.WriterException;
+import com.youhujia.halo.singer.MSG;
+import com.youhujia.halo.singer.SingerServiceWrap;
 import com.youhujia.halo.util.LogInfoGenerator;
 import com.youhujia.halo.yolar.Yolar;
 import com.youhujia.halo.yolar.YolarClientWrap;
@@ -13,6 +15,7 @@ import com.youhujia.solar.util.QRCodeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +39,8 @@ public class WechatQRCodeBO {
 
     @Resource
     YolarClientWrap yolarClientWrap;
+    @Autowired
+    private SingerServiceWrap singerServiceWrap;
 
     @Value("${wx.appid}")
     String wxAppid;
@@ -46,12 +51,19 @@ public class WechatQRCodeBO {
     public Map<String,String> generateWxSubQRCodeBase64Image(Long departmentId) throws IOException, WriterException {
         boolean isShadowWxAccount = false;
         ObjectMapper objectMapper = new ObjectMapper();
-
+        MSG.AccessTokenResponse accessTokenResponse = null;
         Yolar.ShadowWxAccountDTO sdWx = yolarClientWrap.findShadowWxAccountByDepartmentId(departmentId);
         if (StringUtils.isNotBlank(sdWx.getAppid())) {
-            isShadowWxAccount = true;
+            accessTokenResponse =
+                    singerServiceWrap.getShadowCommonAccessToken(sdWx.getAppid(), sdWx.getSecret());
+        }else {
+            accessTokenResponse = singerServiceWrap.getSelfCommonAccessToken();
         }
-        String accessToken = getAccessToken(isShadowWxAccount, sdWx);
+
+        String accessToken = null;
+        if(accessTokenResponse != null && accessTokenResponse.hasToken()){
+            accessToken = accessTokenResponse.getToken();
+        }
         String wxUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + accessToken;
 
         ObjectNode sceneObjectNode = objectMapper.createObjectNode();
@@ -77,33 +89,6 @@ public class WechatQRCodeBO {
         return valueMap;
     }
 
-    private String getAccessToken(boolean isShadowWxAccount, Yolar.ShadowWxAccountDTO sdWx) {
-
-        String where = "WechatQRCodeBO->getAccessToken";
-
-        String urlTemplate = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s";
-
-        String url;
-        if (isShadowWxAccount) {
-            url = String.format(urlTemplate, sdWx.getAppid(), sdWx.getSecret());
-        } else {
-            url = String.format(urlTemplate, wxAppid, wxSecret);
-        }
-        String respJson = HttpUtil.getUrlAsStr(url);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            JsonNode jsonNode = objectMapper.readTree(respJson);
-            String token = jsonNode.get("access_token").asText();
-
-//            logger.debug("get token:" + token);
-            logger.info(LogInfoGenerator.generateCallInfo(where, "token", token));
-            return token;
-        } catch (IOException e) {
-            logger.info(LogInfoGenerator.generateErrorInfo(where, SolarExceptionCodeEnum.UNKNOWN_ERROR, "exception", "json", respJson, "message", e.getMessage()));
-        }
-        return null;
-    }
 
     private String getUrl(String respJson) {
         ObjectMapper objectMapper = new ObjectMapper();
