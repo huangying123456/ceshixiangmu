@@ -1,6 +1,7 @@
 package com.youhujia.solar.organization;
 
 import com.youhujia.halo.common.COMMON;
+import com.youhujia.halo.solar.DepartmentStatusEnum;
 import com.youhujia.halo.solar.Solar;
 import com.youhujia.halo.util.ResponseUtil;
 import com.youhujia.solar.area.Area;
@@ -185,7 +186,7 @@ public class OrganizationDTOFactory {
         Solar.OrganizationListDTO.Builder organizationListDTOBuilder = Solar.OrganizationListDTO.newBuilder();
 
         if (list.size() == 0) {
-            return organizationListDTOBuilder.build();
+            return organizationListDTOBuilder.setResult(COMMON.Result.newBuilder().setCode(0).setSuccess(true)).build();
         }
         list.stream().forEach(organization -> {
             organizationListDTOBuilder.addOrganization(buildOrganization(organization));
@@ -198,6 +199,9 @@ public class OrganizationDTOFactory {
     private Solar.Organization buildOrganization(Organization organization) {
         Solar.Organization.Builder builder = Solar.Organization.newBuilder();
 
+        if (organization == null) {
+            return builder.build();
+        }
         builder.setId(organization.getId())
                 .setStatus(organization.getStatus());
 
@@ -219,6 +223,15 @@ public class OrganizationDTOFactory {
         if (organization.getUpdatedAt() != null) {
             builder.setUpdatedAt(organization.getUpdatedAt().getTime());
         }
+        if (organization.getCode() != null) {
+            builder.setCode(organization.getCode());
+        }
+        if (organization.getVersion() != null) {
+            builder.setVersion(organization.getVersion());
+        }
+        if (organization.getExpiredAt() != null) {
+            builder.setExpiredAt(organization.getExpiredAt().getTime());
+        }
         return builder.build();
     }
 
@@ -228,7 +241,8 @@ public class OrganizationDTOFactory {
 
         if (context.getOrganizationList().size() != 0) {
             context.getOrganizationList().stream().forEach(organization -> {
-                List<Department> departments = departmentDAO.findByOrganizationId(organization.getId());
+                List<Department> departments = departmentDAO.findByOrganizationIdAndGuestAndStatus(organization.getId(),
+                        0l, DepartmentStatusEnum.NORMAL.getStatus());
                 builder.addOrganization(buildSolarOrganizationOption(organization, departments));
             });
         }
