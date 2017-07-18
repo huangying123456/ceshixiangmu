@@ -55,7 +55,8 @@ public class DepQueryBO {
         Department department = departmentDAO.findOne(departmentId);
 
         if (department == null) {
-            logger.error(LogInfoGenerator.generateCallInfo("DepQueryBO—>getDepartmentById", "error", "departmentId illegal", "departmentId", departmentId));
+            logger.warn(LogInfoGenerator.generateCallInfo("DepQueryBO—>getDepartmentById",
+                    "error", "departmentId illegal", "departmentId", departmentId));
             return context;
         }
 
