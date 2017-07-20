@@ -133,4 +133,10 @@ public class DepartmentBO {
     public COMMON.SimpleResponse requestManagementRight(Long departmentId, Solar.RequestManagementRightOption option) {
         return requestBO.requestManagementRight(departmentId, option);
     }
+
+    public Solar.DepartmentDTO getDepartmentByQRCode(Solar.DepartmentQRCodeOption departmentQRCodeOption) {
+        DepQueryContext context = depQueryBO.getDepartmentByQRCode(departmentQRCodeOption.getQrcode());
+
+        return departmentFactory.buildGetDepartmentByIdDTO(context);
+    }
 }

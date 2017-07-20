@@ -12,11 +12,13 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
         "com.youhujia.solar",
         "com.youhujia.halo.yolar",
         "com.youhujia.halo.guard",
-        "com.youhujia.halo.hdfragments"})
+        "com.youhujia.halo.hdfragments",
+        "com.youhujia.halo.singer"})
 @EnableFeignClients(basePackages = {
         "com.youhujia.halo.yolar",
         "com.youhujia.halo.hdfragments",
-        "com.youhujia.halo.guard"})
+        "com.youhujia.halo.guard",
+        "com.youhujia.halo.singer"})
 public class SolarApplication {
 
 
