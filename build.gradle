@@ -86,7 +86,7 @@ dependencies {
     if (project.hasProperty("buildPro") && buildPro == 'release') {
         println("release version")
         dependencies {
-            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.15"
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.17"
         }
     } else {
         println("develop version")
