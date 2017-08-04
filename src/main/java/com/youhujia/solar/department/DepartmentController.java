@@ -51,6 +51,21 @@ public class DepartmentController extends BaseController {
     }
 
     /**
+     * 根据科室qrCode获取科室信息
+     * @param departmentQRCodeOption
+     * @return
+     */
+    @RequestMapping(value = "/qrcode", method = RequestMethod.POST)
+    public Solar.DepartmentDTO getDepartmentByQRCode(@RequestBody Solar.DepartmentQRCodeOption departmentQRCodeOption) {
+
+        try {
+            return departmentBO.getDepartmentByQRCode(departmentQRCodeOption);
+        } catch (Exception e) {
+            return handleException(a -> Solar.DepartmentDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
+    /**
      * 根据科室id批量获取科室信息
      * @param ids
      * @return

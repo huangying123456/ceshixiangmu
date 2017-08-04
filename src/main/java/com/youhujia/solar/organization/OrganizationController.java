@@ -106,8 +106,25 @@ public class OrganizationController extends BaseController {
         }
     }
 
+
     /**
-     * 更新科室
+     * 通过获取多个机构下的所有科室
+     *
+     * @param organizationIds
+     * @return
+     */
+    @RequestMapping(value = "/departments", method = RequestMethod.GET)
+    public Solar.DepartmentListDTO getDepartmentsByOrganizationIds(@RequestParam("organizationIds") String organizationIds) {
+
+        try {
+            return organizationBO.getDepartmentsByOrganizationIds(organizationIds);
+        } catch (Exception e) {
+            return handleException(a -> Solar.DepartmentListDTO.newBuilder().setResult(a).build(), e);
+        }
+    }
+
+    /**
+     * 更新机构
      *
      * @param option
      * @return

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by huangYing on 2017/4/17.
@@ -78,6 +79,16 @@ public class OrgQueryBO {
         OrgQueryContext queryContext = new OrgQueryContext();
 
         List<Department> departmentList = departmentDAO.findByOrganizationIdAndStatus(organizationId, DepartmentStatusEnum.NORMAL.getStatus());
+
+        queryContext.setDepartmentList(departmentList);
+
+        return queryContext;
+    }
+
+    public OrgQueryContext getDepartmentsByOrganizationIds(String organizationIds) {
+        OrgQueryContext queryContext = queryContextFactory.buildDepartmentsQueryContext(organizationIds);
+
+        List<Department> departmentList = departmentDAO.findByOrganizationIdInAndStatus(queryContext.getIds(), DepartmentStatusEnum.NORMAL.getStatus());
 
         queryContext.setDepartmentList(departmentList);
 
@@ -145,9 +156,6 @@ public class OrgQueryBO {
     }
 
     public OrgQueryContext buildOrgQueryContext(String organizationIds) {
-        if(organizationIds == null || organizationIds.isEmpty()){
-            throw new YHJException(SolarExceptionCodeEnum.PARAM_ERROR, "organizationIds is empty");
-        }
         OrgQueryContext queryContext = new OrgQueryContext();
         String[] strIds = organizationIds.split(",");
         List<Long> orgIdList = new ArrayList<>();

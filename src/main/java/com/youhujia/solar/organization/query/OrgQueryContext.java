@@ -20,6 +20,7 @@ public class OrgQueryContext {
 
     private Long index;
     private Long size;
+    private List<Long> ids;
 
     public Organization getOrganization() {
         return organization;
@@ -91,5 +92,13 @@ public class OrgQueryContext {
 
     public void setIndex(Long index) {
         this.index = index;
+    }
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 }

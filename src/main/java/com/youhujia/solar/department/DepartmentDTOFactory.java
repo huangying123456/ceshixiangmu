@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.youhujia.halo.util.ResponseUtil.resultOK;
+
 /**
  * Created by huangYing on 2017/4/17.
  */
@@ -161,6 +162,9 @@ public class DepartmentDTOFactory {
 
         Solar.Department.Builder builder = Solar.Department.newBuilder();
 
+        if (department == null) {
+            return builder.build();
+        }
         builder.setDepartmentId(department.getId())
                 .setName(department.getName())
                 .setOrganizationId(department.getOrganizationId())
@@ -190,6 +194,9 @@ public class DepartmentDTOFactory {
         if (department.getWxSubQRCodeValue() != null) {
             builder.setWxQrcode(department.getWxSubQRCodeValue());
         }
+        if (department.getQrCode() != null) {
+            builder.setQrcode(department.getQrCode());
+        }
         if (department.getImgUrl() != null) {
             builder.setImgUrl(department.getImgUrl());
         }
@@ -211,6 +218,7 @@ public class DepartmentDTOFactory {
         }
         return organization;
     }
+
     public Solar.DepartmentListDTO buildDepartmentListDTO(DepQueryContext context) {
 
         Solar.DepartmentListDTO.Builder builder = Solar.DepartmentListDTO.newBuilder();

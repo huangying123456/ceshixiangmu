@@ -72,6 +72,15 @@ public class OrgUpdateBO {
         if (option.hasImgUrl()) {
             organization.setImgUrl(option.getImgUrl());
         }
+        if (option.hasCode()) {
+            organization.setCode(option.getCode());
+        }
+        if (option.hasVersion()) {
+            organization.setVersion(option.getVersion());
+        }
+        if (option.hasExpiredAt()) {
+            organization.setExpiredAt(new Timestamp(option.getExpiredAt()));
+        }
 
         organization.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         return organization;
