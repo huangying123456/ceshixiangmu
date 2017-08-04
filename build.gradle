@@ -44,6 +44,7 @@ apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'docker'
+apply from: 'gradle/checkstyle.gradle'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
