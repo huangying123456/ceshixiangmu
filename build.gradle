@@ -44,6 +44,7 @@ apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'docker'
+apply from: 'gradle/checkstyle.gradle'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -86,13 +87,13 @@ dependencies {
     if (project.hasProperty("buildPro") && buildPro == 'release') {
         println("release version")
         dependencies {
-            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.17"
+            compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.19"
         }
     } else {
         println("develop version")
         dependencies {
             compile group: "com.youhujia.halo", name: "youhujia-halo", version: "v2.0.2-SNAPSHOT", changing: true
-        }
+    }
 
 
     def execute = { cmdString ->

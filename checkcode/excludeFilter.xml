@@ -1,0 +1,8 @@
+<FindBugsFilter>
+    <Match>
+        <Class name="com.youhujia.swordkeeper.objects.Swordkeeper" />
+    </Match>
+    <Match>
+        <Class name="～.*\.*Swordkeeper.*" />
+    </Match>
+</FindBugsFilter>
