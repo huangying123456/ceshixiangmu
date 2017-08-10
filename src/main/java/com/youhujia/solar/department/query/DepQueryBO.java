@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -54,12 +55,14 @@ public class DepQueryBO {
         Department department = departmentDAO.findOne(departmentId);
 
         if (department == null) {
-            logger.error(LogInfoGenerator.generateCallInfo("DepQueryBO—>getDepartmentById", "error", "departmentId illegal", "departmentId", departmentId));
+            logger.warn(LogInfoGenerator.generateCallInfo("DepQueryBO—>getDepartmentById",
+                    "error", "departmentId illegal", "departmentId", departmentId));
             return context;
         }
 
         if (StringUtils.isEmpty(department.getWxSubQRCodeValue())
-            || department.getWxSubQRCodeValue().contains("http://")) {
+                || department.getWxSubQRCodeValue().contains("http://")
+                || StringUtils.isEmpty(department.getQrCode())) {
             //如果此科室是访客科室，则将departmentId变为对应的hostId
             if (department.getGuest() == 1) {
                 if (department.getHostId() == null) {
@@ -69,7 +72,9 @@ public class DepQueryBO {
                 }
             }
 
-            department.setWxSubQRCodeValue(wechatQRCodeBO.generateWxSubQRCodeBase64Image(departmentId));
+            Map<String,String> valueMap = wechatQRCodeBO.generateWxSubQRCodeBase64Image(departmentId);
+            department.setWxSubQRCodeValue(valueMap.get(WechatQRCodeBO.WXSUBQRCODEKEY));
+            department.setQrCode(valueMap.get(WechatQRCodeBO.QRCODEKEY));
             department = departmentDAO.save(department);
         }
 
@@ -182,6 +187,24 @@ public class DepQueryBO {
         return list;
     }
 
+    public DepQueryContext getDepartmentByQRCode(String departmentQRCode) {
+
+        DepQueryContext context = new DepQueryContext();
+
+        List<Department> list = departmentDAO.findByQrCodeAndStatus(departmentQRCode, DepartmentStatusEnum.NORMAL.getStatus());
+
+        List<Department> rstList = new ArrayList<>();
+        for (Department dpt : list) {
+            if (dpt.getGuest() > 0L) {
+                continue;
+            }
+            rstList.add(dpt);
+        }
+        if (rstList.size() > 0) {
+            context.setDepartment(rstList.get(0));
+        }
+        return context;
+    }
     public Solar.DepartmentListDTO queryDepartment(Map<String, String> map) {
 
         DepQueryContext context = depQueryContextFactory.buildQueryDepartmentContext(map);

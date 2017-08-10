@@ -31,7 +31,11 @@ public interface DepartmentDAO extends JpaRepository<Department, Long> {
 
     List<Department> findByNumberAndStatus(String dptNum, Integer status);
 
+    List<Department> findByQrCodeAndStatus(String qrCode, Integer status);
+
     List<Department> findByOrganizationIdAndStatus(Long organizationId, Integer status);
+
+    List<Department> findByOrganizationIdInAndStatus(Collection<Long> organizationIds, Integer status);
 
     @Modifying
     @Query(value = "from Department d where d.organizationId = ?1 and d.status > ?2")

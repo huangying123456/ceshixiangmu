@@ -22,6 +22,7 @@ public class Department {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String classificationType;
+    private String qrCode;
 
     @Id
     @Column(name = "id")
@@ -164,6 +165,16 @@ public class Department {
         this.classificationType = classificationType;
     }
 
+    @Basic
+    @Column(name = "qr_code", nullable = true)
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -190,8 +201,10 @@ public class Department {
             return false;
         if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
         if (updatedAt != null ? !updatedAt.equals(that.updatedAt) : that.updatedAt != null) return false;
-        if (classificationType != null ? !classificationType.equals(that.classificationType) : that.classificationType != null)
+        if (classificationType != null ? !classificationType.equals(that.classificationType) : that.classificationType != null) {
             return false;
+        }
+        if (qrCode != null ? !qrCode.equals(that.qrCode) : that.qrCode != null) return false;
 
         return true;
     }
@@ -212,8 +225,10 @@ public class Department {
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         result = 31 * result + (updatedAt != null ? updatedAt.hashCode() : 0);
         result = 31 * result + (classificationType != null ? classificationType.hashCode() : 0);
+        result = 31 * result + (qrCode != null ? qrCode.hashCode() : 0);
 
         return result;
     }
+
 }
 
