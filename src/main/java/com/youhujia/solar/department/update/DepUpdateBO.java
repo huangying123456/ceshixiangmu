@@ -91,6 +91,9 @@ public class DepUpdateBO {
         if (option.hasMayContact()) {
             department.setMayContact(option.getMayContact());
         }
+        if (option.hasClassificationType()){
+            department.setClassificationType(option.getClassificationType());
+        }
 
         department.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         return department;
