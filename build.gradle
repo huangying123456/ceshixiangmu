@@ -1,4 +1,4 @@
-group = "com.youhujia.solar"
+group = "com.youhujia.example"
 version = "1.0.0"
 
 repositories {
@@ -84,6 +84,7 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-pool2'
     compile group: 'redis.clients', name: 'jedis', version: '2.7.2'
     compile group: 'org.apache.commons', name: 'commons-pool2'
+    compile group: 'com.belerweb', name: 'pinyin4j', version: '2.5.0'
     compile "net.sf.json-lib:json-lib:2.2.1:jdk15"
 
     runtime group: "mysql", name: "mysql-connector-java", version: "5.1.39"
