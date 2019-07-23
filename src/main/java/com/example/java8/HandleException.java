@@ -23,8 +23,6 @@ public class HandleException {
     public static void main(String[] args) {
         String a = hanlde(u -> u.getName());
         System.out.println(a);
-
-
     }
 
 

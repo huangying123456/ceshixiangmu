@@ -18,13 +18,20 @@ public class SomeStream {
         lists.add(list1);
         lists.add(list1);
 
-        filter(list1);
-        flatMap(lists);
-        Map(list1);
-        reduce();
-        max(list1);
+//        filter(list1);
+//        flatMap(lists);
+//        Map(list1);
+//        reduce();
+//        max(list1);
         sorted(list1);
         groupBy(list1);
+
+        list1.stream().forEach(l->{
+            if (l==2){
+                return;
+            }
+            System.out.println(l);
+        });
 
 
     }
@@ -64,7 +71,7 @@ public class SomeStream {
     }
 
     private static void toMap(List<Long> list) {
-        list.stream().collect(Collectors.toMap(Long::longValue,Long->Long));
+        list.stream().collect(Collectors.toMap(Long::longValue, Long -> Long));
     }
 
     /**
@@ -107,9 +114,9 @@ public class SomeStream {
     public static void sorted(List<Long> list) {
         List<Long> longList = list.stream().sorted().collect(Collectors.toList());
 
-        List<Long> longList1 = list.stream().sorted(Long::compareTo).collect(Collectors.toList());
+        List<Long> longList1 = list.stream().sorted(Comparator.comparingLong(Long::longValue).reversed()).collect(Collectors.toList());
         System.out.println("sorted无参：" + longList);
-        System.out.println("sorted有参：" + longList);
+        System.out.println("sorted有参：" + longList1);
     }
 
     public static void groupBy(List<Long> list) {

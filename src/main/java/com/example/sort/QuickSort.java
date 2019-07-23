@@ -1,21 +1,19 @@
 package com.example.sort;
 
-import java.util.concurrent.ForkJoinPool;
-
 /**
  * Created by hy on 2017/11/8.
  */
 public class QuickSort {
     public static void main(String[] args) {
         int[] arr = {0, 1, 4, 0, 6, 3, 5};
-        int[] arr1 = {3, 5, 4, 2};
+        int[] arr1 = {1, 3, 4, 2};
 
-//        quickSort(arr, 0, arr.length - 1);
+        quickSort(arr1, 0, arr1.length - 1);
 
 //        insertSort(arr);
-        chooseSort(arr);
-        for (int i = 0; i <= arr.length - 1; i++) {
-            System.out.print(arr[i]);
+//        chooseSort(arr);
+        for (int i = 0; i <= arr1.length - 1; i++) {
+            System.out.print(arr1[i]);
         }
     }
 
@@ -51,21 +49,18 @@ public class QuickSort {
     /**
      * 插入
      */
-    public static void insertSort(int[] a) {
-        int tmp;
-        for (int i = 1; i < a.length; i++) {
-            tmp = a[i]; //需要交换的数字。
-            int j;
-            for (j = i - 1; j >= 0; j--) {
-                if (a[j] > tmp) {
-                    a[j + 1] = a[j];
-                } else {
-                    break;
-                }
+    public void insertSort(int[] a) {
+        int len = a.length;//单独把数组长度拿出来，提高效率
+        int insertNum;//要插入的数
+        for (int i = 1; i < len; i++) {//因为第一次不用，所以从1开始
+            insertNum = a[i];
+            int j = i - 1;//序列元素个数
+            while (j > 0 && a[j] > insertNum) {//从后往前循环，将大于insertNum的数向后移动
+                a[j + 1] = a[j];//元素向后移动
+                j--;
             }
-            a[j + 1] = tmp;
+            a[j + 1] = insertNum;//找到位置，插入当前元素
         }
-
     }
 
     /**
@@ -99,6 +94,27 @@ public class QuickSort {
                 int temp = a[i];
                 a[i] = a[k];
                 a[k] = temp;
+            }
+        }
+    }
+
+    public void sheelSort(int[] a) {
+        int len = a.length;//单独把数组长度拿出来，提高效率
+        while (len != 0) {
+            len = len / 2;
+            for (int i = 0; i < len; i++) {//分组
+                for (int j = i + len; j < a.length; j += len) {//元素从第二个开始
+                    int k = j - len;//k为有序序列最后一位的位数
+                    int temp = a[j];//要插入的元素
+                                        /*for(;k>=0&&temp<a[k];k-=len){
+                         a[k+len]=a[k];
+                     }*/
+                    while (k >= 0 && temp < a[k]) {//从后往前遍历
+                        a[k + len] = a[k];
+                        k -= len;//向后移动len位
+                    }
+                    a[k + len] = temp;
+                }
             }
         }
     }
